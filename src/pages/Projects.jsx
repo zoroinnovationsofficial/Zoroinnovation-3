@@ -1,20 +1,5 @@
 import React, { useState } from 'react';
 
-// Stacked logo for all locations (ZORO colored, INNOVATIONS below, centered, always same large size)
-function ZoroLogo({ className = '' }) {
-  return (
-    <div className={`flex flex-col items-center ${className}`.trim()}>
-      <div className="flex space-x-2">
-        <span className="text-orange-500 font-extrabold text-5xl md:text-6xl lg:text-7xl leading-none">Z</span>
-        <span className="text-blue-500 font-extrabold text-5xl md:text-6xl lg:text-7xl leading-none">O</span>
-        <span className="text-green-500 font-extrabold text-5xl md:text-6xl lg:text-7xl leading-none">R</span>
-        <span className="text-purple-500 font-extrabold text-5xl md:text-6xl lg:text-7xl leading-none">O</span>
-      </div>
-      <div className="text-black font-bold text-2xl md:text-3xl lg:text-4xl tracking-widest mt-2 uppercase" style={{ letterSpacing: '0.12em' }}>INNOVATIONS</div>
-    </div>
-  );
-}
-
 // Navigation items
 const navItems = [
   { name: 'Home', href: '#' },
@@ -126,7 +111,7 @@ function Projects() {
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
           {/* Logo and Brand Text */}
           <div className="flex items-center">
-            <ZoroLogo className="items-start [&>div:first-child>span]:text-2xl md:[&>div:first-child>span]:text-3xl lg:[&>div:first-child>span]:text-4xl [&>div:last-child]:text-xs md:[&>div:last-child]:text-sm lg:[&>div:last-child]:text-base" />
+            <img src="/ZORO_logo.png" alt="ZORO INNOVATIONS logo" className="h-10 md:h-12 lg:h-14 w-auto" />
           </div>
           {/* Desktop Nav */}
           <nav className="hidden md:flex space-x-8">
@@ -169,7 +154,7 @@ function Projects() {
         <div className="max-w-4xl mx-auto px-4">
           {/* ZORO INNOVATIONS logo and text */}
           <div className="mb-8 flex justify-center">
-            <ZoroLogo className="[&>div:first-child>span]:text-4xl md:[&>div:first-child>span]:text-5xl lg:[&>div:first-child>span]:text-6xl [&>div:last-child]:text-xl md:[&>div:last-child]:text-2xl lg:[&>div:last-child]:text-3xl" />
+            <img src="/ZORO_logo.png" alt="ZORO INNOVATIONS logo" className="h-16 md:h-20 lg:h-24 w-auto" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Success Stories</h1>
           <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto">
@@ -381,7 +366,7 @@ function Projects() {
             {/* Company Info */}
             <div>
               <div className="flex flex-col items-start">
-                <ZoroLogo className="[&>div:first-child>span]:text-xl md:[&>div:first-child>span]:text-2xl lg:[&>div:first-child>span]:text-3xl [&>div:last-child]:text-xs md:[&>div:last-child]:text-sm lg:[&>div:last-child]:text-base" />
+                <img src="/ZORO_logo.png" alt="ZORO INNOVATIONS logo" className="h-8 md:h-10 lg:h-12 w-auto" />
               </div>
               <p className="text-gray-400 mb-4">
                 Transforming businesses through innovative AI solutions and cutting-edge technology.
