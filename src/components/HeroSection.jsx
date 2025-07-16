@@ -1,7 +1,7 @@
 import React from 'react';
-import heroMetrics from '../data/heroMetrics';
+import PropTypes from 'prop-types';
 
-function HeroSection() {
+function HeroSection({ heroMetrics }) {
   return (
     <section className="pt-16 pb-12 hero-gradient text-white text-center">
       <div className="max-w-4xl mx-auto px-4">
@@ -24,5 +24,14 @@ function HeroSection() {
     </section>
   );
 }
+
+HeroSection.propTypes = {
+  heroMetrics: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+    })
+  ).isRequired,
+};
 
 export default HeroSection;

@@ -1,5 +1,5 @@
-// src/components/Footer.jsx
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Footer() {
   return (
@@ -18,7 +18,6 @@ function Footer() {
               <a href="#"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn" className="h-5 w-5 filter invert" /></a>
             </div>
           </div>
-
           {/* Services */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Services</h3>
@@ -29,7 +28,6 @@ function Footer() {
               <li><a href="#" className="hover:text-white transition-colors">IT Consulting</a></li>
             </ul>
           </div>
-
           {/* Company */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Company</h3>
@@ -40,7 +38,6 @@ function Footer() {
               <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
             </ul>
           </div>
-
           {/* Contact */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
@@ -52,7 +49,6 @@ function Footer() {
             </ul>
           </div>
         </div>
-
         {/* Footer Bottom */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">© 2025 Zoro Innovations. All rights reserved.</p>

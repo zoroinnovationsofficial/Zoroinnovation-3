@@ -1,5 +1,5 @@
-// src/components/CTASection.jsx
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function CTASection() {
   return (
