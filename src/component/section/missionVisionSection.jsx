@@ -1,5 +1,7 @@
 import React from "react";
 import { HiFlag, HiEye } from "react-icons/hi";
+import Overlay from "../../../about icon/Overlay.svg";
+import Overlay1 from "../../../about icon/Overlay-1.svg";
 import MissionVisionCard from "../cards/visionCard";
 
 const MissionVisionSection = () => {
@@ -23,7 +25,7 @@ const MissionVisionSection = () => {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 max-w-[1280px] mx-auto">
             <div className="flex justify-center">
               <MissionVisionCard
-                icon={HiFlag}
+                svg={Overlay}
                 iconBgGradient="bg-gradient-to-br from-blue-500 to-indigo-600"
                 title="Our Mission"
                 content="To empower individuals and businesses to achieve financial security and prosperity through personalized advisory services, innovative solutions, and unwavering commitment to their success."
@@ -32,7 +34,7 @@ const MissionVisionSection = () => {
 
             <div className="flex justify-center">
               <MissionVisionCard
-                icon={HiEye}
+                svg={Overlay1}
                 iconBgGradient="bg-gradient-to-br from-purple-500 to-pink-500"
                 title="Our Vision"
                 content="To be the most trusted financial advisory firm, recognized for our expertise, integrity, and the lasting positive impact we create in our clients' lives and communities."
