@@ -1,51 +1,44 @@
 import React from "react";
 
-import Overlay2 from "../../../about icon/Overlay-2.svg";
-import Overlay3 from "../../../about icon/Overlay-3.svg";
-import Overlay4 from "../../../about icon/Overlay-4.svg";
-import Overlay5 from "../../../about icon/Overlay-5.svg";
-import Overlay6 from "../../../about icon/Overlay-6.svg";
-import Overlay7 from "../../../about icon/Overlay-7.svg";
-
 const CoreValueSection = () => {
   const coreValues = [
     {
-      svg: Overlay2,
+      svg: "/Overlay-2.svg",
       iconBg: "bg-gradient-to-br from-purple-500 to-pink-500",
       title: "Integrity",
       description:
         "We operate with complete transparency and honesty in all our client relationships and business practices.",
     },
     {
-      svg: Overlay3,
+      svg: "/Overlay-3.svg",
       iconBg: "bg-gradient-to-br from-blue-500 to-indigo-600",
       title: "Excellence",
       description:
         "We continuously strive for the highest standards in service delivery and professional expertise.",
     },
     {
-      svg: Overlay4,
+      svg: "/Overlay-4.svg",
       iconBg: "bg-gradient-to-br from-green-500 to-emerald-600",
       title: "Client-Centric",
       description:
         "Every decision we make is guided by what's best for our clients' financial well-being and success.",
     },
     {
-      svg: Overlay5,
+      svg: "/Overlay-5.svg",
       iconBg: "bg-gradient-to-br from-blue-500 to-purple-600",
       title: "Innovation",
       description:
         "We embrace new technologies and methodologies to provide cutting-edge financial solutions.",
     },
     {
-      svg: Overlay6,
+      svg: "/Overlay-6.svg",
       iconBg: "bg-gradient-to-br from-orange-500 to-red-500",
       title: "Collaboration",
       description:
         "We work together as a unified team to deliver comprehensive solutions for our clients.",
     },
     {
-      svg: Overlay7,
+      svg: "/Overlay-7.svg",
       iconBg: "bg-gradient-to-br from-blue-600 to-purple-600",
       title: "Sustainability",
       description:

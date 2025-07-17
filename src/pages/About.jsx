@@ -245,7 +245,7 @@ const About = () => {
             <div className="text-center">
               <div className="w-20 h-20 mx-auto mb-6">
                 <img
-                  src="/about icon/Overlay-8.svg"
+                  src="/Overlay-8.svg"
                   alt="Best Financial Advisory Firm Award"
                   className="w-full h-full object-contain"
                 />
@@ -263,7 +263,7 @@ const About = () => {
             <div className="text-center">
               <div className="w-20 h-20 mx-auto mb-6">
                 <img
-                  src="/about icon/Overlay-9.svg"
+                  src="/Overlay-9.svg"
                   alt="Top Client Satisfaction Award"
                   className="w-full h-full object-contain"
                 />
@@ -279,7 +279,7 @@ const About = () => {
             <div className="text-center">
               <div className="w-20 h-20 mx-auto mb-6">
                 <img
-                  src="/about icon/Overlay-10.svg"
+                  src="/Overlay-10.svg"
                   alt="SEC Registered Investment Advisor"
                   className="w-full h-full object-contain"
                 />
@@ -295,7 +295,7 @@ const About = () => {
             <div className="text-center">
               <div className="w-20 h-20 mx-auto mb-6">
                 <img
-                  src="/about icon/Overlay-11.svg"
+                  src="/Overlay-11.svg"
                   alt="FINRA Member"
                   className="w-full h-full object-contain"
                 />
@@ -460,7 +460,7 @@ const About = () => {
               <div className="flex items-start space-x-8">
                 <div className="relative z-10">
                   <img
-                    src="/about icon/Background.svg"
+                    src="/Background.svg"
                     alt="2000"
                     className="w-16 h-16 rounded-full bg-orange-500 text-white font-bold text-lg flex items-center justify-center"
                   />
@@ -480,7 +480,7 @@ const About = () => {
               <div className="flex items-start space-x-8">
                 <div className="relative z-10">
                   <img
-                    src="/about icon/Background-1.svg"
+                    src="/Background-1.svg"
                     alt="2005"
                     className="w-16 h-16 rounded-full bg-orange-500 text-white font-bold text-lg flex items-center justify-center"
                   />
@@ -500,7 +500,7 @@ const About = () => {
               <div className="flex items-start space-x-8">
                 <div className="relative z-10">
                   <img
-                    src="/about icon/Background-2.svg"
+                    src="/Background-2.svg"
                     alt="2010"
                     className="w-16 h-16 rounded-full bg-orange-500 text-white font-bold text-lg flex items-center justify-center"
                   />
@@ -520,7 +520,7 @@ const About = () => {
               <div className="flex items-start space-x-8">
                 <div className="relative z-10">
                   <img
-                    src="/about icon/Background-3.svg"
+                    src="/Background-3.svg"
                     alt="2015"
                     className="w-16 h-16 rounded-full bg-orange-500 text-white font-bold text-lg flex items-center justify-center"
                   />
@@ -540,7 +540,7 @@ const About = () => {
               <div className="flex items-start space-x-8">
                 <div className="relative z-10">
                   <img
-                    src="/about icon/Background-4.svg"
+                    src="/Background-4.svg"
                     alt="2020"
                     className="w-16 h-16 rounded-full bg-orange-500 text-white font-bold text-lg flex items-center justify-center"
                   />
@@ -560,7 +560,7 @@ const About = () => {
               <div className="flex items-start space-x-8">
                 <div className="relative z-10">
                   <img
-                    src="/about icon/Background-5.svg"
+                    src="/Background-5.svg"
                     alt="2023"
                     className="w-16 h-16 rounded-full bg-orange-500 text-white font-bold text-lg flex items-center justify-center"
                   />
@@ -580,7 +580,7 @@ const About = () => {
               <div className="flex items-start space-x-8">
                 <div className="relative z-10">
                   <img
-                    src="/about icon/Background-6.svg"
+                    src="/Background-6.svg"
                     alt="2025"
                     className="w-16 h-16 rounded-full bg-gray-400 text-white font-bold text-lg flex items-center justify-center"
                   />
@@ -631,7 +631,7 @@ const About = () => {
             <div className="space-y-6">
               <div className="flex items-center">
                 <img
-                  src="/about icon/zoroLogo.png"
+                  src="/zoroLogo.png"
                   alt="Zoro Innovations Logo"
                   className="h-10 w-auto"
                 />
@@ -642,25 +642,13 @@ const About = () => {
               </p>
               <div className="flex space-x-4">
                 <button className="p-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors">
-                  <img
-                    src="/about icon/linkedin.svg"
-                    alt="LinkedIn"
-                    className="w-8 h-8"
-                  />
+                  <img src="/linkedin.svg" alt="LinkedIn" className="w-8 h-8" />
                 </button>
                 <button className="p-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors">
-                  <img
-                    src="/about icon/twitter.svg"
-                    alt="Twitter"
-                    className="w-8 h-8"
-                  />
+                  <img src="/twitter.svg" alt="Twitter" className="w-8 h-8" />
                 </button>
                 <button className="p-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors">
-                  <img
-                    src="/about icon/facebook.svg"
-                    alt="Facebook"
-                    className="w-8 h-8"
-                  />
+                  <img src="/facebook.svg" alt="Facebook" className="w-8 h-8" />
                 </button>
               </div>
             </div>
