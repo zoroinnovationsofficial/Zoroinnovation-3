@@ -22,7 +22,7 @@ function Navbar({ navItems, menuOpen, setMenuOpen }) {
         </nav>
         {/* Mobile menu button */}
         <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-          <img src="/Overlay-2.svg" alt="Menu" className="h-7 w-7" />
+          <img src="/Picture1.png" alt="Menu" className="h-7 w-7" />
         </button>
       </div>
       {/* Mobile Nav */}
