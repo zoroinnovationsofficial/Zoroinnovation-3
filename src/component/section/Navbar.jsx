@@ -3,19 +3,26 @@ import { HiMenu, HiX } from "react-icons/hi";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("About");
 
   const navLinks = [
-    { name: "Home", href: "#", active: false },
-    { name: "Services", href: "#", active: false },
-    { name: "About", href: "#", active: true },
-    { name: "Projects", href: "#", active: false },
-    { name: "Blog", href: "#", active: false },
-    { name: "Careers & Certs", href: "#", active: false },
-    { name: "Contact", href: "#", active: false },
+    { name: "Home", href: "#" },
+    { name: "Services", href: "#" },
+    { name: "About", href: "#" },
+    { name: "Projects", href: "#" },
+    { name: "Blog", href: "#" },
+    { name: "Careers", href: "#" },
+    { name: "Verify ID", href: "#" },
+    { name: "Contact", href: "#" },
   ];
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLinkClick = (linkName) => {
+    setActiveLink(linkName);
+    setIsMenuOpen(false);
   };
 
   return (
@@ -37,8 +44,12 @@ const Navbar = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
-                    link.active
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleLinkClick(link.name);
+                  }}
+                  className={`px-3 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer ${
+                    activeLink === link.name
                       ? "text-[#ff6b35] border-b-2 border-[#ff6b35]"
                       : "text-gray-700 hover:text-[#ff6b35] hover:border-b-2 hover:border-[#ff6b35]"
                   }`}
@@ -74,12 +85,15 @@ const Navbar = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className={`block px-3 py-2 text-base font-medium transition-colors duration-200 ${
-                  link.active
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick(link.name);
+                }}
+                className={`block px-3 py-2 text-base font-medium transition-colors duration-200 cursor-pointer ${
+                  activeLink === link.name
                     ? "text-[#ff6b35] bg-blue-50 border-l-4 border-[#ff6b35]"
                     : "text-gray-700 hover:text-[#ff6b35] hover:bg-gray-50"
                 }`}
-                onClick={() => setIsMenuOpen(false)}
               >
                 {link.name}
               </a>
