@@ -13,7 +13,7 @@ function Footer() {
               Transforming businesses through innovative AI solutions and cutting-edge technology.
             </p>
             <div className="flex space-x-4">
-              <a href="#"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram" className="h-5 w-5 filter invert" /></a>
+              <a href="#"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook" className="h-5 w-5 filter invert" /></a>
               <a href="#"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/twitter.svg" alt="Twitter" className="h-5 w-5 filter invert" /></a>
               <a href="#"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn" className="h-5 w-5 filter invert" /></a>
             </div>

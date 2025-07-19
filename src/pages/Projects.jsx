@@ -15,6 +15,8 @@ const navItems = [
   { name: 'About', href: '#' },
   { name: 'Projects', href: '#', active: true },
   { name: 'Blog', href: '#' },
+  { name: 'Careers', href: '#' },
+  { name: 'Verify ID', href: '#' },
   { name: 'Contact', href: '#' },
 ];
 
