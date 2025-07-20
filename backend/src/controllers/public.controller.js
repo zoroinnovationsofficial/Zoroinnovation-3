@@ -1,6 +1,6 @@
-import JobApplication from '../models/job_applications.js';
-import JobCategory from '../models/job_categories.js';
-import JobOpportunity from '../models/job_opportunities.js';
+import JobApplication from '../models/job_applications.model.js';
+import JobCategory from '../models/job_categories.model.js';
+import JobOpportunity from '../models/job_opportunities.model.js';
 
 // GET /api/jobs
 export const getAllJobs = async (req, res) => {

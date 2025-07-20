@@ -1,26 +1,20 @@
 import express from 'express';
 import {
+  addApplicationNote,
+  createCategory,
   createJob,
   deleteJob,
+  getAllApplications,
   getAllJobs,
+  getApplicationById,
+  getApplicationsForJob,
   getJobAnalytics,
   toggleFeaturedStatus,
   toggleJobStatus,
-  updateJob,
-} from '../controllers/adminJobController.js';
-
-import {
-  addApplicationNote,
-  getAllApplications,
-  getApplicationById,
-  getApplicationsForJob,
   updateApplicationStatus,
-} from '../controllers/adminApplicationController.js';
-
-import {
-  createCategory,
   updateCategory,
-} from '../controllers/adminCategoryController.js';
+  updateJob,
+} from '../controllers/admin.controller.js';
 
 const router = express.Router();
 

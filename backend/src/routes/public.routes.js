@@ -7,7 +7,7 @@ import {
   getJobsByCategory,
   searchJobs,
   submitApplication,
-} from '../controllers/public.controllers.js';
+} from '../controllers/public.controller.js';
 import { validateApplication } from '../validators/applicationValidator.js';
 
 const router = express.Router();
