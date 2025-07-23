@@ -1,6 +1,6 @@
 import React from 'react';
 import './Navbar.css';
-import logo from '../assets/logo1.png'; 
+import logo from '../assets/black_logo1.png'; 
 
 const Navbar = () => {
   return (
@@ -15,7 +15,6 @@ const Navbar = () => {
         <li>Projects</li>
         <li>Blog</li>
         <li className="active">Careers</li>
-        <li>Verify ID</li>
         <li>Contact</li>
       </ul>
     </nav>
