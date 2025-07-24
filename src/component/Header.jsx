@@ -1,6 +1,7 @@
 import React from 'react';
 import './Header.css';
 import logo from '../assets/white_logo.png'; 
+import searchIcon from '../assets/Icon.png';
 
 const Header = () => {
   return (
@@ -12,7 +13,10 @@ const Header = () => {
           We're seeking talented individuals who are passionate about<br />
           technology and innovation to help shape the future of digital solutions.
         </p>
-        <button className="view-btn">🔍 View Open Positions</button>
+        <button className="view-btn">
+          <img src={searchIcon} alt="Search" className="search-icon" />
+          View Open Positions
+        </button>
       </div>
 
       <div className="header-right">
@@ -23,3 +27,4 @@ const Header = () => {
 };
 
 export default Header;
+

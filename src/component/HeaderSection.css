@@ -104,3 +104,27 @@
 .apply-btn:hover {
   background-color: #e64a19;
 }
+
+.search-wrapper {
+  position: relative;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 10px 10px 10px 40px; 
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}

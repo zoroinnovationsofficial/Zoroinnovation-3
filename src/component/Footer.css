@@ -63,6 +63,9 @@
   transition: background-color 0.3s;
   
 }
+.footer-icons {
+    padding-top: 10px;
+}
 
 .footer-icons a:hover {
   background-color: #374151;

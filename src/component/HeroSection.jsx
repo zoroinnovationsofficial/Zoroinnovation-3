@@ -1,5 +1,6 @@
 import React from 'react';
 import './HeaderSection.css';
+import SearchIcon from '../assets/Searchicon.svg'; 
 
 const HeroSection = () => {
   const jobData = [
@@ -30,7 +31,14 @@ const HeroSection = () => {
     <section className="hero-section">
       <h2>Current Job Opportunities</h2>
       <p>Explore our open positions and find your perfect role in our growing team.</p>
-      <input type="text" placeholder="🔍 Search positions..." className="search-bar" />
+      <div className="search-wrapper">
+        <img src={SearchIcon} alt="Search Icon" className="search-icon" />
+        <input
+          type="text"
+          placeholder="Search positions..."
+          className="search-bar"
+        />
+      </div>
 
       <div className="job-list">
         {jobData.map((job, index) => (
