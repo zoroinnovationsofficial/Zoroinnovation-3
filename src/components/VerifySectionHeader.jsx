@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import zoroLogo from "../assets/zoro.png";
+import zoroLogo from "../assets/zoro_white_tm_logo.png";
 
 const VerifySectionHeader = () => {
   const [employeeId, setEmployeeId] = useState("");
@@ -53,7 +53,7 @@ const VerifySectionHeader = () => {
               <img
                 src={zoroLogo}
                 alt="Zoro Innovations"
-                className="h-32 sm:h-40 lg:h-48 w-auto mx-auto lg:mx-0"
+                className="h-32 sm:h-40 lg:h-92 w-auto mx-auto lg:mx-0"
               />
             </div>
           </div>
