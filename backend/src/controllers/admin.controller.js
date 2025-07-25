@@ -1,250 +1,144 @@
-import JobApplication from '../models/job_applications.model.js';
-import JobCategory from '../models/job_categories.model.js';
-import JobOpportunity from '../models/job_opportunities.model.js';
+import Contact from '../models/contacts.model.js';
 
-import slugify from 'slugify';
-
-// Application Controllers
-// Get all job applications
-export const getAllApplications = async (req, res) => {
-  try {
-    const applications = await JobApplication.find().sort({ createdAt: -1 });
-    res.json({ success: true, data: applications });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// Get applications for a specific job
-export const getApplicationsForJob = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const applications = await JobApplication.find({ jobId: id }).sort({
-      createdAt: -1,
-    });
-    res.json({ success: true, data: applications });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// Get a single application by ID
-export const getApplicationById = async (req, res) => {
-  try {
-    const application = await JobApplication.findById(req.params.id);
-    if (!application)
-      return res
-        .status(404)
-        .json({ success: false, message: 'Application not found' });
-
-    res.json({ success: true, data: application });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// Update status of an application (e.g., to 'screening', 'hired', etc.)
-export const updateApplicationStatus = async (req, res) => {
-  try {
-    const { status } = req.body;
-    const application = await JobApplication.findById(req.params.id);
-
-    if (!application)
-      return res
-        .status(404)
-        .json({ success: false, message: 'Application not found' });
-
-    application.status = status;
-    application.stages.push({
-      stage: status,
-      status: 'updated',
-      date: new Date(),
-      notes: `Status changed to ${status}`,
-    });
-
-    await application.save();
-    res.json({ success: true, data: application });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// Add a note to application
-export const addApplicationNote = async (req, res) => {
-  try {
-    const { note, addedBy, isInternal = true } = req.body;
-    const application = await JobApplication.findById(req.params.id);
-
-    if (!application)
-      return res
-        .status(404)
-        .json({ success: false, message: 'Application not found' });
-
-    application.notes.push({
-      note,
-      addedBy,
-      isInternal,
-      addedAt: new Date(),
-    });
-
-    await application.save();
-    res.json({ success: true, message: 'Note added', data: application });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// Category Controllers
-
-// Create a new job category
-export const createCategory = async (req, res) => {
+// All messages
+export const getAllMessages = async (req, res) => {
   try {
     const {
-      name,
-      description,
-      icon,
-      isActive = true,
-      displayOrder = 0,
-    } = req.body;
+      page = 1,
+      limit = 10,
+      status,
+      priority,
+      search,
+      dateFrom,
+      dateTo,
+      sortBy = 'date',
+      sortOrder = 'desc',
+    } = req.query;
 
-    const newCategory = new JobCategory({
-      name,
-      description,
-      icon,
-      isActive,
-      displayOrder,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+    const filter = {};
+
+    // Filter by status
+    if (status) {
+      filter.status = status;
+    }
+
+    // Filter by priority (if you add it to your schema)
+    if (priority) {
+      filter.priority = priority;
+    }
+
+    // Search by name, email, or message
+    if (search) {
+      const regex = new RegExp(search, 'i'); // case-insensitive
+      filter.$or = [
+        { name: regex },
+        { email: regex },
+        { message: regex },
+        { subject: regex },
+      ];
+    }
+
+    // Filter by date range
+    if (dateFrom || dateTo) {
+      filter.date = {};
+      if (dateFrom) filter.date.$gte = new Date(dateFrom);
+      if (dateTo) filter.date.$lte = new Date(dateTo);
+    }
+
+    // Build sorting object
+    const sortOptions = {};
+    sortOptions[sortBy] = sortOrder === 'asc' ? 1 : -1;
+
+    // Pagination
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const totalMessages = await Contact.countDocuments(filter);
+    const messages = await Contact.find(filter)
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    res.status(200).json({
+      message: 'Messages fetched successfully.',
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: totalMessages,
+      data: messages,
     });
-
-    await newCategory.save();
-    res.status(201).json({ success: true, data: newCategory });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    res.status(500).json({ error: 'Something went wrong.' });
   }
 };
 
-// Update an existing category
-export const updateCategory = async (req, res) => {
+// Messaage status update
+export const updateMessageStatus = async (req, res) => {
   try {
     const { id } = req.params;
-    const updates = {
-      ...req.body,
-      updatedAt: new Date(),
-    };
+    const { status } = req.body;
 
-    const updatedCategory = await JobCategory.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
+    const allowedStatuses = ['new', 'read', 'responded'];
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ error: 'Invalid status value.' });
+    }
 
-    if (!updatedCategory)
-      return res
-        .status(404)
-        .json({ success: false, message: 'Category not found' });
-
-    res.json({ success: true, data: updatedCategory });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// Job Controllers
-
-export const createJob = async (req, res) => {
-  try {
-    const jobData = req.body;
-    jobData.slug = slugify(jobData.title, { lower: true });
-
-    const job = new JobOpportunity(jobData);
-    await job.save();
-
-    res.status(201).json({ success: true, data: job });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-export const updateJob = async (req, res) => {
-  try {
-    const updatedJob = await JobOpportunity.findByIdAndUpdate(
-      req.params.id,
-      { ...req.body, slug: slugify(req.body.title, { lower: true }) },
+    const updatedContact = await Contact.findByIdAndUpdate(
+      id,
+      { ...req.body, status },
       { new: true }
     );
-    res.json({ success: true, data: updatedJob });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
 
-export const deleteJob = async (req, res) => {
-  try {
-    await JobOpportunity.findByIdAndDelete(req.params.id);
-    res.json({ success: true, message: 'Job deleted' });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
+    if (!updatedContact) {
+      return res.status(404).json({ error: 'Contact not found.' });
+    }
 
-export const getAllJobs = async (req, res) => {
-  try {
-    const jobs = await JobOpportunity.find().sort({ createdAt: -1 });
-    res.json({ success: true, data: jobs });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-export const toggleJobStatus = async (req, res) => {
-  try {
-    const job = await JobOpportunity.findById(req.params.id);
-    job.isActive = !job.isActive;
-    await job.save();
-    res.json({ success: true, data: job });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-export const toggleFeaturedStatus = async (req, res) => {
-  try {
-    const job = await JobOpportunity.findById(req.params.id);
-    job.isFeatured = !job.isFeatured;
-    await job.save();
-    res.json({ success: true, data: job });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-export const getJobAnalytics = async (req, res) => {
-  try {
-    const totalJobs = await JobOpportunity.countDocuments();
-    const activeJobs = await JobOpportunity.countDocuments({ isActive: true });
-    const featuredJobs = await JobOpportunity.countDocuments({
-      isFeatured: true,
+    res.status(200).json({
+      message: 'Message status updated successfully.',
+      data: updatedContact,
     });
+  } catch (error) {
+    console.error('Error updating message status:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
 
-    const applicationCountByJob = await JobOpportunity.aggregate([
-      {
-        $project: {
-          title: 1,
-          applicationsCount: 1,
-        },
-      },
-      { $sort: { applicationsCount: -1 } },
-    ]);
+// Contact delete
+export const deleteContact = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-    res.json({
-      success: true,
-      data: {
-        totalJobs,
-        activeJobs,
-        featuredJobs,
-        applicationCountByJob,
-      },
+    const deletedContact = await Contact.findByIdAndDelete(id);
+
+    if (!deletedContact) {
+      return res.status(404).json({ error: 'Contact not found.' });
+    }
+
+    res.status(200).json({
+      message: 'Contact deleted successfully.',
+      data: deletedContact,
     });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+  } catch (error) {
+    console.error('Error deleting contact:', error);
+    res.status(500).json({ error: 'Server error.' });
+  }
+};
+
+// Get single message data
+export const viewSingleMessage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const message = await Contact.findById(id);
+
+    if (!message) {
+      return res.status(404).json({ error: 'Message not found' });
+    }
+
+    res.status(200).json({
+      message: 'Message retrieved successfully',
+      data: message,
+    });
+  } catch (error) {
+    console.error('Error fetching message by ID:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 };

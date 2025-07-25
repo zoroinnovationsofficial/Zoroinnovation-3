@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('/api', publicRoutes);
-app.use('/api/admin', adminRoutes);
+app.use('/api/v1', publicRoutes);
+app.use('/api/v1', adminRoutes);
 
 export default app;
