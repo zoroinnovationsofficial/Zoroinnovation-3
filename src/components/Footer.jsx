@@ -8,7 +8,7 @@ function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <img src="/zoro_logo_white.png" alt="ZORO INNOVATIONS logo" className="h-8 md:h-10 lg:h-12 w-auto mb-4" />
+            <img src="/ZORO_logo.png" alt="ZORO INNOVATIONS logo" className="h-8 md:h-10 lg:h-12 w-auto mb-4" />
             <p className="text-gray-400 mb-4">
               Transforming businesses through innovative AI solutions and cutting-edge technology.
             </p>
