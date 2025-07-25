@@ -6,7 +6,7 @@ function HeroSection({ heroMetrics }) {
     <section className="pt-16 pb-12 hero-gradient text-white text-center">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8 flex justify-center">
-          <img src="/ZORO_logo.png" alt="ZORO INNOVATIONS logo" className="h-16 md:h-20 lg:h-24 w-auto" />
+          <img src="/zoro_logo_white.png" alt="ZORO INNOVATIONS logo" className="h-48 md:h-60 lg:h-72 w-auto" />
         </div>
         <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Success Stories</h1>
         <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto">
