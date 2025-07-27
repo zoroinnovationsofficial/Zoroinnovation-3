@@ -624,10 +624,9 @@ const About = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16 px-4">
+      {/* <footer className="bg-gray-900 text-white py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-            {/* Company Info */}
             <div className="space-y-6">
               <div className="flex items-center">
                 <img
@@ -653,7 +652,6 @@ const About = () => {
               </div>
             </div>
 
-            {/* Services */}
             <div>
               <h3 className="text-lg font-semibold mb-6">Services</h3>
               <ul className="space-y-3 text-gray-400">
@@ -680,7 +678,6 @@ const About = () => {
               </ul>
             </div>
 
-            {/* Company */}
             <div>
               <h3 className="text-lg font-semibold mb-6">Company</h3>
               <ul className="space-y-3 text-gray-400">
@@ -707,7 +704,6 @@ const About = () => {
               </ul>
             </div>
 
-            {/* Contact */}
             <div>
               <h3 className="text-lg font-semibold mb-6">Contact</h3>
               <div className="space-y-3 text-gray-400">
@@ -722,7 +718,6 @@ const About = () => {
             </div>
           </div>
 
-          {/* Bottom Section */}
           <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
               © 2025 Zoro innovations. All rights reserved.
@@ -743,7 +738,7 @@ const About = () => {
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };
