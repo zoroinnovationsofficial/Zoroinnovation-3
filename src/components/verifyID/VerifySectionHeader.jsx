@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import zoroLogo from "../assets/zoro_white_tm_logo.png";
+import zoroLogo from "../../assets/zoro_white_tm_logo.png";
 
-const VerifySectionHeader = () => {
+const VerifySectionHeader = ({ onVerify }) => {
   const [employeeId, setEmployeeId] = useState("");
 
-  const handleVerify = () => {
-    console.log("Verifying employee ID:", employeeId);
+  const handleVerifyClick = () => {
+    if (employeeId) {
+      onVerify(employeeId);
+    }
   };
 
   return (
@@ -39,7 +41,7 @@ const VerifySectionHeader = () => {
                   className="flex-1 px-4 py-3 rounded-lg border-0 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:outline-none text-base"
                 />
                 <button
-                  onClick={handleVerify}
+                  onClick={handleVerifyClick}
                   className="px-8 py-3 bg-[#FF6B35] text-white font-medium rounded-lg hover:bg-[#e55a2b] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                 >
                   Verify

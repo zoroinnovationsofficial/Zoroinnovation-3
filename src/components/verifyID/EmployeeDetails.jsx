@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { HiUser, HiBriefcase, HiCalendar, HiClock } from "react-icons/hi";
+import { HiUser, HiBriefcase, HiCalendar } from "react-icons/hi";
 import EmployeeField from "./employee/EmployeeField";
 import VerificationHeader from "./employee/VerificationHeader";
 import EmployeeIDSection from "./employee/EmployeeIDSection";
@@ -23,53 +23,34 @@ const animationStyles = `
   }
 `;
 
-const DEFAULT_EMPLOYEE = {
-  name: "Elon Musk",
-  title: "Software Engineer",
-  role: "AI Specialist",
-  department: "AI Development",
-  startDate: "2022-01-19",
-  endDate: "2024-01-15",
-  typeOfRole: "Full-time",
-  profileImage:
-    "https://cdn.futura-sciences.com/buildsv6/images/largeoriginal/d/9/a/d9a1058910_50163142_elon-musk1.jpg",
-  employeeId: "ZI-2024-001",
-};
-
 const getEmployeeFields = (employeeData) => [
   {
     icon: HiUser,
     label: "Name:",
     value: employeeData.name,
-    subtitle: employeeData.title,
+    subtitle: employeeData.designation,
   },
   {
     icon: HiBriefcase,
-    label: "Role:",
-    value: employeeData.role,
-    subtitle: employeeData.department,
+    label: "Department:",
+    value: employeeData.department,
+    subtitle: "Zoro Innovations",
   },
   {
     icon: HiCalendar,
-    label: "Start Date:",
-    value: employeeData.startDate,
-  },
-  {
-    icon: HiCalendar,
-    label: "End Date:",
-    value: employeeData.endDate,
-  },
-  {
-    icon: HiClock,
-    label: "Type of Role:",
-    value: employeeData.typeOfRole,
+    label: "Joining Date:",
+    value: employeeData.joiningDate,
   },
 ];
 
 const EmployeeDetails = ({ employee, isVerified = true }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const employeeData = useMemo(() => employee || DEFAULT_EMPLOYEE, [employee]);
+  if (!employee) {
+    return null;
+  }
+
+  const employeeData = employee;
 
   const employeeFields = useMemo(
     () => getEmployeeFields(employeeData),
@@ -109,11 +90,17 @@ const EmployeeDetails = ({ employee, isVerified = true }) => {
               <EmployeeIDSection employeeId={employeeData.employeeId} />
             </div>
 
-            <ProfileImage
-              employeeData={employeeData}
-              imageLoaded={imageLoaded}
-              setImageLoaded={setImageLoaded}
-            />
+            <div className="bg-gray-50 p-8 flex flex-col justify-between">
+              <ProfileImage
+                employeeData={employeeData}
+                imageLoaded={imageLoaded}
+                setImageLoaded={setImageLoaded}
+              />
+              <EmployeeIDSection
+                employeeId={employeeData.employeeId}
+                currentDate={currentDate}
+              />
+            </div>
           </div>
         </div>
       </div>
