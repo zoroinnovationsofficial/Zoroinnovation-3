@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("About");
 
   const navLinks = [
-    { name: "Home", href: "#" },
-    { name: "Services", href: "#" },
-    { name: "About", href: "#" },
-    { name: "Projects", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Careers", href: "#" },
-    { name: "Verify ID", href: "#" },
-    { name: "Contact", href: "#" },
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/services" },
+    { name: "About", href: "/about" },
+    { name: "Projects", href: "/projects" },
+    { name: "Blog", href: "/blog" },
+    { name: "Careers", href: "/careers" },
+    { name: "Verify ID", href: "/verify" },
+    { name: "Contact", href: "/contact" },
   ];
 
   const toggleMenu = () => {
@@ -41,13 +42,10 @@ const Navbar = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLinkClick(link.name);
-                  }}
+                  to={link.href}
+                  onClick={() => handleLinkClick(link.name)}
                   className={`px-3 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer ${
                     activeLink === link.name
                       ? "text-[#ff6b35] border-b-2 border-[#ff6b35]"
@@ -55,7 +53,7 @@ const Navbar = () => {
                   }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -82,13 +80,10 @@ const Navbar = () => {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleLinkClick(link.name);
-                }}
+                to={link.href}
+                onClick={() => handleLinkClick(link.name)}
                 className={`block px-3 py-2 text-base font-medium transition-colors duration-200 cursor-pointer ${
                   activeLink === link.name
                     ? "text-[#ff6b35] bg-blue-50 border-l-4 border-[#ff6b35]"
@@ -96,7 +91,7 @@ const Navbar = () => {
                 }`}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

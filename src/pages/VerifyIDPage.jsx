@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import VerifySectionHeader from "../components/verifyID/VerifySectionHeader.jsx";
 import EmployeeDetails from "../components/verifyID/EmployeeDetails.jsx";
 import FAQs from "../components/verifyID/FAQs.jsx";
-import Footer from "../components/Footer";
 import { verifyEmployee } from "../api/verify.js";
 import Shimmer from "../components/verifyID/Shimmer.jsx";
 
@@ -32,7 +31,6 @@ const VerifyIDPage = () => {
       {error && <p className="text-center py-4 text-red-500">{error}</p>}
       {employeeData && <EmployeeDetails employee={employeeData} />}
       <FAQs />
-      <Footer />
     </>
   );
 };
