@@ -12,21 +12,21 @@ const ContactForm = () => {
           </p>
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <img src="/images/Overlay-9.svg" alt="Email icon" className="w-10 h-10" />
+              <img src="/Homeimages/Overlay-9.svg" alt="Email icon" className="w-10 h-10" />
               <div>
                 <p className="text-base"><strong>Email:</strong></p>
                 <p className="text-sm text-[#4B5563]">contact@company.com</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <img src="/images/Overlay-10.svg" alt="Phone icon" className="w-10 h-10" />
+              <img src="/Homeimages/Overlay-10.svg" alt="Phone icon" className="w-10 h-10" />
               <div>
                 <p className="text-base"><strong>Phone:</strong></p>
                 <p className="text-sm text-[#4B5563]">+1 (555) 123-4567</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <img src="/images/Overlay-11.svg" alt="Address icon" className="w-10 h-10" />
+              <img src="/Homeimages/Overlay-11.svg" alt="Address icon" className="w-10 h-10" />
               <div>
                 <p className="text-base"><strong>Address:</strong></p>
                 <p className="text-sm text-[#4B5563]">123 Innovation Drive, Tech City, TC 12345</p>
