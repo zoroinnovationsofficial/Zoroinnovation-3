@@ -6,7 +6,7 @@ function ModernizeSection() {
       {/* Background image with overlay */}
       <div
         className="relative bg-cover bg-center bg-no-repeat py-10 px-6 animate-bg-zoom"
-        style={{ backgroundImage: "url('/images/Modernize.jpg')" }}
+        style={{ backgroundImage: "url('/Homeimages/Modernize.jpg')" }}
       >
         {/* Green Overlay */}
         <div className="absolute inset-0 bg-green-600/80 animate-overlay-pulse-green z-0"></div>
