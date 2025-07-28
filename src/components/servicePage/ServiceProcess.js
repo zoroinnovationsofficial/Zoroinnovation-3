@@ -1,10 +1,10 @@
 export default function ServiceProcess() {
   const steps = [
-    { iconPath: "/images/Background-6.svg", title: "Discovery", desc: "Understanding your business needs and requirements" },
-    { iconPath: "/images/Background-7.svg", title: "Planning", desc: "Creating detailed project roadmap and timeline" },
-    { iconPath: "/images/Background-8.svg", title: "Development", desc: "Building your solution with regular progress updates" },
-    { iconPath: "/images/Background-9.svg", title: "Testing", desc: "Rigorous quality assurance and performance testing" },
-    { iconPath: "/images/Background-10.svg", title: "Launch", desc: "Deployment and ongoing support for your success" },
+    { iconPath: "/Serviceimages/Background-6.svg", title: "Discovery", desc: "Understanding your business needs and requirements" },
+    { iconPath: "/Serviceimages/Background-7.svg", title: "Planning", desc: "Creating detailed project roadmap and timeline" },
+    { iconPath: "/Serviceimages/Background-8.svg", title: "Development", desc: "Building your solution with regular progress updates" },
+    { iconPath: "/Serviceimages/Background-9.svg", title: "Testing", desc: "Rigorous quality assurance and performance testing" },
+    { iconPath: "/Serviceimages/Background-10.svg", title: "Launch", desc: "Deployment and ongoing support for your success" },
   ];
 
   return (
