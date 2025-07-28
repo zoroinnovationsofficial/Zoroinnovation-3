@@ -33,7 +33,7 @@ const HeroSection = () => {
         <div className="flex justify-center mt-10 md:mt-0">
       <div className="relative w-[300px] md:w-[500px] lg:w-[584px]  transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-2">
         <img
-          src="/images/HomePage.jpg"
+          src="/Homeimages/HomePage.jpg"
           alt="AI Illustration"
           className="w-full rounded-2xl animate-gradient-pulse"
         />
