@@ -18,7 +18,7 @@ export default function PricingPackages() {
               "3 months support",
             ].map((text, index) => (
               <li key={index} className="flex items-start gap-2 leading-6">
-                <img src="/images/Overlay.png" alt="check" className="w-4 h-4 mt-1" />
+                <img src="/Serviceimages/Overlay.png" alt="check" className="w-4 h-4 mt-1" />
                 <span>{text}</span>
               </li>
             ))}
@@ -39,7 +39,7 @@ export default function PricingPackages() {
               "Analytics & reporting",
             ].map((text, index) => (
               <li key={index} className="flex items-start gap-2 leading-6">
-                <img src="/images/Overlay.png" alt="check" className="w-4 h-4 mt-1" />
+                <img src="/Serviceimages/Overlay.png" alt="check" className="w-4 h-4 mt-1" />
                 <span>{text}</span>
               </li>
             ))}
@@ -60,7 +60,7 @@ export default function PricingPackages() {
               "Dedicated project manager",
             ].map((text, index) => (
               <li key={index} className="flex items-start gap-2 leading-6">
-                <img src="/images/Overlay.png" alt="check" className="w-4 h-4 mt-1" />
+                <img src="/Serviceimages/Overlay.png" alt="check" className="w-4 h-4 mt-1" />
                 <span>{text}</span>
               </li>
             ))}
