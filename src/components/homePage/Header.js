@@ -7,7 +7,7 @@ function Header() {
     <header className="bg-white text-gray-700 px-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
       {/* Logo */}
       <div className="flex items-center">
-        <img src="/images/zoro logo.png" alt="Logo" className="ml-4 md:ml-28 h-9" />
+        <img src="/Homeimages/zoro logo.png" alt="Logo" className="ml-4 md:ml-28 h-9" />
       </div>
 
       {/* Desktop Nav */}
