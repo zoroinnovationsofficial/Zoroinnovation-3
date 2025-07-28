@@ -10,7 +10,7 @@ export default function SuccessStories() {
         {/* E-commerce Platform Transformation */}
         <div className="bg-purple-100 rounded-3xl shadow-md p-6 flex flex-col items-start w-[384px] h-[452px]">
           <img
-            src="/images/Background-12.svg"
+            src="/Serviceimages/Background-12.svg"
             alt="E-commerce Icon"
             className="w-16 h-16 mb-4 object-contain"
           />
@@ -38,7 +38,7 @@ export default function SuccessStories() {
         {/* AI-Powered Analytics Platform */}
         <div className="bg-green-100 rounded-3xl shadow-md p-6 flex flex-col items-start w-[384px] h-[452px]">
           <img
-            src="/images/Background-13.svg"
+            src="/Serviceimages/Background-13.svg"
             alt="Analytics Icon"
             className="w-16 h-16 mb-4 object-contain"
           />
@@ -66,7 +66,7 @@ export default function SuccessStories() {
         {/* Healthcare Management System */}
         <div className="bg-orange-100 rounded-3xl shadow-md p-6 flex flex-col items-start w-[384px] h-[452px]">
           <img
-            src="/images/Background-14.svg"
+            src="/Serviceimages/Background-14.svg"
             alt="Healthcare Icon"
             className="w-16 h-16 mb-4 object-contain"
           />
