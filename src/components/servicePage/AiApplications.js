@@ -6,7 +6,7 @@ export default function AiApplications() {
         {/* Image Side */}
         <div className="flex-1 flex items-center justify-center">
           <img
-            src="/images/AI Applications.png"
+            src="/Serviceimages/AI Applications.png"
             alt="AI illustration of machine learning applications"
             className="w-[584px] h-[480px] object-cover rounded-lg shadow-lg"
           />
@@ -41,7 +41,7 @@ export default function AiApplications() {
   </p>
   <div className="flex items-center gap-2 font-semibold mt-2">
     <img
-      src="/images/Background-11.svg"
+      src="/Serviceimages/Background-11.svg"
       alt="Sarah Chen"
       className="w-6 h-6 rounded-full object-cover"
     />
