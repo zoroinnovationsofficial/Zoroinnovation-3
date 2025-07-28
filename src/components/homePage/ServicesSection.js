@@ -15,7 +15,7 @@ function ServicesSection() {
         {/* Web Development */}
         <div className="bg-white rounded-3xl p-10 shadow-lg w-full transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(249,115,22,0.6)] group">
           <img 
-            src="/images/Overlay-3.svg" 
+            src="/Homeimages/Overlay-3.svg" 
             alt="Web Development" 
             className="mb-6 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -33,7 +33,7 @@ function ServicesSection() {
         {/* Software */}
         <div className="bg-white rounded-3xl p-10 shadow-lg w-full transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(249,115,22,0.6)] group">
           <img 
-            src="/images/Overlay-4.svg" 
+            src="/Homeimages/Overlay-4.svg" 
             alt="Software" 
             className="mb-6 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -51,7 +51,7 @@ function ServicesSection() {
         {/* SaaS Applications */}
         <div className="bg-white rounded-3xl p-10 shadow-lg w-full transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(249,115,22,0.6)] group">
           <img 
-            src="/images/Overlay-5.svg" 
+            src="/Homeimages/Overlay-5.svg" 
             alt="SaaS Applications" 
             className="mb-6 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -69,7 +69,7 @@ function ServicesSection() {
         {/* AI Applications */}
         <div className="bg-white rounded-3xl p-10 shadow-lg w-full transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(249,115,22,0.6)] group">
           <img 
-            src="/images/Overlay-6.svg" 
+            src="/Homeimages/Overlay-6.svg" 
             alt="AI Applications" 
             className="mb-6 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -87,7 +87,7 @@ function ServicesSection() {
         {/* Managed IT Services */}
         <div className="bg-white rounded-3xl p-10 shadow-lg w-full transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(249,115,22,0.6)] group">
           <img 
-            src="/images/Overlay-7.svg" 
+            src="/Homeimages/Overlay-7.svg" 
             alt="Managed IT Services" 
             className="mb-6 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -105,7 +105,7 @@ function ServicesSection() {
         {/* IT Consultancy */}
         <div className="bg-white rounded-3xl p-10 shadow-lg w-full transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(249,115,22,0.6)] group">
           <img 
-            src="/images/Overlay-8.svg" 
+            src="/Homeimages/Overlay-8.svg" 
             alt="IT Consultancy" 
             className="mb-6 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
