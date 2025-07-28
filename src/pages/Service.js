@@ -1,4 +1,4 @@
-import './index.css';
+import './Service.css';
 import WebDevelopmentExcellence from './components/servicePage/WebDevelopmentExcellence';
 import PricingPackages from './components/servicePage/PricingPackages';
 import ServiceProcess from './components/servicePage/ServiceProcess';
