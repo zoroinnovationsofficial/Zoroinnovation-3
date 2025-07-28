@@ -1,18 +1,18 @@
 import React from 'react';
-import Header from './components/Header';
-import HeroSection from './components/HeroSection';
-import InnovationSection from './components/InnovationSection';
-import EngineeringSection from './components/EngineeringSection';
-import ModernizeSection from './components/ModernizeSection';
-import ManageSection from './components/ManageSection';
-import MissionSection from './components/MissionSection';
-import IndustryExpertise from './components/IndustryExpertise';
-import ServicesSection from './components/ServicesSection';
-import PartnerEcosystem from './components/PartnerEcosystem';
-import CallToAction from './components/CallToAction';
-import ContactSection from './components/ContactSection';
+import Header from './components/homePage/Header';
+import HeroSection from './components/homePage/HeroSection';
+import InnovationSection from './components/homePage/InnovationSection';
+import EngineeringSection from './components/homePage/EngineeringSection';
+import ModernizeSection from './components/homePage/ModernizeSection';
+import ManageSection from './components/homePage/ManageSection';
+import MissionSection from './components/homePage/MissionSection';
+import IndustryExpertise from './components/homePage/IndustryExpertise';
+import ServicesSection from './components/homePage/ServicesSection';
+import PartnerEcosystem from './components/homePage/PartnerEcosystem';
+import CallToAction from './components/homePage/CallToAction';
+import ContactSection from './components/homePage/ContactSection';
 import Footer from './components/Footer';
-import Imagine from './components/Imagine';
+import Imagine from './components/homePage/Imagine';
 
 function App() {
   return (
