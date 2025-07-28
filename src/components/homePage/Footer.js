@@ -5,20 +5,20 @@ export default function Footer() {
         {/* Company Info */}
         <div>
           <img
-    src="/images/zorologo.png"
+    src="/Homeimages/zorologo.png"
     alt="Zoro Innovations Logo"
     className="w-24 h-9 "
   />
           <div className="text-[16px] text-gray-400 mb-4">Transforming businesses through innovative AI solutions and cutting-edge technology.</div>
           <div className="flex space-x-2 mt-2">
   <button href="#" className="text-gray-400 hover:text-white">
-    <img src="/images/Background-6.svg" alt="LinkedIn" className="w-10 h-10" />
+    <img src="/Homeimages/Background-6.svg" alt="LinkedIn" className="w-10 h-10" />
   </button>
   <button href="#" className="text-gray-400 hover:text-white">
-    <img src="/images/Background-7.svg" alt="Twitter" className="w-10 h-10" />
+    <img src="/Homeimages/Background-7.svg" alt="Twitter" className="w-10 h-10" />
   </button>
   <button href="#" className="text-gray-400 hover:text-white">
-    <img src="/images/Background-8.svg" alt="Facebook" className="w-10 h-10" />
+    <img src="/Homeimages/Background-8.svg" alt="Facebook" className="w-10 h-10" />
   </button>
 </div>
         </div>
