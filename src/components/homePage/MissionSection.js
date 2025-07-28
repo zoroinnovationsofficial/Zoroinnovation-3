@@ -8,12 +8,12 @@ function MissionSection() {
 
       {/* Responsive Company Logos Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">
-        <img src="/images/Icon.svg" alt="Company 1" className="h-12 object-contain" />
-        <img src="/images/Icon-1.svg" alt="Company 2" className="h-12 object-contain" />
-        <img src="/images/Icon-2.svg" alt="Company 3" className="h-12 object-contain" />
-        <img src="/images/Icon-3.svg" alt="Company 4" className="h-12 object-contain" />
-        <img src="/images/Icon-4.svg" alt="Company 5" className="h-12 object-contain" />
-        <img src="/images/Icon-5.svg" alt="Company 6" className="h-12 object-contain" />
+        <img src="/Homeimages/Icon.svg" alt="Company 1" className="h-12 object-contain" />
+        <img src="/Homeimages/Icon-1.svg" alt="Company 2" className="h-12 object-contain" />
+        <img src="/Homeimages/Icon-2.svg" alt="Company 3" className="h-12 object-contain" />
+        <img src="/Homeimages/Icon-3.svg" alt="Company 4" className="h-12 object-contain" />
+        <img src="/Homeimages/Icon-4.svg" alt="Company 5" className="h-12 object-contain" />
+        <img src="/Homeimages/Icon-5.svg" alt="Company 6" className="h-12 object-contain" />
       </div>
     </section>
   );
