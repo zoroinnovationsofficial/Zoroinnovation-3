@@ -6,7 +6,7 @@ function EngineeringSection() {
       {/* Background image with overlay */}
       <div
         className="relative bg-cover bg-center bg-no-repeat py-10 px-6 animate-bg-zoom"
-        style={{ backgroundImage: "url('/images/Engineer.jpg')" }}
+        style={{ backgroundImage: "url('/Homeimages/Engineer.jpg')" }}
       >
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-red-700/90 via-orange-500/90 to-orange-400/90 animate-overlay-pulse-orange z-0"></div>
