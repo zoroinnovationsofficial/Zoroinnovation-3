@@ -14,7 +14,7 @@ function IndustryExpertise() {
         {/* Healthcare */}
         <div className="bg-gradient-to-br from-[#3B82F6] via-[#3B82F6] to-[#9333EA] text-white p-10 rounded-3xl shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(59,130,246,0.6)] group">
           <img 
-            src="/images/Icon-6.svg" 
+            src="/Homeimages/Icon-6.svg" 
             alt="Healthcare" 
             className="mb-10 h-12 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -29,7 +29,7 @@ function IndustryExpertise() {
         {/* E-commerce */}
         <div className="bg-gradient-to-br from-[#22C55E] to-[#0D9488] text-white p-10 rounded-3xl shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(34,197,94,0.6)] group">
           <img 
-            src="/images/Icon-7.svg" 
+            src="/Homeimages/Icon-7.svg" 
             alt="E-commerce" 
             className="mb-10 h-12 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -44,7 +44,7 @@ function IndustryExpertise() {
         {/* Finance */}
         <div className="bg-gradient-to-br from-[#F97316] to-[#DC2626] text-white p-10 rounded-3xl shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(249,115,22,0.6)] group">
           <img 
-            src="/images/Icon-8.svg" 
+            src="/Homeimages/Icon-8.svg" 
             alt="Finance" 
             className="mb-10 h-12 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -59,7 +59,7 @@ function IndustryExpertise() {
         {/* Education */}
         <div className="bg-gradient-to-br from-[#A855F7] to-[#DB2777] text-white p-10 rounded-3xl shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(168,85,247,0.6)] group">
           <img 
-            src="/images/Icon-9.svg" 
+            src="/Homeimages/Icon-9.svg" 
             alt="Education" 
             className="mb-10 h-12 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -74,7 +74,7 @@ function IndustryExpertise() {
         {/* Automotive */}
         <div className="bg-gradient-to-br from-[#6366F1] to-[#2563EB] text-white p-10 rounded-3xl shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(99,102,241,0.6)] group">
           <img 
-            src="/images/Icon-10.svg" 
+            src="/Homeimages/Icon-10.svg" 
             alt="Automotive" 
             className="mb-10 h-12 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -89,7 +89,7 @@ function IndustryExpertise() {
         {/* Real Estate */}
         <div className="bg-gradient-to-br from-[#14B8A6] to-[#16A34A] text-white p-10 rounded-3xl shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(20,184,166,0.6)] group">
           <img 
-            src="/images/Icon-11.svg" 
+            src="/Homeimages/Icon-11.svg" 
             alt="Real Estate" 
             className="mb-10 h-12 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
