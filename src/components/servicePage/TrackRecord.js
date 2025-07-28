@@ -8,7 +8,7 @@ export default function TrackRecord() {
         <div className="flex flex-col items-center">
           <div className="text-center text-gray-700 text-2xl font-semibold">Project Success Rate</div>
           <img
-            src="/images/image.png"
+            src="/Serviceimages/image.png"
             alt="Project Success Rate"
             width={584}
             height={320}
@@ -21,7 +21,7 @@ export default function TrackRecord() {
         <div className="flex flex-col items-center">
           <div className="text-center text-gray-700 text-2xl font-semibold">Client Satisfaction by Service</div>
           <img
-            src="/images/image1.png"
+            src="/Serviceimages/image1.png"
             alt="Client Satisfaction by Service"
             width={584}
             height={320}
