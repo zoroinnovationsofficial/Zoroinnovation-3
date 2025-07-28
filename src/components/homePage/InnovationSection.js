@@ -14,7 +14,7 @@ function InnovationSection() {
         {/* Card 1 */}
         <div className="bg-white text-black px-8 py-6 rounded-3xl shadow-lg flex flex-col items-start transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] group">
           <img 
-            src="/images/Overlay.svg" 
+            src="/Homeimages/Overlay.svg" 
             alt="Innovation" 
             className="h-12 w-12 mt-2 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -29,7 +29,7 @@ function InnovationSection() {
         {/* Card 2 */}
         <div className="bg-white text-black px-8 py-6 rounded-3xl shadow-lg flex flex-col items-start transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] group">
           <img 
-            src="/images/Overlay-1.svg" 
+            src="/Homeimages/Overlay-1.svg" 
             alt="Expert Team" 
             className="h-12 w-12 mt-2 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
@@ -44,7 +44,7 @@ function InnovationSection() {
         {/* Card 3 */}
         <div className="bg-white text-black px-8 py-6 rounded-3xl shadow-lg flex flex-col items-start transition-all duration-300 ease-in-out hover:scale-105 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] group">
           <img 
-            src="/images/Overlay-2.svg" 
+            src="/Homeimages/Overlay-2.svg" 
             alt="Client Success" 
             className="h-12 w-12 mt-2 transition-transform duration-300 ease-in-out group-hover:scale-110" 
           />
