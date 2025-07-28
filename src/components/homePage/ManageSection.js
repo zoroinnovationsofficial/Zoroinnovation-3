@@ -6,7 +6,7 @@ function ManageSection() {
       {/* Background with Overlay */}
       <div
         className="relative bg-cover bg-center bg-no-repeat py-10 px-6 animate-bg-zoom"
-        style={{ backgroundImage: "url('/images/Manage.jpg')" }}
+        style={{ backgroundImage: "url('/Homeimages/Manage.jpg')" }}
       >
         {/* Purple Overlay */}
         <div className="absolute inset-0 bg-[#A855F7]/90 animate-overlay-pulse-purple z-0"></div>
