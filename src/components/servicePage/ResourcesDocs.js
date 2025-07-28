@@ -9,7 +9,7 @@ export default function ResourcesDocs() {
         {/* Service Brochure */}
         <div className="flex flex-col items-center">
           <img
-            src="/images/Overlay.svg"
+            src="/Serviceimages/Overlay.svg"
             alt="Service Brochure"
             className="w-16 h-16 mb-2"
           />
@@ -25,7 +25,7 @@ export default function ResourcesDocs() {
         {/* Case Studies */}
         <div className="flex flex-col items-center">
           <img
-            src="/images/Overlay-1.svg"
+            src="/Serviceimages/Overlay-1.svg"
             alt="Case Studies"
             className="w-16 h-16 mb-2"
           />
@@ -41,7 +41,7 @@ export default function ResourcesDocs() {
         {/* FAQ */}
         <div className="flex flex-col items-center">
           <img
-            src="/images/Overlay-2.svg"
+            src="/Serviceimages/Overlay-2.svg"
             alt="FAQ"
             className="w-16 h-16 mb-2"
           />
@@ -57,7 +57,7 @@ export default function ResourcesDocs() {
         {/* Tech Blog */}
         <div className="flex flex-col items-center">
           <img
-            src="/images/Overlay-3.svg"
+            src="/Serviceimages/Overlay-3.svg"
             alt="Tech Blog"
             className="w-16 h-16 mb-2"
           />
