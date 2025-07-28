@@ -27,7 +27,7 @@ export default function WebDevelopmentExcellence() {
             },
           ].map((item, index) => (
             <li key={index} className="flex items-start gap-3">
-              <img src="/images/Overlay.png" alt="icon" className="w-5 h-5 mt-1" />
+              <img src="/Serviceimages/Overlay.png" alt="icon" className="w-5 h-5 mt-1" />
               <div>
                 <div className="text-base font-semibold">{item.title}</div>
                 <div className="text-sm leading-snug">{item.desc}</div>
@@ -52,7 +52,7 @@ export default function WebDevelopmentExcellence() {
       {/* Right Side Image */}
       <div className="flex-1 flex items-center justify-center">
         <img
-          src="/images/Web Development.png"
+          src="/Serviceimages/Web Development.png"
           alt="Web Development"
           className="h-[320px] md:h-[489px] w-full max-w-[584px] object-contain"
         />
