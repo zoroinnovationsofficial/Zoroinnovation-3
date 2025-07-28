@@ -6,7 +6,7 @@ function Imagine() {
       {/* Background image with overlay */}
       <div
         className="relative bg-cover bg-center bg-no-repeat py-10 px-6 animate-bg-zoom"
-        style={{ backgroundImage: "url('/images/Imagine.jpg')" }}
+        style={{ backgroundImage: "url('/Homeimages/Imagine.jpg')" }}
       >
         {/* Blue Overlay */}
         <div className="absolute inset-0 bg-blue-900 animate-overlay-pulse z-0"></div>
