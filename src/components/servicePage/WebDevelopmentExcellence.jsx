@@ -7,7 +7,9 @@ export default function WebDevelopmentExcellence() {
           Web Development Excellence
         </h2>
         <p className="text-[18px] md:text-[20px] text-gray-700 mb-6">
-          We create modern, responsive, and high-performance web applications that deliver exceptional user experiences across all devices and platforms.
+          We create modern, responsive, and high-performance web applications
+          that deliver exceptional user experiences across all devices and
+          platforms.
         </p>
 
         {/* Feature List */}
@@ -27,7 +29,11 @@ export default function WebDevelopmentExcellence() {
             },
           ].map((item, index) => (
             <li key={index} className="flex items-start gap-3">
-              <img src="/Serviceimages/Overlay.png" alt="icon" className="w-5 h-5 mt-1" />
+              <img
+                src="/Serviceimages/Overlay.png"
+                alt="icon"
+                className="w-5 h-5 mt-1"
+              />
               <div>
                 <div className="text-base font-semibold">{item.title}</div>
                 <div className="text-sm leading-snug">{item.desc}</div>
@@ -38,9 +44,12 @@ export default function WebDevelopmentExcellence() {
 
         {/* Case Study Box */}
         <div className="bg-gray-100 rounded-3xl px-6 py-6 mt-8 text-gray-700 max-w-xl">
-          <div className="font-semibold text-lg mb-2">Case Study: E-commerce Platform</div>
+          <div className="font-semibold text-lg mb-2">
+            Case Study: E-commerce Platform
+          </div>
           <p className="text-sm mb-4">
-            Developed a comprehensive e-commerce platform that increased client sales by 340% within 6 months.
+            Developed a comprehensive e-commerce platform that increased client
+            sales by 340% within 6 months.
           </p>
           <div className="flex flex-wrap gap-6 text-sm text-gray-600">
             <div>Client: RealTech Solutions</div>

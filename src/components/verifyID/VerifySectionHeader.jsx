@@ -55,7 +55,7 @@ const VerifySectionHeader = ({ onVerify }) => {
               <img
                 src={zoroLogo}
                 alt="Zoro Innovations"
-                className="h-32 sm:h-40 lg:h-92 w-auto mx-auto lg:mx-0"
+                className="h-[8rem] sm:h-[10rem] lg:h-[23rem] w-auto mx-auto lg:mx-0"
               />
             </div>
           </div>
