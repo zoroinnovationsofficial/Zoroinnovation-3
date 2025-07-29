@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const articleSchema = new mongoose.Schema({
   title: {
@@ -60,6 +61,8 @@ const articleSchema = new mongoose.Schema({
     timestamps: true  
   });
 
+  
+articleSchema.plugin(mongoosePaginate);
 const Article = mongoose.model("Article", articleSchema);
 export default Article;
 
