@@ -9,11 +9,10 @@ import {
   Twitter,
   Facebook,
 } from "lucide-react";
-import Navbar from "../components/Navbar";
-import SectionHeader from "../components/AboutPage/sectionHeader";
-import OurStorySection from "../components/AboutPage/ourMissionSection";
-import MissionVisionSection from "../components/AboutPage/missionVisionSection";
-import CoreValueSection from "../components/AboutPage/coreValueSection";
+import SectionHeader from "../../components/user-section/AboutPage/sectionHeader";
+import OurStorySection from "../../components/user-section/AboutPage/ourMissionSection";
+import MissionVisionSection from "../../components/user-section/AboutPage/missionVisionSection";
+import CoreValueSection from "../../components/user-section/AboutPage/coreValueSection";
 
 const About = () => {
   return (

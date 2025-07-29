@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import expertIcon from '../../assets/Overlay-3.svg';
-import quickIcon from '../../assets/Overlay-4.svg';
-import secureIcon from '../../assets/Overlay-5.svg';
+import React, { useState } from "react";
+import expertIcon from "../../../assets/Overlay-3.svg";
+import quickIcon from "../../../assets/Overlay-4.svg";
+import secureIcon from "../../../assets/Overlay-5.svg";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    city: '',
-    email: '',
-    message: ''
+    name: "",
+    city: "",
+    email: "",
+    message: "",
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
   };
 
   return (
@@ -30,38 +30,54 @@ const ContactForm = () => {
           <div className="contact-left">
             <div className="section-tag">[ Let's Connect ]</div>
             <h2>Ready to Transform Your Digital Future?</h2>
-            <p>Take the first step toward innovation and growth. Our experts are here to understand your unique goals and deliver cutting-edge tech solutions tailored to your business.</p>
-            
+            <p>
+              Take the first step toward innovation and growth. Our experts are
+              here to understand your unique goals and deliver cutting-edge tech
+              solutions tailored to your business.
+            </p>
+
             <div className="features">
               <div className="feature">
-  <div className="feature-icon expert-guidance">
-    <img src={expertIcon} alt="Expert Guidance" className="feature-img" />
-  </div>
-  <div className="feature-content">
-    <h4>Expert Guidance</h4>
-    <p>Professional advice tailored to your goals</p>
-  </div>
-</div>
+                <div className="feature-icon expert-guidance">
+                  <img
+                    src={expertIcon}
+                    alt="Expert Guidance"
+                    className="feature-img"
+                  />
+                </div>
+                <div className="feature-content">
+                  <h4>Expert Guidance</h4>
+                  <p>Professional advice tailored to your goals</p>
+                </div>
+              </div>
 
-<div className="feature">
-  <div className="feature-icon quick-response">
-    <img src={quickIcon} alt="Quick Response" className="feature-img" />
-  </div>
-  <div className="feature-content">
-    <h4>Quick Response</h4>
-    <p>Get answers within 24 hours</p>
-  </div>
-</div>
+              <div className="feature">
+                <div className="feature-icon quick-response">
+                  <img
+                    src={quickIcon}
+                    alt="Quick Response"
+                    className="feature-img"
+                  />
+                </div>
+                <div className="feature-content">
+                  <h4>Quick Response</h4>
+                  <p>Get answers within 24 hours</p>
+                </div>
+              </div>
 
-<div className="feature">
-  <div className="feature-icon secure">
-    <img src={secureIcon} alt="Secure & Confidential" className="feature-img" />
-  </div>
-  <div className="feature-content">
-    <h4>Secure & Confidential</h4>
-    <p>Your information is safe with us</p>
-  </div>
-</div>
+              <div className="feature">
+                <div className="feature-icon secure">
+                  <img
+                    src={secureIcon}
+                    alt="Secure & Confidential"
+                    className="feature-img"
+                  />
+                </div>
+                <div className="feature-content">
+                  <h4>Secure & Confidential</h4>
+                  <p>Your information is safe with us</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -122,14 +138,20 @@ const ContactForm = () => {
 
               <button type="submit" className="submit-btn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M22 2L11 13" stroke="white" strokeWidth="2"/>
-                  <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" strokeWidth="2" fill="none"/>
+                  <path d="M22 2L11 13" stroke="white" strokeWidth="2" />
+                  <path
+                    d="M22 2L15 22L11 13L2 9L22 2Z"
+                    stroke="white"
+                    strokeWidth="2"
+                    fill="none"
+                  />
                 </svg>
                 Send Message
               </button>
 
               <p className="privacy-text">
-                By submitting this form, you agree to our <a href="#">Privacy Policy</a>
+                By submitting this form, you agree to our{" "}
+                <a href="#">Privacy Policy</a>
               </p>
             </form>
           </div>

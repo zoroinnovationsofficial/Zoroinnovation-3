@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import VerifySectionHeader from "../components/verifyID/VerifySectionHeader.jsx";
-import EmployeeDetails from "../components/verifyID/EmployeeDetails.jsx";
-import FAQs from "../components/verifyID/FAQs.jsx";
-import { verifyEmployee } from "../api/verify.js";
-import Shimmer from "../components/verifyID/Shimmer.jsx";
+import VerifySectionHeader from "../../components/user-section/verifyID/VerifySectionHeader.jsx";
+import EmployeeDetails from "../../components/user-section/verifyID/EmployeeDetails.jsx";
+import FAQs from "../../components/user-section/verifyID/FAQs.jsx";
+import { verifyEmployee } from "../../api/verify.js";
+import Shimmer from "../../components/user-section/verifyID/Shimmer.jsx";
 
 const VerifyIDPage = () => {
   const [employeeData, setEmployeeData] = useState(null);

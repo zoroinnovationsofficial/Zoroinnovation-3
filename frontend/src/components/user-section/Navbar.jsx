@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("About");
+  const [activeLink, setActiveLink] = useState("Home");
 
   const navLinks = [
     { name: "Home", href: "/" },

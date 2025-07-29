@@ -1,13 +1,13 @@
 import "./Service.css";
-import WebDevelopmentExcellence from "../components/servicePage/WebDevelopmentExcellence.jsx";
-import PricingPackages from "../components/servicePage/PricingPackages.jsx";
-import ServiceProcess from "../components/servicePage/ServiceProcess.jsx";
-import AiApplications from "../components/servicePage/AiApplications.jsx";
-import TrackRecord from "../components/servicePage/TrackRecord.jsx";
-import SuccessStories from "../components/servicePage/SuccessStories.jsx";
-import ServiceQuoteForm from "../components/servicePage/ServiceQuoteForm.jsx";
-import ResourcesDocs from "../components/servicePage/ResourcesDocs.jsx";
-import CTASection from "../components/servicePage/CTA.jsx";
+import WebDevelopmentExcellence from "../../components/user-section/servicePage/WebDevelopmentExcellence.jsx";
+import PricingPackages from "../../components/user-section/servicePage/PricingPackages.jsx";
+import ServiceProcess from "../../components/user-section/servicePage/ServiceProcess.jsx";
+import AiApplications from "../../components/user-section/servicePage/AiApplications.jsx";
+import TrackRecord from "../../components/user-section/servicePage/TrackRecord.jsx";
+import SuccessStories from "../../components/user-section/servicePage/SuccessStories.jsx";
+import ServiceQuoteForm from "../../components/user-section/servicePage/ServiceQuoteForm.jsx";
+import ResourcesDocs from "../../components/user-section/servicePage/ResourcesDocs.jsx";
+import CTASection from "../../components/user-section/servicePage/CTA.jsx";
 
 function ServicePage() {
   return (

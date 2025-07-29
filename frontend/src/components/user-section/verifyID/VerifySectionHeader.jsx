@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import zoroLogo from "../../assets/zoro_white_tm_logo.png";
+import zoroLogo from "../../../assets/zoro_white_tm_logo.png";
 
 const VerifySectionHeader = ({ onVerify }) => {
   const [employeeId, setEmployeeId] = useState("");
