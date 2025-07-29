@@ -1,5 +1,5 @@
-import { Article } from "../models/article.model.js";
-import { Category } from "../models/category.model.js";
+import  Article  from "../models/article.model.js";
+import  Category  from "../models/category.model.js";
 import generateImageUrl from "../utils/cloudinary.js";
 
 const handleImageUpload = async (file) => {
