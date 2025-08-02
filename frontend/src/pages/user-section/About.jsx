@@ -9,7 +9,8 @@ import {
   Twitter,
   Facebook,
 } from "lucide-react";
-import SectionHeader from "../../components/user-section/AboutPage/sectionHeader";
+// Make sure lucide-react is installed: npm install lucide-react
+import SectionHeader from "../../components/user-section/AboutPage/SectionHeader.jsx";
 import OurStorySection from "../../components/user-section/AboutPage/ourMissionSection";
 import MissionVisionSection from "../../components/user-section/AboutPage/missionVisionSection";
 import CoreValueSection from "../../components/user-section/AboutPage/coreValueSection";
