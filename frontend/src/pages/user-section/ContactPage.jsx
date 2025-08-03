@@ -8,7 +8,7 @@ import DigitalResources from "../../components/user-section/contactPage/DigitalR
 import ContactForm from "../../components/user-section/contactPage/ContactForm";
 import CTASection from "../../components/user-section/contactPage/CTASection";
 
-import "./contactPage.css";
+import "./ContactPage.css";
 
 const ContactPage = () => {
   return (
