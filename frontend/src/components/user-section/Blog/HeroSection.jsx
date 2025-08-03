@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../../index.css';
-import logo from '../../../assets/Blog/zoro.png';
+import logo from '../../../assets/zoro_white_tm_logo.png';
 
 const HeroSection = () => {
   return (
