@@ -1,5 +1,5 @@
 import React from 'react';
-import './HeaderSection.css';
+import styles from './HeaderSection.module.css'; // 👈 use CSS module import
 import SearchIcon from '../../../assets/Searchicon.svg'; 
 
 const HeroSection = () => {
@@ -28,29 +28,30 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="hero-section">
+    <section className={styles['hero-section']}>
       <h2>Current Job Opportunities</h2>
       <p>Explore our open positions and find your perfect role in our growing team.</p>
-      <div className="search-wrapper">
-        <img src={SearchIcon} alt="Search Icon" className="search-icon" />
+
+      <div className={styles['search-wrapper']}>
+        <img src={SearchIcon} alt="Search Icon" className={styles['search-icon']} />
         <input
           type="text"
           placeholder="Search positions..."
-          className="search-bar"
+          className={styles['search-bar']}
         />
       </div>
 
-      <div className="job-list">
+      <div className={styles['job-list']}>
         {jobData.map((job, index) => (
-          <div className="job-card" key={index}>
+          <div className={styles['job-card']} key={index}>
             <h3>{job.title}</h3>
             <p>{job.description}</p>
-            <div className="job-tags">
-              <span className="tag blue">{job.type}</span>
-              <span className="tag gray">{job.location}</span>
-              <span className="tag gray">{job.salary}</span>
+            <div className={styles['job-tags']}>
+              <span className={`${styles.tag} ${styles.blue}`}>{job.type}</span>
+              <span className={`${styles.tag} ${styles.gray}`}>{job.location}</span>
+              <span className={`${styles.tag} ${styles.gray}`}>{job.salary}</span>
             </div>
-            <button className="apply-btn">Apply Now</button>
+            <button className={styles['apply-btn']}>Apply Now</button>
           </div>
         ))}
       </div>
