@@ -2,8 +2,9 @@ import React from "react";
 import { HiArrowLeft } from "react-icons/hi";
 
 const SectionHeader = () => {
-  const handleBackToHome = () => {
-    console.log("Navigate to home");
+  const handleBackToHome = (e) => {
+    e.preventDefault();
+    window.location.href = "/";
   };
 
   return (
