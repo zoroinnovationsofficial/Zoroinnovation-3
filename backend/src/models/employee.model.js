@@ -39,7 +39,7 @@ const employeeSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Employee = mongoose.model("Employee", employeeSchema);
