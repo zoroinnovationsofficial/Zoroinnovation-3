@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Header from '../../components/user-section/Blog/Header';
 import HeroSection from '../../components/user-section/Blog/HeroSection';
 import CategoryFilter from '../../components/user-section/Blog/CategoryFilter';
 import FeaturedArticles from '../../components/user-section/Blog/FeaturedArticles';
@@ -13,7 +12,7 @@ import '../../index.css'; // Ensure your Tailwind CSS is imported here
 const Blog = () => {
     return (
         <div className="flex flex-col min-h-screen">
-            <Header />
+        
             <main className="flex-grow flex flex-col">
                 <HeroSection />
                 <CategoryFilter />
