@@ -43,7 +43,7 @@ const registerUser = async (req, res) => {
     const verificationUrl = `${process.env.CLIENT_URL}/verify/${unHashedToken}`;
     const mailgenContent = emailVerificationMailgenContent(
       username,
-      verificationUrl
+      verificationUrl,
     );
     const options = {
       email: user.email,
@@ -54,7 +54,7 @@ const registerUser = async (req, res) => {
     await sendEmail(options);
 
     const createdUser = await User.findOne(user._id).select(
-      "-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry"
+      "-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry",
     );
 
     if (!createdUser)
@@ -175,7 +175,7 @@ const loginUser = async (req, res) => {
     res.cookie("RefreshToken", refreshToken, cookieOptions);
 
     const loggedInUser = await User.findById(user._id).select(
-      "-password -refreshToken -emailVerificationExpiry -emailVerificationToken"
+      "-password -refreshToken -emailVerificationExpiry -emailVerificationToken",
     );
     if (!loggedInUser) {
       return res.status(500).json({
@@ -266,7 +266,7 @@ const resendEmailVerification = async (req, res) => {
     const verificationUrl = `${process.env.CLIENT_URL}/verify/${unHashedToken}`;
     const mailgenContent = emailVerificationMailgenContent(
       user.username,
-      verificationUrl
+      verificationUrl,
     );
     const options = {
       email: user.email,
@@ -412,7 +412,7 @@ const forgotPasswordRequest = async (req, res) => {
   const passwordResetUrl = `${process.env.CLIENT_URL}/reset-password/${unHashedToken}`;
   const mailgenContent = forgotPasswordMailgenContent(
     user.username,
-    passwordResetUrl
+    passwordResetUrl,
   );
 
   const options = {

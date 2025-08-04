@@ -21,5 +21,8 @@
     "mailgen": "^2.0.29",
     "mongoose": "^8.16.4",
     "nodemailer": "^7.0.5"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }
