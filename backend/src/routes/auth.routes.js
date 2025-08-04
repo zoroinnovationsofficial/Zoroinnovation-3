@@ -35,7 +35,9 @@ router.route("/profile").get(authMiddleware, getCurrentUser);
 router
   .route("/refreshAccessToken")
   .get(refreshAccessTokenMiddleware, refreshAccessToken);
-router.route("/resendEmail").post(resendEmailValidator(), resendEmailVerification);
+router
+  .route("/resendEmail")
+  .post(resendEmailValidator(), resendEmailVerification);
 router
   .route("/forgotPasswordRequest")
   .post(userForgotPasswordValidator(), forgotPasswordRequest);
@@ -49,7 +51,7 @@ router
   .post(
     userChangeCurrentPasswordValidator(),
     authMiddleware,
-    changeCurrentPassword
+    changeCurrentPassword,
   );
 
 export default router;
