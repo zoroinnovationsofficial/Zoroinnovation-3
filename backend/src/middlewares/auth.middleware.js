@@ -14,7 +14,7 @@ const authMiddleware = async (req, res, next) => {
 
     const decodeToken = jwt.verify(
       accessToken,
-      process.env.ACCESS_TOKEN_SECRET
+      process.env.ACCESS_TOKEN_SECRET,
     );
     if (!decodeToken) {
       return res.status(401).json({
@@ -47,7 +47,7 @@ const refreshAccessTokenMiddleware = async (req, res, next) => {
     }
     const decodeToken = jwt.verify(
       refreshToken,
-      process.env.REFRESH_TOKEN_SECRET
+      process.env.REFRESH_TOKEN_SECRET,
     );
 
     if (!decodeToken) {
