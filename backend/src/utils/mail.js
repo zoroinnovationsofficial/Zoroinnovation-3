@@ -6,7 +6,6 @@ import nodemailer from "nodemailer";
  * @param {{email: string; subject: string; mailgenContent: Mailgen.Content; }} options
  */
 const sendEmail = async (options) => {
-
   const mailGenerator = new Mailgen({
     theme: "default",
     product: {
@@ -14,7 +13,6 @@ const sendEmail = async (options) => {
       link: "https://taskmanager.app",
     },
   });
-
 
   const emailTextual = mailGenerator.generatePlaintext(options.mailgenContent);
 
@@ -30,17 +28,16 @@ const sendEmail = async (options) => {
   });
 
   const mail = {
-    from: "mail.taskmanager@example.com", 
-    to: options.email, 
-    subject: options.subject, 
-    text: emailTextual, 
-    html: emailHtml, 
+    from: "mail.taskmanager@example.com",
+    to: options.email,
+    subject: options.subject,
+    text: emailTextual,
+    html: emailHtml,
   };
 
   try {
     await transporter.sendMail(mail);
   } catch (error) {
-   
     console.error(
       "Email service failed silently. Make sure you have provided your MAILTRAP credentials in the .env file",
     );
@@ -67,7 +64,6 @@ const emailVerificationMailgenContent = (username, verificationUrl) => {
     },
   };
 };
-
 
 const forgotPasswordMailgenContent = (username, passwordResetUrl) => {
   return {
