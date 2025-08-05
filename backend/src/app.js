@@ -22,6 +22,10 @@ import employeeRoutes from "./routes/employeeVerify.routes.js";
 
 
 
+import teamMemberRoutes from "./routes/teamMember.route.js";
+
+
+
 const app = express();
 
 app.use(cors());
@@ -45,6 +49,9 @@ app.use("/api/team-members", teamMemberRoutes);
 app.use("/api/admin/team-members", adminTeamMemberRoutes);
 
 app.use("/api/v1/employee", employeeRoutes);
+
+
+
 
 
 export default app;
