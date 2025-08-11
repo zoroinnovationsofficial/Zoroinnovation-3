@@ -1,6 +1,6 @@
 import  Article  from "../models/article.model.js";
 import  Category  from "../models/category.model.js";
-import generateImageUrl from "../utils/cloudinary.js";
+import {generateImageUrl} from "../utils/cloudinary.js";
 
 const handleImageUpload = async (file) => {
   if (!file) return null;
