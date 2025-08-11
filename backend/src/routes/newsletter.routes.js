@@ -1,5 +1,8 @@
 import express from 'express';
-import { subscribe, unsubscribe } from '../controllers/newsletter.controller.js';
+import {
+  subscribe,
+  unsubscribe,
+} from '../controllers/newsletter.controller.js';
 
 const router = express.Router();
 

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const { Schema, model } = mongoose;
 
@@ -14,11 +14,11 @@ const teamMemberSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 teamMemberSchema.index({ employeeId: 1 }, { unique: true });
 
-const TeamMember = model("TeamMember", teamMemberSchema);
+const TeamMember = model('TeamMember', teamMemberSchema);
 
 export default TeamMember;

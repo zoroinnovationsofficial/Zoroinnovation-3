@@ -1,6 +1,5 @@
 import Contact from '../models/contacts.model.js';
 
-
 // Save message to db
 export const submitMessage = async (req, res) => {
   try {

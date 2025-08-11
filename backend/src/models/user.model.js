@@ -1,7 +1,7 @@
-import bcrypt from "bcryptjs";
-import crypto from "crypto";
-import jwt from "jsonwebtoken";
-import mongoose, { Schema } from "mongoose";
+import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import mongoose, { Schema } from 'mongoose';
 
 const userSchema = new Schema(
   {
@@ -12,7 +12,7 @@ const userSchema = new Schema(
       },
       default: {
         url: `https://via.placeholder.com/200x200.png`,
-        localPath: "",
+        localPath: '',
       },
     },
     username: {
@@ -36,13 +36,13 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: [true, 'Password is required'],
       select: false,
     },
     role: {
       type: String,
-      enum: ["admin", "user"],
-      default: "user",
+      enum: ['admin', 'user'],
+      default: 'user',
     },
     isEmailVerified: {
       type: Boolean,
@@ -68,8 +68,8 @@ const userSchema = new Schema(
   { timestamps: true },
 );
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
@@ -101,16 +101,16 @@ userSchema.methods.generateRefreshToken = function () {
 };
 
 userSchema.methods.generateTemporaryToken = function () {
-  const unHashedToken = crypto.randomBytes(20).toString("hex");
+  const unHashedToken = crypto.randomBytes(20).toString('hex');
 
   const hashedToken = crypto
-    .createHash("sha256")
+    .createHash('sha256')
     .update(unHashedToken)
-    .digest("hex");
+    .digest('hex');
 
   const tokenExpiry = Date.now() + 20 * 60 * 1000;
 
   return { unHashedToken, hashedToken, tokenExpiry };
 };
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model('User', userSchema);

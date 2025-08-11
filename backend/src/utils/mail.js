@@ -1,5 +1,5 @@
-import Mailgen from "mailgen";
-import nodemailer from "nodemailer";
+import Mailgen from 'mailgen';
+import nodemailer from 'nodemailer';
 
 /**
  *
@@ -7,10 +7,10 @@ import nodemailer from "nodemailer";
  */
 const sendEmail = async (options) => {
   const mailGenerator = new Mailgen({
-    theme: "default",
+    theme: 'default',
     product: {
-      name: "Zoro Innovations",
-      link: "https://taskmanager.app",
+      name: 'Zoro Innovations',
+      link: 'https://taskmanager.app',
     },
   });
 
@@ -28,7 +28,7 @@ const sendEmail = async (options) => {
   });
 
   const mail = {
-    from: "mail.taskmanager@example.com",
+    from: 'mail.taskmanager@example.com',
     to: options.email,
     subject: options.subject,
     text: emailTextual,
@@ -39,9 +39,9 @@ const sendEmail = async (options) => {
     await transporter.sendMail(mail);
   } catch (error) {
     console.error(
-      "Email service failed silently. Make sure you have provided your MAILTRAP credentials in the .env file",
+      'Email service failed silently. Make sure you have provided your MAILTRAP credentials in the .env file',
     );
-    console.error("Error: ", error);
+    console.error('Error: ', error);
   }
 };
 
@@ -52,10 +52,10 @@ const emailVerificationMailgenContent = (username, verificationUrl) => {
       intro: "Welcome to Zoro! We're very excited to have you on board.",
       action: {
         instructions:
-          "To verify your email please click on the following button:",
+          'To verify your email please click on the following button:',
         button: {
-          color: "#22BC66", // Optional action button color
-          text: "Verify your email",
+          color: '#22BC66', // Optional action button color
+          text: 'Verify your email',
           link: verificationUrl,
         },
       },
@@ -69,13 +69,13 @@ const forgotPasswordMailgenContent = (username, passwordResetUrl) => {
   return {
     body: {
       name: username,
-      intro: "We got a request to reset the password of our account",
+      intro: 'We got a request to reset the password of our account',
       action: {
         instructions:
-          "To reset your password click on the following button or link:",
+          'To reset your password click on the following button or link:',
         button: {
-          color: "#22BC66", // Optional action button color
-          text: "Reset password",
+          color: '#22BC66', // Optional action button color
+          text: 'Reset password',
           link: passwordResetUrl,
         },
       },

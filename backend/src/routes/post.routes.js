@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   getPopularPosts,
-  getAllPosts
+  getAllPosts,
 } from '../controllers/post.controller.js';
 
 const router = express.Router();

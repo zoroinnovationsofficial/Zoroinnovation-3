@@ -1,10 +1,10 @@
-import { User } from "../models/user.model.js";
-import crypto from "crypto";
+import { User } from '../models/user.model.js';
+import crypto from 'crypto';
 import {
   emailVerificationMailgenContent,
   forgotPasswordMailgenContent,
   sendEmail,
-} from "../utils/mail.js";
+} from '../utils/mail.js';
 
 const registerUser = async (req, res) => {
   try {
@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: "User with this email already exists",
+        message: 'User with this email already exists',
       });
     }
 
@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
     if (!user)
       return res.status(500).json({
         success: false,
-        message: "User not created",
+        message: 'User not created',
       });
 
     const { unHashedToken, hashedToken, tokenExpiry } =
@@ -47,32 +47,32 @@ const registerUser = async (req, res) => {
     );
     const options = {
       email: user.email,
-      subject: "verify your email",
+      subject: 'verify your email',
       mailgenContent: mailgenContent,
     };
 
     await sendEmail(options);
 
     const createdUser = await User.findOne(user._id).select(
-      "-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry",
+      '-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry',
     );
 
     if (!createdUser)
       return res.status(500).json({
         success: false,
-        message: "User not found",
+        message: 'User not found',
       });
 
     res.status(200).json({
       success: true,
       user: createdUser,
-      message: "User registered successfully. Please verify your email.",
+      message: 'User registered successfully. Please verify your email.',
     });
   } catch (error) {
-    console.error("Error registering user:", error);
+    console.error('Error registering user:', error);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
@@ -81,7 +81,7 @@ const verifyEmail = async (req, res) => {
   try {
     const { token } = req.params;
 
-    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
     const user = await User.findOne({
       emailVerificationToken: hashedToken,
@@ -91,13 +91,13 @@ const verifyEmail = async (req, res) => {
     if (!user)
       return res.status(400).json({
         success: false,
-        message: "Invalid token",
+        message: 'Invalid token',
       });
 
     if (user.emailVerificationExpiry < Date.now()) {
       return res.status(400).json({
         success: false,
-        message: "Token has expired",
+        message: 'Token has expired',
       });
     }
 
@@ -109,13 +109,13 @@ const verifyEmail = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Email verified successfully",
+      message: 'Email verified successfully',
     });
   } catch (error) {
-    console.error("Error verifying email:", error);
+    console.error('Error verifying email:', error);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
@@ -127,28 +127,28 @@ const loginUser = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Email and password are required",
+        message: 'Email and password are required',
       });
     }
-    console.log("Email:", email);
-    console.log("Password:", password);
+    console.log('Email:', email);
+    console.log('Password:', password);
     const user = await User.findOne({ email });
-    console.log("user:", user);
+    console.log('user:', user);
 
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "User does not exist",
+        message: 'User does not exist',
       });
     }
 
     const isPasswordCorrect = await user.isPasswordCorrect(password);
-    console.log("isPasswordCorrect:", isPasswordCorrect);
+    console.log('isPasswordCorrect:', isPasswordCorrect);
 
     if (!isPasswordCorrect) {
       return res.status(400).json({
         success: false,
-        message: "Invalid Credentials",
+        message: 'Invalid Credentials',
       });
     }
 
@@ -158,42 +158,42 @@ const loginUser = async (req, res) => {
     if (!accessToken || !refreshToken) {
       return res.status(500).json({
         success: false,
-        message: "AccessToken and RefreshToken not created",
+        message: 'AccessToken and RefreshToken not created',
       });
     }
 
     const cookieOptions = {
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: 'strict',
     };
 
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.cookie("AccessToken", accessToken, cookieOptions);
-    res.cookie("RefreshToken", refreshToken, cookieOptions);
+    res.cookie('AccessToken', accessToken, cookieOptions);
+    res.cookie('RefreshToken', refreshToken, cookieOptions);
 
     const loggedInUser = await User.findById(user._id).select(
-      "-password -refreshToken -emailVerificationExpiry -emailVerificationToken",
+      '-password -refreshToken -emailVerificationExpiry -emailVerificationToken',
     );
     if (!loggedInUser) {
       return res.status(500).json({
         success: false,
-        message: "User not found",
+        message: 'User not found',
       });
     }
 
     res.status(200).json({
       user: loggedInUser,
       success: true,
-      message: "User logged in successfully",
+      message: 'User logged in successfully',
     });
   } catch (error) {
-    console.error("Error logging in user:", error);
+    console.error('Error logging in user:', error);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
@@ -206,18 +206,18 @@ const logoutUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "User not found",
+        message: 'User not found',
       });
     }
 
     const cookieOptions = {
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: 'strict',
     };
 
-    res.clearCookie("AccessToken", cookieOptions);
-    res.clearCookie("RefreshToken", cookieOptions);
+    res.clearCookie('AccessToken', cookieOptions);
+    res.clearCookie('RefreshToken', cookieOptions);
 
     user.refreshToken = null;
 
@@ -225,13 +225,13 @@ const logoutUser = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "User logged out successfully",
+      message: 'User logged out successfully',
     });
   } catch (error) {
-    console.error("Error logging out user:", error);
+    console.error('Error logging out user:', error);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
@@ -244,14 +244,14 @@ const resendEmailVerification = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "User not found",
+        message: 'User not found',
       });
     }
 
     if (user.isEmailVerified) {
       return res.status(400).json({
         success: false,
-        message: "Email is already verified",
+        message: 'Email is already verified',
       });
     }
 
@@ -270,7 +270,7 @@ const resendEmailVerification = async (req, res) => {
     );
     const options = {
       email: user.email,
-      subject: "verify your email",
+      subject: 'verify your email',
       mailgenContent: mailgenContent,
     };
 
@@ -278,13 +278,13 @@ const resendEmailVerification = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Verification email resent successfully",
+      message: 'Verification email resent successfully',
     });
   } catch (error) {
-    console.error("Error resending email verification:", error);
+    console.error('Error resending email verification:', error);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
@@ -294,7 +294,7 @@ const refreshAccessToken = async (req, res) => {
   if (!userId) {
     return res.status(400).json({
       success: false,
-      message: "You must be login to refresh access token",
+      message: 'You must be login to refresh access token',
     });
   }
 
@@ -302,7 +302,7 @@ const refreshAccessToken = async (req, res) => {
   if (!user) {
     return res.status(400).json({
       success: false,
-      message: "User Data not found",
+      message: 'User Data not found',
     });
   }
   const { RefreshToken } = req.cookies;
@@ -310,7 +310,7 @@ const refreshAccessToken = async (req, res) => {
   if (RefreshToken !== user.refreshToken) {
     return res.status(400).json({
       success: false,
-      message: "Refresh Token does not match",
+      message: 'Refresh Token does not match',
     });
   }
 
@@ -318,7 +318,7 @@ const refreshAccessToken = async (req, res) => {
   if (!newRefreshToken) {
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error- New Refresh Token not generated",
+      message: 'Internal Server Error- New Refresh Token not generated',
     });
   }
 
@@ -326,7 +326,7 @@ const refreshAccessToken = async (req, res) => {
   if (!newAccessToken) {
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error- New Access Token not generated",
+      message: 'Internal Server Error- New Access Token not generated',
     });
   }
 
@@ -336,23 +336,23 @@ const refreshAccessToken = async (req, res) => {
   const cookieRefreshOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: 'strict',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   };
 
   const cookieAccessOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: 'strict',
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   };
 
-  res.cookie("accessToken", newAccessToken, cookieAccessOptions);
-  res.cookie("refreshToken", newRefreshToken, cookieRefreshOptions);
+  res.cookie('accessToken', newAccessToken, cookieAccessOptions);
+  res.cookie('refreshToken', newRefreshToken, cookieRefreshOptions);
 
   res.status(200).json({
     success: true,
-    message: "Access Token refreshed successfully",
+    message: 'Access Token refreshed successfully',
   });
 };
 
@@ -363,11 +363,11 @@ const resetForgottenPassword = async (req, res) => {
   if (newPassword !== confirmPassword) {
     return res.status(400).json({
       success: false,
-      message: "New password and confirm password do not match",
+      message: 'New password and confirm password do not match',
     });
   }
 
-  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
   const user = await User.findOne({
     forgotPasswordToken: hashedToken,
@@ -376,7 +376,7 @@ const resetForgottenPassword = async (req, res) => {
   if (!user) {
     return res.status(400).json({
       success: false,
-      message: "Invalid or expired token",
+      message: 'Invalid or expired token',
     });
   }
 
@@ -386,7 +386,7 @@ const resetForgottenPassword = async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: "Password reset successfully",
+    message: 'Password reset successfully',
   });
 };
 
@@ -397,7 +397,7 @@ const forgotPasswordRequest = async (req, res) => {
   if (!user) {
     return res.status(400).json({
       success: false,
-      message: "User not found",
+      message: 'User not found',
     });
   }
 
@@ -417,7 +417,7 @@ const forgotPasswordRequest = async (req, res) => {
 
   const options = {
     email: user.email,
-    subject: "Forgot Password Request",
+    subject: 'Forgot Password Request',
     mailgenContent: mailgenContent,
   };
 
@@ -425,7 +425,7 @@ const forgotPasswordRequest = async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: "Forgot Password Request Sent Successfully",
+    message: 'Forgot Password Request Sent Successfully',
   });
 };
 
@@ -434,7 +434,7 @@ const changeCurrentPassword = async (req, res) => {
   if (!userId) {
     return res.status(400).json({
       success: false,
-      message: "You must be logged in to change password",
+      message: 'You must be logged in to change password',
     });
   }
 
@@ -442,7 +442,7 @@ const changeCurrentPassword = async (req, res) => {
   if (!user) {
     return res.status(400).json({
       success: false,
-      message: "User not found",
+      message: 'User not found',
     });
   }
 
@@ -450,7 +450,7 @@ const changeCurrentPassword = async (req, res) => {
   if (!oldPassword || !newPassword) {
     return res.status(400).json({
       success: false,
-      message: "Old password and new password are required",
+      message: 'Old password and new password are required',
     });
   }
 
@@ -458,7 +458,7 @@ const changeCurrentPassword = async (req, res) => {
   if (!isMatch) {
     return res.status(400).json({
       success: false,
-      message: "Old password is incorrect",
+      message: 'Old password is incorrect',
     });
   }
 
@@ -468,7 +468,7 @@ const changeCurrentPassword = async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: "Password Changed Successfully",
+    message: 'Password Changed Successfully',
   });
 };
 
@@ -478,23 +478,23 @@ const getCurrentUser = async (req, res) => {
   if (!userId) {
     return res.status(400).json({
       success: false,
-      message: "You must be logged in to get user data",
+      message: 'You must be logged in to get user data',
     });
   }
 
-  const user = await User.findById(userId).select("-password -refreshToken");
+  const user = await User.findById(userId).select('-password -refreshToken');
 
   if (!user) {
     return res.status(404).json({
       success: false,
-      message: "User not found",
+      message: 'User not found',
     });
   }
 
   res.status(200).json({
     success: true,
     data: user,
-    message: "User Found Successfully",
+    message: 'User Found Successfully',
   });
 };
 
