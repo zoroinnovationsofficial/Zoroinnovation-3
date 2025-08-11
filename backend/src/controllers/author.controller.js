@@ -23,12 +23,14 @@ export const getAuthorWithArticles = async (req, res) => {
     if (!author) return res.status(404).json({ error: 'Author not found' });
 
     // Uncomment and update when Article model is ready:
-    const articles = await Article.find({ author: author.name, status: 'published' });
+    const articles = await Article.find({
+      author: author.name,
+      status: 'published',
+    });
     res.json({ author, articles });
 
     // Placeholder response:
     res.status(501).json({ error: 'Article model not implemented' });
-
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

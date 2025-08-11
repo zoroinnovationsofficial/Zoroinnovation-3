@@ -1,9 +1,9 @@
-import Router from "express";
+import Router from 'express';
 
 import {
   createEmployeeValidator,
   employeeIdVerifyValidator,
-} from "../validators/employeeVerify.validators.js";
+} from '../validators/employeeVerify.validators.js';
 import {
   changeEmployeeStatus,
   createEmployee,
@@ -12,14 +12,17 @@ import {
   employeeVerificationController,
   getAllEmployees,
   getEmployeeById,
-} from "../controllers/employeeVerification.controller.js";
-import { authMiddleware, checkAdminRole } from "../middlewares/auth.middleware.js";
-import { validate } from "../middlewares/validator.middleware.js";
+} from '../controllers/employeeVerification.controller.js';
+import {
+  authMiddleware,
+  checkAdminRole,
+} from '../middlewares/auth.middleware.js';
+import { validate } from '../middlewares/validator.middleware.js';
 
 const router = Router();
 
 router
-  .route("/verify-employee-id")
+  .route('/verify-employee-id')
   .post(
     employeeIdVerifyValidator(),
     validate,
@@ -29,7 +32,7 @@ router
   );
 
 router
-  .route("/create-employee")
+  .route('/create-employee')
   .post(
     createEmployeeValidator(),
     validate,
@@ -39,7 +42,7 @@ router
   );
 
 router
-  .route("/edit-employee/:employeeId")
+  .route('/edit-employee/:employeeId')
   .put(
     employeeIdVerifyValidator(),
     validate,
@@ -49,7 +52,7 @@ router
   );
 
 router
-  .route("/get-employee/:employeeId")
+  .route('/get-employee/:employeeId')
   .get(
     employeeIdVerifyValidator(),
     validate,
@@ -58,9 +61,9 @@ router
     getEmployeeById,
   );
 
-router.route("/getemployees").get(getAllEmployees);
+router.route('/getemployees').get(getAllEmployees);
 router
-  .route("/delete-employee/:employeeId")
+  .route('/delete-employee/:employeeId')
   .delete(
     employeeIdVerifyValidator(),
     validate,
@@ -70,7 +73,7 @@ router
   );
 
 router
-  .route("/change-employee-status/:employeeId")
+  .route('/change-employee-status/:employeeId')
   .put(
     employeeIdVerifyValidator(),
     validate,

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
   changeCurrentPassword,
   forgotPasswordRequest,
@@ -10,7 +10,7 @@ import {
   resendEmailVerification,
   resetForgottenPassword,
   verifyEmail,
-} from "../controllers/auth.controller.js";
+} from '../controllers/auth.controller.js';
 import {
   resendEmailValidator,
   userChangeCurrentPasswordValidator,
@@ -18,36 +18,36 @@ import {
   userLoginValidator,
   userRegisterValidator,
   userResetForgottenPasswordValidator,
-} from "../validators/auth.validators.js";
+} from '../validators/auth.validators.js';
 import {
   authMiddleware,
   refreshAccessTokenMiddleware,
-} from "../middlewares/auth.middleware.js";
+} from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
-router.route("/register").post(userRegisterValidator(), registerUser);
+router.route('/register').post(userRegisterValidator(), registerUser);
 
-router.route("/verify/:token").post(verifyEmail);
-router.route("/login").post(userLoginValidator(), loginUser);
-router.route("/logout").post(authMiddleware, logoutUser);
-router.route("/profile").get(authMiddleware, getCurrentUser);
+router.route('/verify/:token').post(verifyEmail);
+router.route('/login').post(userLoginValidator(), loginUser);
+router.route('/logout').post(authMiddleware, logoutUser);
+router.route('/profile').get(authMiddleware, getCurrentUser);
 router
-  .route("/refreshAccessToken")
+  .route('/refreshAccessToken')
   .get(refreshAccessTokenMiddleware, refreshAccessToken);
 router
-  .route("/resendEmail")
+  .route('/resendEmail')
   .post(resendEmailValidator(), resendEmailVerification);
 router
-  .route("/forgotPasswordRequest")
+  .route('/forgotPasswordRequest')
   .post(userForgotPasswordValidator(), forgotPasswordRequest);
 
 router
-  .route("/resetForgottenPassword/:token")
+  .route('/resetForgottenPassword/:token')
   .post(userResetForgottenPasswordValidator(), resetForgottenPassword);
 
 router
-  .route("/changeCurrentPassword")
+  .route('/changeCurrentPassword')
   .post(
     userChangeCurrentPasswordValidator(),
     authMiddleware,

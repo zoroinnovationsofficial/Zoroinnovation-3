@@ -8,10 +8,10 @@ const authorSchema = new mongoose.Schema({
   social_links: {
     twitter: String,
     linkedin: String,
-    github: String
+    github: String,
   },
   created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now }
+  updated_at: { type: Date, default: Date.now },
 });
 
 export default mongoose.model('Author', authorSchema);

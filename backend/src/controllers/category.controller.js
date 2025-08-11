@@ -26,19 +26,19 @@ export const getCategoryArticles = async (req, res) => {
     // Ensure Article model exists
     // Uncomment if Article model is available:
     const filter = { category_id: id, status: 'published' };
-    
+
     const articles = await Article.find(filter)
       .sort({ date: -1 })
       .skip((page - 1) * limit)
       .limit(Number(limit));
-    
+
     const total = await Article.countDocuments(filter);
-    
+
     res.json({
       page: Number(page),
       limit: Number(limit),
       total,
-      articles
+      articles,
     });
 
     // Placeholder response:

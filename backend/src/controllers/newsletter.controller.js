@@ -32,7 +32,9 @@ export const unsubscribe = async (req, res) => {
 
     const subscriber = await NewsletterSubscriber.findOne({ email });
     if (!subscriber || subscriber.status !== 'active') {
-      return res.status(400).json({ error: 'Not subscribed or already unsubscribed' });
+      return res
+        .status(400)
+        .json({ error: 'Not subscribed or already unsubscribed' });
     }
 
     subscriber.status = 'unsubscribed';

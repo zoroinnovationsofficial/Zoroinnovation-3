@@ -1,15 +1,15 @@
-import  Article  from "../models/article.model.js";
-import  Category  from "../models/category.model.js";
-import {generateImageUrl} from "../utils/cloudinary.js";
+import Article from '../models/article.model.js';
+import Category from '../models/category.model.js';
+import generateImageUrl from '../utils/cloudinary.js';
 
 const handleImageUpload = async (file) => {
   if (!file) return null;
 
   try {
-    const result = await generateImageUrl(file.path); 
+    const result = await generateImageUrl(file.path);
     return result.secure_url;
   } catch (error) {
-    throw error; 
+    throw error;
   }
 };
 
@@ -22,29 +22,29 @@ export const getAllArticles = async (req, res) => {
       sort = 'most_recent',
       category,
       tag,
-      author
+      author,
     } = req.query;
 
     const parsedPage = Math.max(parseInt(page), 1);
     const parsedLimit = Math.min(parseInt(limit), 50);
 
-    const query = { 
-      status: 'published' 
+    const query = {
+      status: 'published',
     };
     if (category) query.category_id = category;
     if (tag) query.tag = tag;
     if (author) query.author = author;
 
     const sortOptions = {
-      most_recent: { 
-        createdAt: -1 
+      most_recent: {
+        createdAt: -1,
       },
-      oldest: { 
-        createdAt: 1
-       },
-      popular: { 
-        views: -1
-       }
+      oldest: {
+        createdAt: 1,
+      },
+      popular: {
+        views: -1,
+      },
     };
     const sortQuery = sortOptions[sort] || sortOptions.most_recent;
 
@@ -52,19 +52,19 @@ export const getAllArticles = async (req, res) => {
       page: parsedPage,
       limit: parsedLimit,
       sort: sortQuery,
-      populate: 'category_id'
+      populate: 'category_id',
     });
 
     res.status(200).json({
       success: true,
       data: articles,
-      message: 'Articles retrieved successfully'
+      message: 'Articles retrieved successfully',
     });
   } catch (error) {
     console.error('Error getting articles:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to retrieve articles'
+      message: 'Failed to retrieve articles',
     });
   }
 };
@@ -77,26 +77,26 @@ export const getArticleById = async (req, res) => {
     const article = await Article.findByIdAndUpdate(
       id,
       { $inc: { views: 1 } },
-      { new: true }
+      { new: true },
     ).populate('category_id');
 
     if (!article) {
       return res.status(404).json({
         success: false,
-        message: 'Article not found'
+        message: 'Article not found',
       });
     }
 
     res.status(200).json({
       success: true,
       data: article,
-      message: 'Article retrieved successfully'
+      message: 'Article retrieved successfully',
     });
   } catch (error) {
     console.error('Error getting article:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to retrieve article'
+      message: 'Failed to retrieve article',
     });
   }
 };
@@ -109,7 +109,7 @@ export const createArticle = async (req, res) => {
     if (!title || !desc || !tag || !author) {
       return res.status(400).json({
         success: false,
-        message: 'Title, description, tag, and author are required'
+        message: 'Title, description, tag, and author are required',
       });
     }
 
@@ -129,25 +129,25 @@ export const createArticle = async (req, res) => {
       date: req.body.date || new Date(),
       image: imageUrl,
       category_id,
-      status: req.body.status || 'published'
+      status: req.body.status || 'published',
     });
 
     if (category_id) {
       await Category.findByIdAndUpdate(category_id, {
-        $inc: { article_count: 1 }
+        $inc: { article_count: 1 },
       });
     }
 
     res.status(201).json({
       success: true,
       data: newArticle,
-      message: 'Article created successfully'
+      message: 'Article created successfully',
     });
   } catch (error) {
     console.error('Error creating article:', error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Failed to create article'
+      message: error.message || 'Failed to create article',
     });
   }
 };
@@ -164,26 +164,26 @@ export const updateArticle = async (req, res) => {
 
     const updatedArticle = await Article.findByIdAndUpdate(id, updates, {
       new: true,
-      runValidators: true
+      runValidators: true,
     });
 
     if (!updatedArticle) {
       return res.status(404).json({
         success: false,
-        message: 'Article not found'
+        message: 'Article not found',
       });
     }
 
     res.status(200).json({
       success: true,
       data: updatedArticle,
-      message: 'Article updated successfully'
+      message: 'Article updated successfully',
     });
   } catch (error) {
     console.error('Error updating article:', error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Failed to update article'
+      message: error.message || 'Failed to update article',
     });
   }
 };
@@ -198,25 +198,25 @@ export const deleteArticle = async (req, res) => {
     if (!article) {
       return res.status(404).json({
         success: false,
-        message: 'Article not found'
+        message: 'Article not found',
       });
     }
 
     if (article.category_id) {
       await Category.findByIdAndUpdate(article.category_id, {
-        $inc: { article_count: -1 }
+        $inc: { article_count: -1 },
       });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Article deleted successfully'
+      message: 'Article deleted successfully',
     });
   } catch (error) {
     console.error('Error deleting article:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to delete article'
+      message: 'Failed to delete article',
     });
   }
 };

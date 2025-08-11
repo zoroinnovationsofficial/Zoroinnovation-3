@@ -1,4 +1,4 @@
-import TeamMember from "../models/teamMembers.model.js";
+import TeamMember from '../models/teamMembers.model.js';
 
 export const getAllTeamMembers = async () =>
   TeamMember.find().sort({ createdAt: -1 });

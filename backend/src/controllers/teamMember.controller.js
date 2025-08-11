@@ -1,4 +1,4 @@
-import * as teamMemberService from "../services/teamMembers.service.js";
+import * as teamMemberService from '../services/teamMembers.service.js';
 
 export const getAllTeamMembers = async (req, res) => {
   const members = await teamMemberService.getAllTeamMembers();
@@ -7,7 +7,7 @@ export const getAllTeamMembers = async (req, res) => {
 
 export const getTeamMemberById = async (req, res) => {
   const member = await teamMemberService.getTeamMemberById(req.params.id);
-  if (!member) return res.status(404).json({ message: "Not found" });
+  if (!member) return res.status(404).json({ message: 'Not found' });
   res.json(member);
 };
 
@@ -19,13 +19,13 @@ export const createTeamMember = async (req, res) => {
 export const updateTeamMember = async (req, res) => {
   const member = await teamMemberService.updateTeamMember(
     req.params.id,
-    req.body
+    req.body,
   );
-  if (!member) return res.status(404).json({ message: "Not found" });
+  if (!member) return res.status(404).json({ message: 'Not found' });
   res.json(member);
 };
 
 export const deleteTeamMember = async (req, res) => {
   await teamMemberService.deleteTeamMember(req.params.id);
-  res.json({ message: "Deleted" });
+  res.json({ message: 'Deleted' });
 };
