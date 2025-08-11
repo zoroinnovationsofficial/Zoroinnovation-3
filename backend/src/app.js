@@ -1,19 +1,19 @@
 import adminRoutes from '../src/routes/admin.routes.js';
 import publicRoutes from '../src/routes/public.routes.js';
 
-import express, { urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import express, { urlencoded } from 'express';
 
-import authRoutes from './routes/auth.routes.js';
 import articleRouter from './routes/article.routes.js';
-import postRouter from './routes/post.routes.js';
-import categoryRoutes from './routes/category.routes.js';
+import authRoutes from './routes/auth.routes.js';
 import authorRoutes from './routes/author.routes.js';
+import categoryRoutes from './routes/category.routes.js';
 import newsletterRoutes from './routes/newsletter.routes.js';
+import postRouter from './routes/post.routes.js';
 
-import teamMemberRoutes from './routes/teamMemberRoutes.js';
 import adminTeamMemberRoutes from './routes/adminTeamMemberRoutes.js';
+import teamMemberRoutes from './routes/teamMemberRoutes.js';
 
 import employeeRoutes from './routes/employeeVerify.routes.js';
 
