@@ -1,4 +1,4 @@
-import { validationResult } from "express-validator";
+import { validationResult } from 'express-validator';
 export const validate = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -14,8 +14,8 @@ export const validate = (req, res, next) => {
   );
 
   return res.status(422).json({
-    status: "error",
-    message: "Received data is not valid",
+    status: 'error',
+    message: 'Received data is not valid',
     errors: extractedError,
   });
 };

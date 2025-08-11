@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 const employeeSchema = new Schema(
   {
@@ -30,8 +30,8 @@ const employeeSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["Active", "Inactive", "Terminated"],
-      default: "Active",
+      enum: ['Active', 'Inactive', 'Terminated'],
+      default: 'Active',
       required: true,
     },
     certificateIssueDate: {
@@ -42,4 +42,4 @@ const employeeSchema = new Schema(
   { timestamps: true },
 );
 
-export const Employee = mongoose.model("Employee", employeeSchema);
+export const Employee = mongoose.model('Employee', employeeSchema);
