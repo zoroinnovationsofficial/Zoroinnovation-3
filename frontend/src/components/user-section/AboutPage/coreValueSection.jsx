@@ -1,44 +1,50 @@
 import React from "react";
+import IntegrityIcon from "../../../assets/about/Overlay-2.svg";
+import ExcellenceIcon from "../../../assets/about/Overlay-3.svg";
+import ClientCentricIcon from "../../../assets/about/Overlay-4.svg";
+import InnovationIcon from "../../../assets/about/Overlay-5.svg";
+import CollaborationIcon from "../../../assets/about/Overlay-6.svg";
+import SustainabilityIcon from "../../../assets/about/Overlay-7.svg";
 
 const CoreValueSection = () => {
   const coreValues = [
     {
-      svg: "/Overlay-2.svg",
+      svg: IntegrityIcon,
       iconBg: "bg-gradient-to-br from-purple-500 to-pink-500",
       title: "Integrity",
       description:
         "We operate with complete transparency and honesty in all our client relationships and business practices.",
     },
     {
-      svg: "/Overlay-3.svg",
+      svg: ExcellenceIcon,
       iconBg: "bg-gradient-to-br from-blue-500 to-indigo-600",
       title: "Excellence",
       description:
         "We continuously strive for the highest standards in service delivery and professional expertise.",
     },
     {
-      svg: "/Overlay-4.svg",
+      svg: ClientCentricIcon,
       iconBg: "bg-gradient-to-br from-green-500 to-emerald-600",
       title: "Client-Centric",
       description:
         "Every decision we make is guided by what's best for our clients' financial well-being and success.",
     },
     {
-      svg: "/Overlay-5.svg",
+      svg: InnovationIcon,
       iconBg: "bg-gradient-to-br from-blue-500 to-purple-600",
       title: "Innovation",
       description:
         "We embrace new technologies and methodologies to provide cutting-edge financial solutions.",
     },
     {
-      svg: "/Overlay-6.svg",
+      svg: CollaborationIcon,
       iconBg: "bg-gradient-to-br from-orange-500 to-red-500",
       title: "Collaboration",
       description:
         "We work together as a unified team to deliver comprehensive solutions for our clients.",
     },
     {
-      svg: "/Overlay-7.svg",
+      svg: SustainabilityIcon,
       iconBg: "bg-gradient-to-br from-blue-600 to-purple-600",
       title: "Sustainability",
       description:
