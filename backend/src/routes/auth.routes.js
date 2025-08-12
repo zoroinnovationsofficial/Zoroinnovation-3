@@ -23,13 +23,14 @@ import {
   authMiddleware,
   refreshAccessTokenMiddleware,
 } from '../middlewares/auth.middleware.js';
+import { validate } from '../middlewares/validator.middleware.js';
 
 const router = Router();
 
-router.route('/register').post(userRegisterValidator(), registerUser);
+router.route('/register').post(userRegisterValidator(), validate, registerUser);
 
 router.route('/verify/:token').post(verifyEmail);
-router.route('/login').post(userLoginValidator(), loginUser);
+router.route('/login').post(userLoginValidator(), validate, loginUser);
 router.route('/logout').post(authMiddleware, logoutUser);
 router.route('/profile').get(authMiddleware, getCurrentUser);
 router
@@ -37,19 +38,24 @@ router
   .get(refreshAccessTokenMiddleware, refreshAccessToken);
 router
   .route('/resendEmail')
-  .post(resendEmailValidator(), resendEmailVerification);
+  .post(resendEmailValidator(), validate, resendEmailVerification);
 router
   .route('/forgotPasswordRequest')
-  .post(userForgotPasswordValidator(), forgotPasswordRequest);
+  .post(userForgotPasswordValidator(), validate, forgotPasswordRequest);
 
 router
   .route('/resetForgottenPassword/:token')
-  .post(userResetForgottenPasswordValidator(), resetForgottenPassword);
+  .post(
+    userResetForgottenPasswordValidator(),
+    validate,
+    resetForgottenPassword,
+  );
 
 router
   .route('/changeCurrentPassword')
   .post(
     userChangeCurrentPasswordValidator(),
+    validate,
     authMiddleware,
     changeCurrentPassword,
   );
