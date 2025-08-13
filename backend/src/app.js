@@ -1,5 +1,5 @@
-import adminRoutes from '../src/routes/admin.routes.js';
-import publicRoutes from '../src/routes/public.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+import publicRoutes from './routes/public.routes.js';
 
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -26,8 +26,6 @@ app.use(cookieParser());
 
 app.use('/api/v1', publicRoutes);
 app.use('/api/v1', adminRoutes);
-app.use('/api/v1/auth', authRoutes);
-
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/articles', articleRouter);
 app.use('/api/v1/posts', postRouter);

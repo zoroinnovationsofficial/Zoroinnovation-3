@@ -10,7 +10,7 @@ const EmployeeIDSection = React.memo(({ employeeId }) => (
         <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
           Employee ID
         </p>
-        <p className="text-lg font-bold text-blue-900">{employeeId}</p>
+        <p className="text-lg font-bold text-blue-900">{employeeId || "-"}</p>
       </div>
     </div>
   </div>
