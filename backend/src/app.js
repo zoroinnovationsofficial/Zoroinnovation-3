@@ -11,6 +11,7 @@ import authorRoutes from './routes/author.routes.js';
 import categoryRoutes from './routes/category.routes.js';
 import newsletterRoutes from './routes/newsletter.routes.js';
 import postRouter from './routes/post.routes.js';
+import projectRoutes from './routes/project.routes.js';
 
 import adminTeamMemberRoutes from './routes/adminTeamMemberRoutes.js';
 import teamMemberRoutes from './routes/teamMemberRoutes.js';
@@ -32,6 +33,7 @@ app.use('/api/v1/posts', postRouter);
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/authors', authorRoutes);
 app.use('/api/v1/newsletter', newsletterRoutes);
+app.use('/api/v1/projects', projectRoutes);
 
 app.use('/api/team-members', teamMemberRoutes);
 app.use('/api/admin/team-members', adminTeamMemberRoutes);
