@@ -10,6 +10,7 @@ import Blog from "./pages/user-section/Blog.jsx";
 import Career from "./pages/user-section/Career.jsx";
 import ContactPage from "./pages/user-section/ContactPage.jsx";
 import VerifyIDPage from "./pages/user-section/VerifyIDPage.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import "./App.css";
 
 function App() {
@@ -22,7 +23,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Service />} />
-            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects" element={
+              <ErrorBoundary>
+                <Projects />
+              </ErrorBoundary>
+            } />
             <Route path="/blog" element={<Blog />} />
             <Route path="/careers" element={<Career />} />
             <Route path="/contact" element={<ContactPage />} />

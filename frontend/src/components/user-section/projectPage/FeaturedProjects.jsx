@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 
 function FeaturedProjects({ projectTabs, activeTab, setActiveTab, filteredProjects }) {
+  const [imageLoadStates, setImageLoadStates] = useState({});
+
+  const handleImageLoad = (projectId) => {
+    setImageLoadStates(prev => ({ ...prev, [projectId]: true }));
+  };
+
+  const handleImageError = (projectId) => {
+    setImageLoadStates(prev => ({ ...prev, [projectId]: 'error' }));
+  };
+
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -30,9 +40,23 @@ function FeaturedProjects({ projectTabs, activeTab, setActiveTab, filteredProjec
         {/* Projects Grid */}
         <div className="grid md:grid-cols-3 gap-8">
           {filteredProjects.map((project, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <div key={project.id || index} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="h-48 w-full relative">
-                <img src={project.image} alt={project.title} className="h-48 w-full object-cover" />
+                {!imageLoadStates[project.id] && (
+                  <div className="h-48 w-full bg-gray-200 flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                  </div>
+                )}
+                <img 
+                  src={project.image} 
+                  alt={project.title} 
+                  className={`h-48 w-full object-cover ${!imageLoadStates[project.id] ? 'hidden' : ''}`}
+                  onLoad={() => handleImageLoad(project.id)}
+                  onError={(e) => {
+                    handleImageError(project.id);
+                    e.target.src = '/ProjectImages/analytics.png';
+                  }}
+                />
                 <span className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm">
                   {project.category}
                 </span>
@@ -62,12 +86,17 @@ FeaturedProjects.propTypes = {
   setActiveTab: PropTypes.func.isRequired,
   filteredProjects: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string,
       category: PropTypes.string,
       title: PropTypes.string,
       description: PropTypes.string,
       image: PropTypes.string,
+      client: PropTypes.string,
+      progress: PropTypes.number,
+      completed: PropTypes.bool,
+      dueDate: PropTypes.string,
     })
   ).isRequired,
 };
 
-export default FeaturedProjects;
+export default memo(FeaturedProjects);
