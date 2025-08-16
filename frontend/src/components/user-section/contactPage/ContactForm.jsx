@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import expertIcon from "../../../assets/Overlay-3.svg";
 import quickIcon from "../../../assets/Overlay-4.svg";
 import secureIcon from "../../../assets/Overlay-5.svg";
+import { sendContactMessage } from "../../../api/contactApi.js";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,9 @@ const ContactForm = () => {
     message: "",
   });
 
+  const [status, setStatus] = useState({ type: "", message: "" });
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -18,15 +22,33 @@ const ContactForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setLoading(true);
+    setStatus({ type: "", message: "" });
+
+    try {
+      const result = await sendContactMessage(formData);
+      console.log("Message submitted successfully:", result);
+      setStatus({ type: "success", message: "Message sent successfully!" });
+      setFormData({ name: "", city: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Error submitting message:", error);
+      setStatus({
+        type: "error",
+        message: error.message || "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section className="contact-form-section">
       <div className="container">
         <div className="contact-content">
+          
+          {/* Left Section */}
           <div className="contact-left">
             <div className="section-tag">[ Let's Connect ]</div>
             <h2>Ready to Transform Your Digital Future?</h2>
@@ -39,11 +61,7 @@ const ContactForm = () => {
             <div className="features">
               <div className="feature">
                 <div className="feature-icon expert-guidance">
-                  <img
-                    src={expertIcon}
-                    alt="Expert Guidance"
-                    className="feature-img"
-                  />
+                  <img src={expertIcon} alt="Expert Guidance" className="feature-img" />
                 </div>
                 <div className="feature-content">
                   <h4>Expert Guidance</h4>
@@ -53,11 +71,7 @@ const ContactForm = () => {
 
               <div className="feature">
                 <div className="feature-icon quick-response">
-                  <img
-                    src={quickIcon}
-                    alt="Quick Response"
-                    className="feature-img"
-                  />
+                  <img src={quickIcon} alt="Quick Response" className="feature-img" />
                 </div>
                 <div className="feature-content">
                   <h4>Quick Response</h4>
@@ -67,11 +81,7 @@ const ContactForm = () => {
 
               <div className="feature">
                 <div className="feature-icon secure">
-                  <img
-                    src={secureIcon}
-                    alt="Secure & Confidential"
-                    className="feature-img"
-                  />
+                  <img src={secureIcon} alt="Secure & Confidential" className="feature-img" />
                 </div>
                 <div className="feature-content">
                   <h4>Secure & Confidential</h4>
@@ -81,6 +91,7 @@ const ContactForm = () => {
             </div>
           </div>
 
+          {/* Right Section - Form */}
           <div className="contact-right">
             <form onSubmit={handleSubmit} className="contact-form">
               <div className="form-row">
@@ -128,7 +139,7 @@ const ContactForm = () => {
                 <textarea
                   id="message"
                   name="message"
-                  placeholder="Tell us about your financial goals or concerns..."
+                  placeholder="Tell us about your goals or concerns..."
                   value={formData.message}
                   onChange={handleChange}
                   rows="4"
@@ -136,18 +147,33 @@ const ContactForm = () => {
                 ></textarea>
               </div>
 
-              <button type="submit" className="submit-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M22 2L11 13" stroke="white" strokeWidth="2" />
-                  <path
-                    d="M22 2L15 22L11 13L2 9L22 2Z"
-                    stroke="white"
-                    strokeWidth="2"
-                    fill="none"
-                  />
-                </svg>
-                Send Message
+              <button type="submit" className="submit-btn" disabled={loading}>
+                {loading ? "Sending..." : (
+                  <>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M22 2L11 13" stroke="white" strokeWidth="2" />
+                      <path
+                        d="M22 2L15 22L11 13L2 9L22 2Z"
+                        stroke="white"
+                        strokeWidth="2"
+                        fill="none"
+                      />
+                    </svg>
+                    Send Message
+                  </>
+                )}
               </button>
+
+              {status.message && (
+                <p
+                  style={{
+                    color: status.type === "success" ? "green" : "red",
+                    marginTop: "10px",
+                  }}
+                >
+                  {status.message}
+                </p>
+              )}
 
               <p className="privacy-text">
                 By submitting this form, you agree to our{" "}
@@ -155,6 +181,7 @@ const ContactForm = () => {
               </p>
             </form>
           </div>
+
         </div>
       </div>
     </section>
