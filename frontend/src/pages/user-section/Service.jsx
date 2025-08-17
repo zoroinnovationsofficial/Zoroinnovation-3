@@ -97,7 +97,7 @@ function ServicePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 via-blue-600 to-orange-500 text-white py-20 px-4 text-center">
+      <section className="bg-gradient-to-br from-blue-900 via-blue-600 to-orange-500 text-white py-20 px-4 text-center">
         <h1 className="text-5xl md:text-6xl font-bold mb-5">Our Services & Solutions</h1>
         <p className="max-w-2xl mx-auto mb-10 font-light text-xl">Comprehensive technology services designed to transform your business and drive innovation across all aspects of your digital journey.</p>
         <div className="flex justify-center space-x-4">
