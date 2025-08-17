@@ -25,7 +25,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <img src="/zoro.png" alt="Zoro Innovations Logo" className="w-20 h-8 object-contain" />
+          <img src="/black_logo2.png" alt="Zoro Innovations Logo" className="w-32 h-auto object-contain" />
         </div>
 
         {/* Desktop Nav */}
