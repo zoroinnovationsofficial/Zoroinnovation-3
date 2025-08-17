@@ -1,7 +1,7 @@
 // import { getServices } from '../services/api';
 export default function PricingPackages() {
   return (
-    <section className="px-8 py-20 mx-auto mt-20">
+    <section id="pricing-packages" className="px-8 py-20 mx-auto mt-20">
       <h2 className="text-[36px] font-bold text-center mb-2">
         Service Packages & Pricing
       </h2>
