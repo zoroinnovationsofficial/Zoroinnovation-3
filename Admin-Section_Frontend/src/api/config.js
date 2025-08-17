@@ -10,6 +10,12 @@ export const API_CONFIG = {
       GET_CATEGORIES: '/api/v1/projects/getAllCategories',
       GET_DASHBOARD_STATS: '/api/v1/projects/getDashboardStats',
     },
+    MESSAGES: {
+      GET_ALL: '/api/v1/admin/messages',
+      GET_BY_ID: '/api/v1/admin/messages',
+      UPDATE_STATUS: '/api/v1/admin/messages',
+      DELETE: '/api/v1/admin/messages',
+    },
   },
 };
 
