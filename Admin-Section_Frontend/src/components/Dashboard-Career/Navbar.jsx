@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import logo from '../../assets/Dashboard-Career/zoro-logo.png'
+import logo from '../../assets/Dashboard-Career/ZORO_logo.png'
 import profilePic from '../../assets/Dashboard-Career/profilePic.png'
 
 const Navbar = () => {
