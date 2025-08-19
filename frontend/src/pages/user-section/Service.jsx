@@ -11,7 +11,6 @@ import CTASection from "../../components/user-section/servicePage/CTA.jsx";
 import { useState } from "react";
 import ServiceTile from "../../components/user-section/servicePage/ServiceTile";
 import SideMenu from "../../components/user-section/servicePage/SideMenu";
-import Footer from "../../components/user-section/Footer"; // ✅ add Footer import if missing
 
 const servicesData = [
   {
@@ -76,13 +75,15 @@ function ServicePage() {
   return (
     <div className="bg-gray-50 min-h-screen font-sans">
       {/* Header/Navbar */}
-     
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-900 via-blue-600 to-orange-500 text-white py-20 px-4 text-center">
-        <h1 className="text-5xl md:text-6xl font-bold mb-5">Our Services & Solutions</h1>
+        <h1 className="text-5xl md:text-6xl font-bold mb-5">
+          Our Services & Solutions
+        </h1>
         <p className="max-w-2xl mx-auto mb-10 font-light text-xl">
-          Comprehensive technology services designed to transform your business and drive innovation across all aspects of your digital journey.
+          Comprehensive technology services designed to transform your business
+          and drive innovation across all aspects of your digital journey.
         </p>
         <div className="flex justify-center space-x-4">
           <button className="bg-white hover:bg-gray-100 text-orange-500 px-6 py-2 rounded font-semibold">
@@ -123,7 +124,6 @@ function ServicePage() {
       <ServiceQuoteForm />
       <ResourcesDocs />
       <CTASection />
-      <Footer />
 
       {/* Side Menu */}
       <SideMenu

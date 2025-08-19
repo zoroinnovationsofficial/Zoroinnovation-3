@@ -51,28 +51,11 @@ const locations = [
   {
     image:
       "https://images.pexels.com/photos/378570/pexels-photo-378570.jpeg?auto=compress&cs=tinysrgb&w=600",
-    title: "New York Headquarters",
-    address: "123 Financial District, Suite 500",
-    city: "New York, NY 10004",
-    phone: "(212) 555-1234",
-    hours: "Mon-Fri: 8:00 AM - 6:00 PM",
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/2539462/pexels-photo-2539462.jpeg?auto=compress&cs=tinysrgb&w=600",
-    title: "Chicago Office",
-    address: "456 Michigan Avenue, Floor 12",
-    city: "Chicago, IL 60611",
-    phone: "(312) 555-5678",
-    hours: "Mon-Fri: 8:00 AM - 6:00 PM",
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=600",
-    title: "Los Angeles Office",
-    address: "789 Wilshire Boulevard, Suite 300",
-    city: "Los Angeles, CA 90017",
-    phone: "(213) 555-9012",
+    title: "Karnataka Headquarters",
+    address: "117 Reddys Colony Street , Thondedhavi , Gowribidanuru",
+    city: "Chikkaballapur, Karnataka India 561213",
+    phone: "(+91) 9481414295",
+    email: "zoroinnovations@yahoo.com",
     hours: "Mon-Fri: 8:00 AM - 6:00 PM",
   },
 ];
@@ -246,7 +229,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 justify-items-center">
             {locations.map((location, index) => (
               <LocationCard
                 key={index}
@@ -255,6 +238,7 @@ const About = () => {
                 address={location.address}
                 city={location.city}
                 phone={location.phone}
+                email={location.email}
                 hours={location.hours}
               />
             ))}
