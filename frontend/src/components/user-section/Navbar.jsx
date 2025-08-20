@@ -32,9 +32,9 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0 flex items-center">
             <img
-              src="/ZORO_logo.png"
+              src="/Zorologo.png"
               alt="Zoro Innovations"
-               className="w-16 h-auto bg-transparent" 
+               className="w-28 h-auto bg-transparent" 
             />
           </div>
 
