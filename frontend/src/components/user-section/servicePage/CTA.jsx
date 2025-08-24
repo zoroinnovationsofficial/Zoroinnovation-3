@@ -10,11 +10,11 @@ export default function CTASection() {
         </p>
         <div className="flex justify-center flex-wrap gap-4">
           <button className="border border-white text-white px-6 py-3 rounded-md hover:bg-white hover:text-orange-600 transition duration-300 font-normal text-lg">
-            Schedule Consultation
+            <a href="/contact">Schedule Consultation </a>
           </button>
-          <button className="border border-white text-white px-6 py-3 rounded-md hover:bg-white hover:text-orange-600 transition duration-300 text-lg">
+         <a href="#pricing-packages" className="border border-white text-white px-6 py-3 rounded-md hover:bg-white hover:text-orange-600 transition duration-300 text-lg">
             Get Quote
-          </button>
+          </a>
         </div>
       </div>
     </section>

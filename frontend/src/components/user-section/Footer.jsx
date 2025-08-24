@@ -60,11 +60,11 @@ const Footer = React.memo(() => {
 
   const contactInfo = useMemo(
     () => ({
-      email: "contact@company.com",
-      phone: "+1 (555) 123-4567",
+      email: "zoroinnovations@yahoo.com",
+      phone: "+919481414295",
       address: {
-        line1: "123 Innovation Drive",
-        line2: "Tech City, TC 12345",
+        line1: "#117 Reddys Colony Street",
+        line2: "Thondebhavi, Gowribidanuru Taluk, Chikkaballapur District, KA 561213",
       },
     }),
     []
@@ -80,9 +80,9 @@ const Footer = React.memo(() => {
           <div className="space-y-6">
             <div className="flex items-center">
               <img
-                src="/zoroLogo.png"
+                src="/zoro_logo_white.png"
                 alt="Zoro Innovations Logo"
-                className="h-10 w-auto"
+                className="h-20 w-auto"
                 loading="lazy"
               />
             </div>

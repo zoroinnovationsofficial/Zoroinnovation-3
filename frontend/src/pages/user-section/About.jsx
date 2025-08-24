@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Award,
   MapPin,
@@ -17,52 +17,8 @@ import CoreValueSection from "../../components/user-section/AboutPage/coreValueS
 import LeadershipCard from "../../components/user-section/AboutPage/LeadershipCard.jsx";
 import AwardCard from "../../components/user-section/AboutPage/AwardCard.jsx";
 import LocationCard from "../../components/user-section/AboutPage/LocationCard.jsx";
+import { getAllTeamMembers } from "../../api/teamMemberApi.js";
 import TimelineItem from "../../components/user-section/AboutPage/TimelineItem.jsx";
-
-const leadershipTeam = [
-  {
-    image:
-      "https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=400",
-    name: "Sarah Mitchell",
-    title: "Chief Executive Officer & Co-Founder",
-    bio: "Sarah brings over 25 years of experience in financial planning and wealth management. She holds a CPA and CFP certification and is passionate about helping families achieve financial security.",
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=400",
-    name: "David Chen",
-    title: "Chief Investment Officer & Co-Founder",
-    bio: "David specializes in investment strategy and portfolio management. With his CFA in Finance and CFA designation, he leads our investment research and asset allocation strategies.",
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=400",
-    name: "Michelle Johnson",
-    title: "Chief Operating Officer",
-    bio: "Michelle oversees our daily operations and client service excellence. Her background in operations management and client relations ensures seamless service delivery.",
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=400",
-    name: "Roberto Martinez",
-    title: "Senior Financial Advisor",
-    bio: "Roberto specializes in retirement planning and estate planning. His bilingual capabilities and cultural sensitivity help serve our diverse client base effectively.",
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=400",
-    name: "Emily Thompson",
-    title: "Insurance Specialist",
-    bio: "Emily leads our insurance division with expertise in life, disability, and business insurance. She helps clients protect their assets and secure their family's future.",
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=400",
-    name: "James Wilson",
-    title: "Tax Strategy Director",
-    bio: "James brings deep expertise in tax planning and compliance. His strategic approach helps clients minimize tax liability while maximizing their financial growth potential.",
-  },
-];
 
 const awards = [
   {
@@ -95,28 +51,11 @@ const locations = [
   {
     image:
       "https://images.pexels.com/photos/378570/pexels-photo-378570.jpeg?auto=compress&cs=tinysrgb&w=600",
-    title: "New York Headquarters",
-    address: "123 Financial District, Suite 500",
-    city: "New York, NY 10004",
-    phone: "(212) 555-1234",
-    hours: "Mon-Fri: 8:00 AM - 6:00 PM",
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/2539462/pexels-photo-2539462.jpeg?auto=compress&cs=tinysrgb&w=600",
-    title: "Chicago Office",
-    address: "456 Michigan Avenue, Floor 12",
-    city: "Chicago, IL 60611",
-    phone: "(312) 555-5678",
-    hours: "Mon-Fri: 8:00 AM - 6:00 PM",
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=600",
-    title: "Los Angeles Office",
-    address: "789 Wilshire Boulevard, Suite 300",
-    city: "Los Angeles, CA 90017",
-    phone: "(213) 555-9012",
+    title: "Karnataka Headquarters",
+    address: "117 Reddys Colony Street , Thondedhavi , Gowribidanuru",
+    city: "Chikkaballapur, Karnataka India 561213",
+    phone: "(+91) 9481414295",
+    email: "zoroinnovations@yahoo.com",
     hours: "Mon-Fri: 8:00 AM - 6:00 PM",
   },
 ];
@@ -175,6 +114,37 @@ const timelineEvents = [
 ];
 
 const About = () => {
+  const [leadershipTeam, setLeadershipTeam] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      try {
+        const members = await getAllTeamMembers();
+        if (Array.isArray(members)) {
+          setLeadershipTeam(members);
+        } else {
+          if (members && Array.isArray(members.data)) {
+            setLeadershipTeam(members.data);
+          } else {
+            console.error(
+              "API did not return an array of team members:",
+              members
+            );
+            setLeadershipTeam([]);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch team members:", error);
+        setLeadershipTeam([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeamMembers();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       {/* Aman Singh Nishad task */}
@@ -196,17 +166,21 @@ const About = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {leadershipTeam.map((member, index) => (
-            <LeadershipCard
-              key={index}
-              image={member.image}
-              name={member.name}
-              title={member.title}
-              bio={member.bio}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center">Loading...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {leadershipTeam.map((member, index) => (
+              <LeadershipCard
+                key={index}
+                image={member.image}
+                name={member.name}
+                title={member.title}
+                bio={member.bio}
+              />
+            ))}
+          </div>
+        )}
 
         <div className="text-center">
           <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">
@@ -255,7 +229,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 justify-items-center">
             {locations.map((location, index) => (
               <LocationCard
                 key={index}
@@ -264,6 +238,7 @@ const About = () => {
                 address={location.address}
                 city={location.city}
                 phone={location.phone}
+                email={location.email}
                 hours={location.hours}
               />
             ))}
