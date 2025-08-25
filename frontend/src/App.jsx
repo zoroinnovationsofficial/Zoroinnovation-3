@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Navbar from "./components/user-section/Navbar.jsx";
 import Footer from "./components/user-section/Footer.jsx";
 import Home from "./pages/user-section/Home.jsx";
@@ -21,13 +26,14 @@ import AdminEmployeeVer from "./pages/admin-section/EmployeeVer.jsx";
 import AdminLocation from "./pages/admin-section/Location.jsx";
 import AdminProjects from "./pages/admin-section/Projects.jsx";
 import Admin from "./pages/admin-section/Contacts.jsx";
+import ProtectedRoute from "./components/admin-section/ProtectedRoute.jsx";
 
-import AdminLandingPage from './pages/admin-section/LandingPage.jsx';
+import AdminLandingPage from "./pages/admin-section/LandingPage.jsx";
 import "./App.css";
 
 function AppContent() {
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
     <div className="App">
@@ -37,27 +43,32 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Service />} />
-          <Route path="/projects" element={
-            <ErrorBoundary>
-              <Projects />
-            </ErrorBoundary>
-          } />
+          <Route
+            path="/projects"
+            element={
+              <ErrorBoundary>
+                <Projects />
+              </ErrorBoundary>
+            }
+          />
           <Route path="/blog" element={<Blog />} />
           <Route path="/careers" element={<Career />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/verify" element={<VerifyIDPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/landing" element={<AdminLandingPage />} />
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="career" element={<AdminCareer />} />
-            <Route path="team" element={<AdminTeam />} />
-            <Route path="blog" element={<AdminBlog />} />
-            <Route path="verify" element={<AdminEmployeeVer />} />
-            <Route path="location" element={<AdminLocation />} />
-            <Route path="projects" element={<AdminProjects />} />
-            <Route path="contacts" element={<Admin/>} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="career" element={<AdminCareer />} />
+              <Route path="team" element={<AdminTeam />} />
+              <Route path="blog" element={<AdminBlog />} />
+              <Route path="verify" element={<AdminEmployeeVer />} />
+              <Route path="location" element={<AdminLocation />} />
+              <Route path="projects" element={<AdminProjects />} />
+              <Route path="contacts" element={<Admin />} />
+            </Route>
           </Route>
         </Routes>
       </main>
