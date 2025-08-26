@@ -1,7 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  // helper function for navigation + scroll
+  const handleNavigation = (path) => {
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
+  };
+
   return (
     <section className="bg-gradient-to-br from-blue-950 via-blue-800 to-orange-500 text-white py-20 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
@@ -18,19 +26,19 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            <Link
-              to="/careers"
+            <button
+              onClick={() => handleNavigation("/careers")}
               className="bg-orange-500 hover:bg-orange-600 focus:bg-orange-600 text-white font-bold py-3 px-6 rounded transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 text-center"
             >
               Get Started
-            </Link>
+            </button>
 
-            <Link
-              to="/contact"
+            <button
+              onClick={() => handleNavigation("/contact")}
               className="border border-white text-white hover:bg-white hover:text-blue-700 py-3 px-6 font-bold rounded transition-transform duration-300 ease-in-out hover:scale-105 hover:-translate-y-1 text-center"
             >
               Learn More
-            </Link>
+            </button>
           </div>
         </div>
 
