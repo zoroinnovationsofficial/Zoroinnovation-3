@@ -28,6 +28,8 @@ import AdminProjects from "./pages/admin-section/Projects.jsx";
 import Admin from "./pages/admin-section/Contacts.jsx";
 import ProtectedRoute from "./components/admin-section/ProtectedRoute.jsx";
 import AdminSignup from "./pages/admin-section/Signup.jsx";
+import PrivacyPolicy from "./components/user-section/PrivacyPolicy/Page.jsx";
+import TermsPage from "./components/user-section/TermsConditions/Page.jsx";
 
 import AdminLandingPage from "./pages/admin-section/LandingPage.jsx";
 import "./App.css";
@@ -44,6 +46,8 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Service />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
+          <Route path="/termsPage" element={<TermsPage/>}/>
           <Route
             path="/projects"
             element={
