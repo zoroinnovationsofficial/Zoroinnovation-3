@@ -33,7 +33,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <img
-              src="/Zorologo.png"
+              src="/zoroLogo.png"
               alt="Zoro Innovations"
               className="w-28 h-auto bg-transparent"
             />
