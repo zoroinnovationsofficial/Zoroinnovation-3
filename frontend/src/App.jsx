@@ -59,6 +59,10 @@ function AppContent() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/signup" element={<AdminSignup />} />
           <Route path="/admin/landing" element={<AdminLandingPage />} />
+
+          {/* for checking that dashboard is working just comment out the
+          Protected route and access through the URL */}
+
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
