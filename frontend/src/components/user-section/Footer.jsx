@@ -72,6 +72,9 @@ const Footer = React.memo(() => {
   );
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
+  const handleScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <footer className="bg-gray-900 text-white py-16 px-4" role="contentinfo">
@@ -157,12 +160,14 @@ const Footer = React.memo(() => {
             <Link
                 to="/privacy-policy"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
+                 onClick={handleScrollTop}
               >
                 Privacy Policy
               </Link>
             <Link
                 to="/termsPage"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
+                 onClick={handleScrollTop}
               >
                 Terms of Service
               </Link>
