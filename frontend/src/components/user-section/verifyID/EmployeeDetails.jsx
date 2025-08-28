@@ -17,9 +17,10 @@ import {
 const formatDate = (d) => (d ? new Date(d).toLocaleDateString() : "-");
 
 const EmployeeDetails = ({ employee, isVerified }) => {
-  if (!employee) return null;
-
+  // ✅ Hooks must always be called, even if employee is null
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  if (!employee) return null;
 
   return (
     <div className={`employee-card ${isVerified ? "verified" : "unverified"}`}>

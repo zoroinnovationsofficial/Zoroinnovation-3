@@ -87,7 +87,7 @@ function ServicePage() {
         </p>
         <div className="flex justify-center space-x-4">
           <button className="bg-white hover:bg-gray-100 text-orange-500 px-6 py-2 rounded font-semibold">
-            <a href="/career">Get Started</a>
+            <a href="/careers">Get Started</a>
           </button>
           <button className="hover:bg-blue-600 text-white px-6 py-2 rounded font-semibold border border-white">
             <a href="/contact">Contact Us</a>

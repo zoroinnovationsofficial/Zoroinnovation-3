@@ -290,22 +290,41 @@ const About = () => {
       </section>
 
       {/* Section 5: Call to Action */}
-      <section className="py-20 px-4 bg-orange-500">
+      <section className="py-20 px-4 bg-gradient-to-r from-orange-500 to-red-500 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
+          <h2 className="text-4xl font-bold mb-6">
             Ready to Start Your Project?
           </h2>
-          <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
+          <p className="text-xl mb-8 max-w-2xl mx-auto text-white/90">
             Let's discuss your requirements and create a solution that drives
             your business forward.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-orange-500 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+            {/* Schedule Consultation */}
+            <a
+              href="/contact"
+              className="border border-white text-white px-6 py-3 rounded-md hover:bg-white hover:text-orange-600 transition duration-300 font-normal text-lg"
+            >
               Schedule Consultation
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-orange-500 transition-colors">
+            </a>
+
+            {/* Get Quote (with scroll fix) */}
+            <a
+              href="/services#pricing-packages"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = "/services#pricing-packages";
+                setTimeout(() => {
+                  const section = document.getElementById("pricing-packages");
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }, 400);
+              }}
+              className="border border-white text-white px-6 py-3 rounded-md hover:bg-white hover:text-orange-600 transition duration-300 text-lg"
+            >
               Get Quote
-            </button>
+            </a>
           </div>
         </div>
       </section>
