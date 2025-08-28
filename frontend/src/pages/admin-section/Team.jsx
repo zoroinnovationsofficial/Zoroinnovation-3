@@ -1,7 +1,7 @@
 import React from 'react';
 import TeamMembers from '../../components/admin-section/TeamPage/TeamMembers.jsx';
 import EmployeeTable from '../../components/admin-section/TeamPage/EmployeeTable.jsx';
-import AddTeamMemberForm from '../../components/admin-section/TeamPage/AddTeamMemberForm.jsx';
+
 
 const Team = () => {
   return (
@@ -13,7 +13,7 @@ const Team = () => {
           <TeamMembers />
           <div className="bg-white rounded-xl p-8 shadow-lg mb-16">
             <EmployeeTable />
-            <AddTeamMemberForm />
+           
           </div>
         </div>
       </div>
