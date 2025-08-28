@@ -27,6 +27,7 @@ import AdminLocation from "./pages/admin-section/Location.jsx";
 import AdminProjects from "./pages/admin-section/Projects.jsx";
 import Admin from "./pages/admin-section/Contacts.jsx";
 import ProtectedRoute from "./components/admin-section/ProtectedRoute.jsx";
+import AdminSignup from "./pages/admin-section/Signup.jsx";
 
 import AdminLandingPage from "./pages/admin-section/LandingPage.jsx";
 import "./App.css";
@@ -56,6 +57,7 @@ function AppContent() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/verify" element={<VerifyIDPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/signup" element={<AdminSignup />} />
           <Route path="/admin/landing" element={<AdminLandingPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>

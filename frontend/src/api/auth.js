@@ -17,3 +17,12 @@ export const login = async (email, password) => {
     throw error.response.data;
   }
 };
+
+export const register = async (username, email, password, fullName) => {
+  try {
+    const response = await apiClient.post('/api/v1/auth/register', { username, email, password, fullName });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

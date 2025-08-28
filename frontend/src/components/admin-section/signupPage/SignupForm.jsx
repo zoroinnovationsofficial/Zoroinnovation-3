@@ -1,22 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../../api/auth";
+import { register } from "../../../api/auth";
 
-const LoginForm = () => {
+const SignupForm = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
     try {
-      await login(email, password);
-      navigate("/admin/dashboard");
+      const response = await register(username, email, password, fullName);
+      setSuccess(
+        response.message ||
+          "Registration successful! Please check your email to verify your account."
+      );
+      setTimeout(() => {
+        navigate("/admin/login");
+      }, 3000);
     } catch (err) {
-      setError(err.message || "An error occurred during login.");
+      setError(err.message || "An error occurred during registration.");
     }
   };
 
@@ -25,16 +35,49 @@ const LoginForm = () => {
       <div className="bg-white/10 shadow-xl rounded-2xl p-10 w-[350px] text-white flex flex-col gap-4 backdrop-blur-md">
         <div className="mb-2">
           <span className="text-sm text-gray-300 tracking-wider">
-            WELCOME BACK
+            CREATE AN ACCOUNT
           </span>
-          <h2 className="mt-2 text-lg font-semibold">
-            Log In to access admin panel
-          </h2>
+          <h2 className="mt-2 text-lg font-semibold">Sign up to get started</h2>
         </div>
         {error && (
           <div className="bg-red-500 text-white p-2 rounded">{error}</div>
         )}
+        {success && (
+          <div className="bg-green-500 text-white p-2 rounded">{success}</div>
+        )}
         <form className="flex flex-col" onSubmit={handleSubmit}>
+          <label
+            htmlFor="fullName"
+            className="mt-3 text-sm text-white text-left"
+          >
+            Full Name
+          </label>
+          <input
+            type="text"
+            id="fullName"
+            placeholder="John Doe"
+            className="w-full px-3 py-2 mt-1 mb-2 rounded-lg border border-blue-400 bg-white/20 text-white placeholder-black focus:outline-none"
+            style={{ "::placeholder": { color: "black" } }}
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
+          />
+          <label
+            htmlFor="username"
+            className="mt-3 text-sm text-white text-left"
+          >
+            Username
+          </label>
+          <input
+            type="text"
+            id="username"
+            placeholder="johndoe"
+            className="w-full px-3 py-2 mt-1 mb-2 rounded-lg border border-blue-400 bg-white/20 text-white placeholder-black focus:outline-none"
+            style={{ "::placeholder": { color: "black" } }}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
           <label htmlFor="email" className="mt-3 text-sm text-white text-left">
             Email
           </label>
@@ -96,25 +139,17 @@ const LoginForm = () => {
               </svg>
             </button>
           </div>
-          <div className="flex justify-between items-center my-2">
-            <label className="flex items-center text-sm text-black">
-              <input type="checkbox" className="mr-2" /> Remember me
-            </label>
-            <a href="#" className="text-black text-sm hover:underline">
-              Forgot Password?
-            </a>
-          </div>
           <button
             type="submit"
-            className="w-full py-3 mt-2 bg-[#FD7401] text-white rounded-lg font-semibold text-base hover:bg-orange-500 transition"
+            className="w-full py-3 mt-4 bg-[#FD7401] text-white rounded-lg font-semibold text-base hover:bg-orange-500 transition"
           >
-            CONTINUE
+            CREATE ACCOUNT
           </button>
         </form>
         <p className="text-center text-sm text-white mt-4">
-          Don't have an account?{" "}
-          <a href="/admin/signup" className="text-orange-400 hover:underline">
-            Sign up
+          Already have an account?{" "}
+          <a href="/admin/login" className="text-orange-400 hover:underline">
+            Log in
           </a>
         </p>
       </div>
@@ -122,4 +157,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;
