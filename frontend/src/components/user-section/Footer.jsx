@@ -37,8 +37,8 @@ const Footer = React.memo(() => {
   // Memoized static data
   const socialLinks = useMemo(
     () => [
-      { src: "/linkedin.svg", alt: "LinkedIn", href: "#" },
-      { src: "/twitter.svg", alt: "Twitter", href: "#" },
+      { src: "/linkedin.svg", alt: "LinkedIn", href: "https://www.linkedin.com/company/zoroinnovations/" },
+      { src: "/twitter.svg", alt: "Twitter", href: "https://x.com/zoroinnovations" },
       { src: "/facebook.svg", alt: "Facebook", href: "#" },
     ],
     []
