@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
 
 // Memoized components for better performance
 const SocialButton = React.memo(({ src, alt, href = "#" }) => (
@@ -71,6 +72,9 @@ const Footer = React.memo(() => {
   );
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
+  const handleScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <footer className="bg-gray-900 text-white py-16 px-4" role="contentinfo">
@@ -153,18 +157,20 @@ const Footer = React.memo(() => {
             role="navigation"
             aria-label="Legal"
           >
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
-            >
-              Terms of Service
-            </a>
+            <Link
+                to="/privacy-policy"
+                className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
+                 onClick={handleScrollTop}
+              >
+                Privacy Policy
+              </Link>
+            <Link
+                to="/termsPage"
+                className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
+                 onClick={handleScrollTop}
+              >
+                Terms of Service
+              </Link>
           </nav>
         </div>
       </div>
