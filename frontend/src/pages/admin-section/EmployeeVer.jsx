@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import employeeData from "../../Data/employeeData";
-// import Footer from '../components/loginPage/LoginFooter';
 
 export default function EmployeeVer() {
   const navigate = useNavigate();
@@ -9,9 +8,21 @@ export default function EmployeeVer() {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [searchId, setSearchId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
+
   const [editData, setEditData] = useState({});
+  const [newData, setNewData] = useState({
+    id: "",
+    name: "",
+    department: "",
+    role: "",
+    startDate: "",
+    status: "",
+    certificateDate: "",
+  });
 
   const employeesPerPage = 10;
   const indexOfLast = currentPage * employeesPerPage;
@@ -19,37 +30,55 @@ export default function EmployeeVer() {
   const currentEmployees = employees.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(employees.length / employeesPerPage);
 
+  // --- Verify ---
   const handleVerify = () => {
     const found = employees.find((emp) => emp.id === searchId);
     setSelectedEmployee(found || null);
+    if (!found) alert("No employee found with this ID");
   };
 
+  // --- Edit ---
   function handleEdit(emp) {
     setEditData(emp);
     setEditModalOpen(true);
   }
-
-  function handleView(emp) {
-    setSelectedEmployee(emp);
-    setViewModalOpen(true);
-  }
-
   function handleEditChange(e) {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   }
-
   function handleEditSubmit() {
-    const updatedEmployees = employees.map(emp =>
+    const updatedEmployees = employees.map((emp) =>
       emp.id === editData.id ? { ...editData } : emp
     );
     setEmployees(updatedEmployees);
     setEditModalOpen(false);
   }
 
-  // --- Delete handler ---
+  // --- Delete ---
   function handleDelete(id) {
-    const updatedEmployees = employees.filter(emp => emp.id !== id);
+    const updatedEmployees = employees.filter((emp) => emp.id !== id);
     setEmployees(updatedEmployees);
+  }
+
+  // --- Add New Employee ---
+  function handleNewChange(e) {
+    setNewData({ ...newData, [e.target.name]: e.target.value });
+  }
+  function handleNewSubmit() {
+    if (!newData.id || !newData.name || !newData.department) {
+      alert("Please fill required fields");
+      return;
+    }
+    setEmployees([...employees, { ...newData }]);
+    setNewData({
+      id: "",
+      name: "",
+      department: "",
+      role: "",
+      startDate: "",
+      status: "",
+      certificateDate: "",
+    });
+    setAddModalOpen(false);
   }
 
   return (
@@ -59,14 +88,19 @@ export default function EmployeeVer() {
           {/* Header */}
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold p-1">Employee Verification Records</h2>
-            <button className="bg-gray-100 text-black px-4 py-1 rounded text-sm font-medium">Add New</button>
+            <button
+              onClick={() => setAddModalOpen(true)}
+              className="bg-[#ff6531] text-white px-4 py-1 rounded text-sm font-medium"
+            >
+              + Add New
+            </button>
           </div>
 
           {/* Table */}
           <div className="overflow-x-auto border-2 rounded-xl">
             <table className="w-full text-left text-sm">
               <thead className="bg-[#f5f5f5]">
-                <tr className="border-b-1">
+                <tr>
                   <th className="p-2">Employee ID</th>
                   <th className="p-1">Full Name</th>
                   <th className="p-1">Department</th>
@@ -91,15 +125,28 @@ export default function EmployeeVer() {
                       </span>
                     </td>
                     <td className="p-1">{emp.certificateDate}</td>
-                    <td className="p-1 space-y-1 text-xs">
-                      <button onClick={() => handleEdit(emp)} className="text-blue-600 cursor-pointer">Edit</button>
-                      <div 
-                        onClick={() => handleDelete(emp.id)} 
+                    <td className="p-1 space-x-2 text-xs">
+                      <button
+                        onClick={() => handleEdit(emp)}
+                        className="text-blue-600 cursor-pointer"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(emp.id)}
                         className="text-red-500 cursor-pointer"
                       >
                         Delete
-                      </div>
-                      <button onClick={() => handleView(emp)} className="text-green-500 cursor-pointer">View</button>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedEmployee(emp);
+                          setViewModalOpen(true);
+                        }}
+                        className="text-green-500 cursor-pointer"
+                      >
+                        View
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -113,7 +160,9 @@ export default function EmployeeVer() {
               <button
                 key={i}
                 onClick={() => setCurrentPage(i + 1)}
-                className={`border px-2 py-1 rounded ${currentPage === i + 1 ? 'bg-[#ff6531] text-white' : ''}`}
+                className={`border px-2 py-1 rounded ${
+                  currentPage === i + 1 ? "bg-[#ff6531] text-white" : ""
+                }`}
               >
                 {i + 1}
               </button>
@@ -140,15 +189,18 @@ export default function EmployeeVer() {
                 </button>
               </div>
 
-              <div className="mb-4">
-                <p className="text-sm font-semibold mb-2">Employee Details</p>
-                <p className="text-xs text-gray-500 mb-3">Please find the details of the employee below.</p>
-                <button className="bg-[#ff5f57] text-white text-xs font-medium px-4 py-1 rounded mb-4">Download PDF ⭳</button>
-                <div className="space-y-2">
-                  <button className="bg-[#ff6531] text-white w-full py-2 rounded text-sm font-medium">Edit Record</button>
-                  <button className="bg-[#e4e4e4] text-black w-full py-2 rounded text-sm font-medium">Delete Record</button>
+              {selectedEmployee && (
+                <div className="mb-4 border p-3 rounded-lg bg-gray-50">
+                  <p className="text-sm font-semibold mb-2">Employee Details</p>
+                  <p className="text-xs text-gray-500 mb-3">
+                    Please find the details of the employee below.
+                  </p>
+                  <p><strong>Name:</strong> {selectedEmployee.name}</p>
+                  <p><strong>Role:</strong> {selectedEmployee.role}</p>
+                  <p><strong>Department:</strong> {selectedEmployee.department}</p>
+                  <p><strong>Status:</strong> {selectedEmployee.status}</p>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="flex justify-center">
@@ -159,20 +211,6 @@ export default function EmployeeVer() {
               />
             </div>
           </div>
-
-          {/* Bottom Buttons */}
-          <div className="mt-10 flex justify-between items-center">
-            <button className="bg-[#ff6531] text-white px-6 py-2 rounded text-sm font-medium">Add New Employee</button>
-            <div className="flex gap-3">
-              <button className="bg-[#f2f2f2] text-black px-5 py-2 rounded text-sm font-medium">New Search</button>
-              <button 
-                onClick={() => navigate('/landing')}
-                className="bg-[#ff6531] text-white px-5 py-2 rounded text-sm font-medium"
-              >
-                Back to Landing
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* View Modal */}
@@ -180,14 +218,11 @@ export default function EmployeeVer() {
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
             <div className="bg-white rounded-lg p-6 w-full max-w-md text-sm">
               <h3 className="text-lg font-semibold mb-4">Employee Details</h3>
-              <p><strong>Name:</strong> {selectedEmployee.name}</p>
-              <p><strong>ID:</strong> {selectedEmployee.id}</p>
-              <p><strong>Department:</strong> {selectedEmployee.department}</p>
-              <p><strong>Role:</strong> {selectedEmployee.role}</p>
-              <p><strong>Start Date:</strong> {selectedEmployee.startDate}</p>
-              <p><strong>Status:</strong> {selectedEmployee.status}</p>
-              <p><strong>Certificate Issue:</strong> {selectedEmployee.certificateDate}</p>
-
+              {Object.entries(selectedEmployee).map(([key, value]) => (
+                <p key={key}>
+                  <strong>{key}:</strong> {value}
+                </p>
+              ))}
               <div className="mt-4 text-right">
                 <button
                   onClick={() => setViewModalOpen(false)}
@@ -205,20 +240,23 @@ export default function EmployeeVer() {
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
             <div className="bg-white rounded-lg p-6 w-full max-w-md text-sm">
               <h3 className="text-lg font-semibold mb-4">Edit Employee</h3>
-              {Object.keys(editData).map((key) => (
-                key !== 'id' && (
-                  <div className="mb-3" key={key}>
-                    <label className="block text-xs font-medium mb-1 capitalize">{key}</label>
-                    <input
-                      type="text"
-                      name={key}
-                      value={editData[key]}
-                      onChange={handleEditChange}
-                      className="w-full border px-3 py-1 rounded"
-                    />
-                  </div>
-                )
-              ))}
+              {Object.keys(editData).map(
+                (key) =>
+                  key !== "id" && (
+                    <div className="mb-3" key={key}>
+                      <label className="block text-xs font-medium mb-1 capitalize">
+                        {key}
+                      </label>
+                      <input
+                        type="text"
+                        name={key}
+                        value={editData[key]}
+                        onChange={handleEditChange}
+                        className="w-full border px-3 py-1 rounded"
+                      />
+                    </div>
+                  )
+              )}
               <div className="mt-4 flex justify-between">
                 <button
                   onClick={handleEditSubmit}
@@ -236,8 +274,44 @@ export default function EmployeeVer() {
             </div>
           </div>
         )}
+
+        {/* Add Modal */}
+        {addModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md text-sm">
+              <h3 className="text-lg font-semibold mb-4">Add New Employee</h3>
+              {Object.keys(newData).map((key) => (
+                <div className="mb-3" key={key}>
+                  <label className="block text-xs font-medium mb-1 capitalize">
+                    {key}
+                  </label>
+                  <input
+                    type="text"
+                    name={key}
+                    value={newData[key]}
+                    onChange={handleNewChange}
+                    className="w-full border px-3 py-1 rounded"
+                  />
+                </div>
+              ))}
+              <div className="mt-4 flex justify-between">
+                <button
+                  onClick={handleNewSubmit}
+                  className="bg-[#ff6531] text-white px-4 py-2 rounded cursor-pointer"
+                >
+                  Add Employee
+                </button>
+                <button
+                  onClick={() => setAddModalOpen(false)}
+                  className="bg-gray-300 px-4 py-2 rounded cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }
