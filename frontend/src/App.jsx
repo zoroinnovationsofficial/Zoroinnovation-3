@@ -27,7 +27,7 @@ import AdminLocation from "./pages/admin-section/Location.jsx";
 import AdminProjects from "./pages/admin-section/Projects.jsx";
 import Admin from "./pages/admin-section/Contacts.jsx";
 import ProtectedRoute from "./components/admin-section/ProtectedRoute.jsx";
-import AdminSignup from "./pages/admin-section/Signup.jsx";
+
 import PrivacyPolicy from "./components/user-section/PrivacyPolicy/Page.jsx";
 import TermsPage from "./components/user-section/TermsConditions/Page.jsx";
 
@@ -61,7 +61,7 @@ function AppContent() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/verify" element={<VerifyIDPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/signup" element={<AdminSignup />} />
+          
           <Route path="/admin/landing" element={<AdminLandingPage />} />
 
           {/* for checking that dashboard is working just comment out the

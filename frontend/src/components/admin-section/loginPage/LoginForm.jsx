@@ -111,12 +111,6 @@ const LoginForm = () => {
             CONTINUE
           </button>
         </form>
-        <p className="text-center text-sm text-white mt-4">
-          Don't have an account?{" "}
-          <a href="/admin/signup" className="text-orange-400 hover:underline">
-            Sign up
-          </a>
-        </p>
       </div>
     </div>
   );
