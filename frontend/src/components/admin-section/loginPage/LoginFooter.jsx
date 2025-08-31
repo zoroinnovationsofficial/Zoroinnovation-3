@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Memoized components for better performance
 const SocialButton = React.memo(({ src, alt, href = "#" }) => (
@@ -13,18 +13,6 @@ const SocialButton = React.memo(({ src, alt, href = "#" }) => (
 ));
 SocialButton.displayName = "SocialButton";
 
-const FooterLink = React.memo(({ href = "#", children }) => (
-  <li>
-    <a
-      href={href}
-      className="hover:text-white transition-colors duration-200 hover:underline"
-    >
-      {children}
-    </a>
-  </li>
-));
-FooterLink.displayName = "FooterLink";
-
 const FooterSection = React.memo(({ title, children, className = "" }) => (
   <div className={className}>
     <h3 className="text-lg font-semibold mb-6 text-white">{title}</h3>
@@ -34,10 +22,16 @@ const FooterSection = React.memo(({ title, children, className = "" }) => (
 FooterSection.displayName = "FooterSection";
 
 const Footer = React.memo(() => {
+  const navigate = useNavigate();
+
   // Memoized static data
   const socialLinks = useMemo(
     () => [
-      { src: "/linkedin.svg", alt: "LinkedIn", href: "https://www.linkedin.com/company/zoroinnovations/" },
+      {
+        src: "/linkedin.svg",
+        alt: "LinkedIn",
+        href: "https://www.linkedin.com/company/zoroinnovations/",
+      },
       { src: "/twitter.svg", alt: "Twitter", href: "https://x.com/zoroinnovations" },
       { src: "/facebook.svg", alt: "Facebook", href: "#" },
     ],
@@ -45,17 +39,7 @@ const Footer = React.memo(() => {
   );
 
   const serviceLinks = useMemo(
-    () => [
-      "Web Development",
-      "Custom Software",
-      "AI Applications",
-      "IT Consulting",
-    ],
-    []
-  );
-
-  const companyLinks = useMemo(
-    () => ["About Us", "Our Team", "Careers & Certs", "Contact"],
+    () => ["Web Development", "Custom Software", "AI Applications", "IT Consulting"],
     []
   );
 
@@ -65,15 +49,29 @@ const Footer = React.memo(() => {
       phone: "+919481414295",
       address: {
         line1: "#117 Reddys Colony Street",
-        line2: "Thondebhavi, Gowribidanuru Taluk, Chikkaballapur District, KA 561213",
+        line2:
+          "Thondebhavi, Gowribidanuru Taluk, Chikkaballapur District, KA 561213",
       },
     }),
     []
   );
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
+
   const handleScrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleScrollToTeam = (e) => {
+    e.preventDefault();
+    navigate("/about#leadership-team");
+
+    setTimeout(() => {
+      const section = document.getElementById("leadership-team");
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 300);
   };
 
   return (
@@ -105,7 +103,7 @@ const Footer = React.memo(() => {
           <FooterSection title="Services">
             <ul className="space-y-3 text-gray-400" role="list">
               {serviceLinks.map((service, index) => (
-                <FooterLink key={`service-${index}`}>{service}</FooterLink>
+                <li key={`service-${index}`}>{service}</li>
               ))}
             </ul>
           </FooterSection>
@@ -113,9 +111,41 @@ const Footer = React.memo(() => {
           {/* Company */}
           <FooterSection title="Company">
             <ul className="space-y-3 text-gray-400" role="list">
-              {companyLinks.map((link, index) => (
-                <FooterLink key={`company-${index}`}>{link}</FooterLink>
-              ))}
+              <li>
+                <Link
+                  to="/about"
+                  className="hover:text-white transition-colors duration-200 hover:underline"
+                  onClick={handleScrollTop}
+                >
+                  About Us
+                </Link>
+              </li>
+            <li>
+              <a
+                href="/about#leadership-team"
+                className="hover:text-white transition-colors duration-200 hover:underline cursor-pointer"
+              >
+                Our Team
+              </a>
+            </li>
+              <li>
+                <Link
+                  to="/careers"
+                  className="hover:text-white transition-colors duration-200 hover:underline"
+                  onClick={handleScrollTop}
+                >
+                  Careers & Certs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="hover:text-white transition-colors duration-200 hover:underline"
+                  onClick={handleScrollTop}
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
           </FooterSection>
 
@@ -158,19 +188,19 @@ const Footer = React.memo(() => {
             aria-label="Legal"
           >
             <Link
-                to="/privacy-policy"
-                className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
-                 onClick={handleScrollTop}
-              >
-                Privacy Policy
-              </Link>
+              to="/privacy-policy"
+              className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
+              onClick={handleScrollTop}
+            >
+              Privacy Policy
+            </Link>
             <Link
-                to="/termsPage"
-                className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
-                 onClick={handleScrollTop}
-              >
-                Terms of Service
-              </Link>
+              to="/termsPage"
+              className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
+              onClick={handleScrollTop}
+            >
+              Terms of Service
+            </Link>
           </nav>
         </div>
       </div>
