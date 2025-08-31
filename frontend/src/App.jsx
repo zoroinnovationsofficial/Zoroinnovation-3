@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -34,12 +34,28 @@ import TermsPage from "./components/user-section/TermsConditions/Page.jsx";
 import AdminLandingPage from "./pages/admin-section/LandingPage.jsx";
 import "./App.css";
 
+/* ✅ ScrollToTop inside same file */
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant", // change to "smooth" for smooth scrolling
+    });
+  }, [pathname]);
+
+  return null;
+}
+
 function AppContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
     <div className="App">
+      <ScrollToTop /> {/* 👈 ensures scroll resets on every route change */}
       {!isAdminRoute && <Navbar />}
       <main>
         <Routes>
@@ -62,9 +78,6 @@ function AppContent() {
           <Route path="/verify" element={<VerifyIDPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/landing" element={<AdminLandingPage />} />
-
-          {/* for checking that dashboard is working just comment out the
-          Protected route and access through the URL */}
 
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
