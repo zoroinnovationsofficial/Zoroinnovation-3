@@ -1,97 +1,183 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
 
-import logo from "../../../assets/zoroLogo.png";
-import linkedInLogo from "../../../assets/linkedin.svg";
-import twitterLogo from "../../../assets/twitter.svg";
-import facebookLogo from "../../../assets/facebook.svg";
+// Memoized components for better performance
+const SocialButton = React.memo(({ src, alt, href = "#" }) => (
+  <a
+    href={href}
+    className="p-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200 hover:scale-105 transform"
+    aria-label={alt}
+  >
+    <img src={src} alt={alt} className="w-8 h-8" />
+  </a>
+));
+SocialButton.displayName = "SocialButton";
 
-const Footer = () => {
+const FooterLink = React.memo(({ href = "#", children }) => (
+  <li>
+    <a
+      href={href}
+      className="hover:text-white transition-colors duration-200 hover:underline"
+    >
+      {children}
+    </a>
+  </li>
+));
+FooterLink.displayName = "FooterLink";
+
+const FooterSection = React.memo(({ title, children, className = "" }) => (
+  <div className={className}>
+    <h3 className="text-lg font-semibold mb-6 text-white">{title}</h3>
+    {children}
+  </div>
+));
+FooterSection.displayName = "FooterSection";
+
+const Footer = React.memo(() => {
+  // Memoized static data
+  const socialLinks = useMemo(
+    () => [
+      { src: "/linkedin.svg", alt: "LinkedIn", href: "https://www.linkedin.com/company/zoroinnovations/" },
+      { src: "/twitter.svg", alt: "Twitter", href: "https://x.com/zoroinnovations" },
+      { src: "/facebook.svg", alt: "Facebook", href: "#" },
+    ],
+    []
+  );
+
+  const serviceLinks = useMemo(
+    () => [
+      "Web Development",
+      "Custom Software",
+      "AI Applications",
+      "IT Consulting",
+    ],
+    []
+  );
+
+  const companyLinks = useMemo(
+    () => ["About Us", "Our Team", "Careers & Certs", "Contact"],
+    []
+  );
+
+  const contactInfo = useMemo(
+    () => ({
+      email: "zoroinnovations@yahoo.com",
+      phone: "+919481414295",
+      address: {
+        line1: "#117 Reddys Colony Street",
+        line2: "Thondebhavi, Gowribidanuru Taluk, Chikkaballapur District, KA 561213",
+      },
+    }),
+    []
+  );
+
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
+  const handleScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="bg-[#0B0F19] text-white py-10 px-20 md:px-20 relative">
-      <div className="relative z-10 flex flex-col justify-between md:flex-row md:justify-between gap-10">
-        <div className="md:w-1/4 space-y-4">
-          <img src={logo} alt="Zoro Logo" className="h-10" />
-          <p className="text-md text-gray-300">
-            Transforming businesses through innovative AI solutions and
-            cutting-edge technology.
-          </p>
-          <div className="flex space-x-2 pt-1">
-            <a href="#">
-                <img src={linkedInLogo} alt="linkedIn" className="w-16 p-2 rounded-xl hover:scale-120 transition" />
-            </a>
-            <a href="#">
-                <img src={twitterLogo} alt="twitter" className="w-16 p-2 rounded-xl hover:scale-120 transition" />
-            </a>
-            <a href="#">
-                <img src={facebookLogo} alt="facebook" className="w-16 p-2 rounded-xl hover:scale-120 transition" />
-            </a>
+    <footer className="bg-gray-900 text-white py-16 px-4" role="contentinfo">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          {/* Company Info */}
+          <div className="space-y-6">
+            <div className="flex items-center">
+              <img
+                src="/zoro_logo_white.png"
+                alt="Zoro Innovations Logo"
+                className="h-20 w-auto"
+                loading="lazy"
+              />
+            </div>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Transforming businesses through innovative AI solutions and
+              cutting-edge technology.
+            </p>
+            <div className="flex space-x-4" role="list">
+              {socialLinks.map((social, index) => (
+                <SocialButton key={`${social.alt}-${index}`} {...social} />
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="md:w-1/4 space-y-4 px-8">
-            <h3 className="text-white font-semibold mb-4">Services</h3>
-            <ul className="text-gray-400 space-y-2 text-md">
-              <li>
-                <a href="#">Web Development</a>
-              </li>
-              <li>
-                <a href="#">Custom Software</a>
-              </li>
-              <li>
-                <a href="#">AI Applications</a>
-              </li>
-              <li>
-                <a href="#">IT Consulting</a>
-              </li>
+          {/* Services */}
+          <FooterSection title="Services">
+            <ul className="space-y-3 text-gray-400" role="list">
+              {serviceLinks.map((service, index) => (
+                <FooterLink key={`service-${index}`}>{service}</FooterLink>
+              ))}
             </ul>
-        </div>
+          </FooterSection>
 
-        <div className="md:w-1/4 space-y-4 px-8">
-            <h3 className="text-white font-semibold mb-4">Company</h3>
-            <ul className="text-gray-400 space-y-2 text-md">
-              <li>
-                <a href="#">About Us</a>
-              </li>
-              <li>
-                <a href="#">Our Team</a>
-              </li>
-              <li>
-                <a href="#">Careers & Certs</a>
-              </li>
-              <li>
-                <a href="#">Contact</a>
-              </li>
+          {/* Company */}
+          <FooterSection title="Company">
+            <ul className="space-y-3 text-gray-400" role="list">
+              {companyLinks.map((link, index) => (
+                <FooterLink key={`company-${index}`}>{link}</FooterLink>
+              ))}
             </ul>
+          </FooterSection>
+
+          {/* Contact */}
+          <FooterSection title="Contact">
+            <div className="space-y-3 text-gray-400">
+              <p>
+                <a
+                  href={`mailto:${contactInfo.email}`}
+                  className="hover:text-white transition-colors duration-200"
+                >
+                  {contactInfo.email}
+                </a>
+              </p>
+              <p>
+                <a
+                  href={`tel:${contactInfo.phone}`}
+                  className="hover:text-white transition-colors duration-200"
+                >
+                  {contactInfo.phone}
+                </a>
+              </p>
+              <address className="not-italic">
+                {contactInfo.address.line1}
+                <br />
+                {contactInfo.address.line2}
+              </address>
+            </div>
+          </FooterSection>
         </div>
 
-        <div className="md:w-1/4 space-y-4 px-8">
-            <h3 className="text-white font-semibold mb-4">Contact</h3>
-            <ul className="text-gray-400 space-y-2 text-md">
-              <li>contact@company.com</li>
-              <li>+1 (555) 123-4567</li>
-              <li>123 Innovation Drive</li>
-              <li>Tech City, TC 12345</li>
-            </ul>
-        </div>
-      </div>
-
-      <div className="my-6 border-t border-gray-700"></div>
-
-      <div className="relative z-10 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-        <p>© 2025 Zoro Innovations. All rights reserved.</p>
-        <div className="flex space-x-4 mt-2 md:mt-0">
-          <a href="#" className="hover:text-white">
-            Privacy Policy
-          </a>
-          <a href="#" className="hover:text-white">
-            Terms of Service
-          </a>
+        {/* Bottom Section */}
+        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-400 text-sm">
+            © {currentYear} Zoro Innovations. All rights reserved.
+          </p>
+          <nav
+            className="flex space-x-6 mt-4 md:mt-0"
+            role="navigation"
+            aria-label="Legal"
+          >
+            <Link
+                to="/privacy-policy"
+                className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
+                 onClick={handleScrollTop}
+              >
+                Privacy Policy
+              </Link>
+            <Link
+                to="/termsPage"
+                className="text-gray-400 hover:text-white text-sm transition-colors duration-200 hover:underline"
+                 onClick={handleScrollTop}
+              >
+                Terms of Service
+              </Link>
+          </nav>
         </div>
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;
-
-
