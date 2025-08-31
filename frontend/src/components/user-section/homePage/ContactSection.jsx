@@ -15,21 +15,21 @@ const ContactForm = () => {
               <img src="/Homeimages/Overlay-9.svg" alt="Email icon" className="w-10 h-10" />
               <div>
                 <p className="text-base"><strong>Email:</strong></p>
-                <p className="text-sm text-[#4B5563]">contact@company.com</p>
+                <p className="text-sm text-[#4B5563]">zoroinnovations@yahoo.com</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
               <img src="/Homeimages/Overlay-10.svg" alt="Phone icon" className="w-10 h-10" />
               <div>
                 <p className="text-base"><strong>Phone:</strong></p>
-                <p className="text-sm text-[#4B5563]">+1 (555) 123-4567</p>
+                <p className="text-sm text-[#4B5563]">+919481414295</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
               <img src="/Homeimages/Overlay-11.svg" alt="Address icon" className="w-10 h-10" />
               <div>
                 <p className="text-base"><strong>Address:</strong></p>
-                <p className="text-sm text-[#4B5563]">123 Innovation Drive, Tech City, TC 12345</p>
+                <p className="text-sm text-[#4B5563]">#117 Reddys Colony Street,Thondebhavi, Gowribidanuru Taluk, Chikkaballapur District, KA 561213</p>
               </div>
             </div>
           </div>
