@@ -1,6 +1,6 @@
 import React from "react";
 import Hero from "../../components/admin-section/landingPage/Hero.jsx";
-import Footer from "../../components/admin-section/landingPage/LandingFooter.jsx";
+import Footer from '../../components/admin-section/loginPage/LoginFooter.jsx';
 
 export default function LandingPage() {
   return (
