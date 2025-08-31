@@ -8,7 +8,7 @@ export default function LandingPage() {
       <header className="bg-white py-3 shadow">
         <div className="max-w-7xl mx-auto flex items-center px-6">
           <img
-            src="/Zorologo.png"
+            src="/zoroLogo.png"
             alt="ZORO INNOVATIONS"
             className="h-8 md:h-10"
           />
