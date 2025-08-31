@@ -15,7 +15,7 @@ const Navbar = () => {
     { name: "Careers", href: "/careers" },
     { name: "Verify ID", href: "/verify" },
     { name: "Contact", href: "/contact" },
-    { name: "Admin", href: "/admin/login" },
+    { name: "Admin", href: "/admin/landing" },
   ];
 
   const toggleMenu = () => {

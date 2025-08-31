@@ -46,8 +46,8 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Service />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
-          <Route path="/termsPage" element={<TermsPage/>}/>
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/termsPage" element={<TermsPage />} />
           <Route
             path="/projects"
             element={
@@ -61,7 +61,6 @@ function AppContent() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/verify" element={<VerifyIDPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          
           <Route path="/admin/landing" element={<AdminLandingPage />} />
 
           {/* for checking that dashboard is working just comment out the
