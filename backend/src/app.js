@@ -20,7 +20,25 @@ import employeeRoutes from './routes/employeeVerify.routes.js';
 
 const app = express();
 
-app.use(cors());
+// Configure CORS for cookie-based auth (frontend <-> backend)
+const allowedOrigins = [
+  process.env.CLIENT_URL || 'http://localhost:3000',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+];
+app.use(
+  cors({
+    origin: function (origin, callback) {
+
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(null, false);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(cookieParser());
