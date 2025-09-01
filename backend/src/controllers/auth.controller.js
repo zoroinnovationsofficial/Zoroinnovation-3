@@ -130,10 +130,8 @@ const loginUser = async (req, res) => {
         message: 'Email and password are required',
       });
     }
-    console.log('Email:', email);
-    console.log('Password:', password);
-    const user = await User.findOne({ email });
-    console.log('user:', user);
+
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
       return res.status(400).json({
@@ -142,10 +140,8 @@ const loginUser = async (req, res) => {
       });
     }
 
-    const isPasswordCorrect = await user.isPasswordCorrect(password);
-    console.log('isPasswordCorrect:', isPasswordCorrect);
-
-    if (!isPasswordCorrect) {
+    const checkPassword = await user.isPasswordCorrect(password);
+    if (!checkPassword) {
       return res.status(400).json({
         success: false,
         message: 'Invalid Credentials',
