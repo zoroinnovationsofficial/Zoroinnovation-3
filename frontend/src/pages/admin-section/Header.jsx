@@ -25,7 +25,7 @@ const Header = () => {
     try {
       await apiLogout();
     } catch (err) {
-      console.error("Logout failed:", err);
+      // Ignore errors; we clear client state and redirect regardless
     } finally {
       setProfileOpen(false);
       navigate("/admin/login", { replace: true });

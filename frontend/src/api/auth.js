@@ -48,6 +48,13 @@ export const register = async (username, email, password, fullName) => {
 export const logout = async () => {
   try {
     await apiClient.post('/api/v1/auth/logout');
+  } catch (error) {
+    const status = error?.response?.status;
+    // Ignore unauthorized/forbidden or network issues during logout
+    if (status && status !== 401 && status !== 403) {
+
+      console.warn('Logout API error (non-fatal):', error);
+    }
   } finally {
     // Always clear client-side flags
     localStorage.removeItem('accessToken');

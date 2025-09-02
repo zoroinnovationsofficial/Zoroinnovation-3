@@ -41,7 +41,7 @@ const LoginForm = () => {
           <input
             type="email"
             id="email"
-            placeholder="johnsandoe8@mail.com"
+            placeholder="User Email"
             className="w-full px-3 py-2 mt-1 mb-2 rounded-lg border border-blue-400 bg-white/20 text-white placeholder-black focus:outline-none"
             style={{ "::placeholder": { color: "black" } }}
             value={email}
