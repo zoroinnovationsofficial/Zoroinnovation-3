@@ -1,19 +1,28 @@
+import React from "react";
+
 export default function CTASection() {
   return (
-    <section className="bg-gradient-to-r from-orange-500 to-red-500 text-white py-20 px-4">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl md:text-4xl font-bold mb-4">
-          Ready to Start Your Project?
+    <section className="bg-gradient-to-r from-orange-500 to-pink-500 text-white py-16 text-center">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-4xl font-bold mb-4">
+          Ready to Transform Your Business?
         </h2>
-        <p className="text-xl font-normal md:text-xl text-white/90 mb-8">
-          Let's discuss your requirements and create a solution that drives your business forward.
+        <p className="text-lg text-orange-100 mb-8">
+          Get a free consultation and discover how our team can help accelerate
+          your growth.
         </p>
-        <div className="flex justify-center flex-wrap gap-4">
-          <button className="border border-white text-white px-6 py-3 rounded-md hover:bg-white hover:text-orange-600 transition duration-300 font-normal text-lg">
-            <a href="/contact">Schedule Consultation </a>
-          </button>
-         <a href="#pricing-packages" className="border border-white text-white px-6 py-3 rounded-md hover:bg-white hover:text-orange-600 transition duration-300 text-lg">
-            Get Quote
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <a
+            href="/contact"
+            className="bg-white text-orange-600 font-semibold px-6 py-3 rounded-lg shadow-md hover:scale-105 hover:bg-orange-100 transition-transform duration-300"
+          >
+            Contact Us
+          </a>
+          <a
+            href="#pricing-packages"
+            className="border border-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors duration-300 hover:scale-105"
+          >
+            View Pricing
           </a>
         </div>
       </div>

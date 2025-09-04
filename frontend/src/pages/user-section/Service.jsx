@@ -1,5 +1,5 @@
 import "./Service.css";
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ServiceTile from "../../components/user-section/servicePage/ServiceTile";
@@ -92,10 +92,16 @@ function ServicePage() {
 
   const handleCloseMenu = () => setIsMenuOpen(false);
 
+  // ✅ Lock scroll when side menu is open
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    return () => (document.body.style.overflow = "");
+  }, [isMenuOpen]);
+
   return (
     <div className="bg-gray-50 min-h-screen font-sans">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-900 via-blue-600 to-orange-500 text-white py-20 px-4 text-center">
+      {/* ✅ Hero Section */}
+      <header className="bg-gradient-to-br from-blue-900 via-blue-600 to-orange-500 text-white py-20 px-4 text-center">
         <h1 className="text-5xl md:text-6xl font-bold mb-5">
           Our Services & Solutions
         </h1>
@@ -106,26 +112,26 @@ function ServicePage() {
         <div className="flex justify-center space-x-4">
           <button
             onClick={() => navigate("/careers")}
-            className="bg-white hover:bg-gray-100 text-orange-500 px-6 py-2 rounded font-semibold"
+            className="bg-white hover:bg-gray-100 text-orange-500 px-6 py-2 rounded font-semibold transition"
           >
             Get Started
           </button>
           <button
             onClick={() => navigate("/contact")}
-            className="hover:bg-blue-600 text-white px-6 py-2 rounded font-semibold border border-white"
+            className="hover:bg-blue-600 text-white px-6 py-2 rounded font-semibold border border-white transition"
           >
             Contact Us
           </button>
         </div>
-      </section>
+      </header>
 
-      {/* Core Services Section */}
-      <section className="py-20 px-10 sm:px-4 max-w-[1280px] mx-auto">
+      {/* ✅ Core Services */}
+      <section className="py-20 px-6 sm:px-4 max-w-[1280px] mx-auto">
         <h2 className="text-4xl font-bold text-center">Our Core Services</h2>
-        <h2 className="text-2xl font-normal text-center mb-10 mt-6 leading-relaxed">
+        <p className="text-2xl font-normal text-center mb-10 mt-6 leading-relaxed">
           Explore our comprehensive range of technology solutions
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {servicesData.map((service) => (
             <ServiceTile
               key={service.id}
@@ -136,8 +142,10 @@ function ServicePage() {
         </div>
       </section>
 
-      {/* Other Components (Lazy Loaded) */}
-      <Suspense fallback={<div className="text-center py-10">Loading sections...</div>}>
+      {/* ✅ Lazy Loaded Sections */}
+      <Suspense
+        fallback={<div className="text-center py-10 text-gray-500">Loading sections...</div>}
+      >
         <WebDevelopmentExcellence />
         <PricingPackages />
         <ServiceProcess />
@@ -149,7 +157,7 @@ function ServicePage() {
         <CTASection />
       </Suspense>
 
-      {/* Side Menu */}
+      {/* ✅ Side Menu */}
       <SideMenu
         isOpen={isMenuOpen}
         onClose={handleCloseMenu}

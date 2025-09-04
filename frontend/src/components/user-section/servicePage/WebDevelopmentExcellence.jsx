@@ -1,12 +1,12 @@
 export default function WebDevelopmentExcellence() {
   return (
-    <section className="bg-white py-20 px-20 max-w-full mx-auto flex flex-col md:flex-row items-center gap-12">
+    <section className="bg-white py-20 px-6 md:px-20 max-w-[1280px] mx-auto flex flex-col md:flex-row items-center gap-12">
       {/* Left Side Content */}
       <div className="flex-1">
-        <h2 className="text-[32px] md:text-[36px] font-bold text-gray-900 mb-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           Web Development Excellence
         </h2>
-        <p className="text-[18px] md:text-[20px] text-gray-700 mb-6">
+        <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-6">
           We create modern, responsive, and high-performance web applications
           that deliver exceptional user experiences across all devices and
           platforms.
@@ -28,7 +28,10 @@ export default function WebDevelopmentExcellence() {
               desc: "Fast loading times and SEO-optimized solutions",
             },
           ].map((item, index) => (
-            <li key={index} className="flex items-start gap-3">
+            <li
+              key={index}
+              className="flex items-start gap-3 hover:translate-x-1 transition-transform"
+            >
               <img
                 src="/Serviceimages/Overlay.png"
                 alt="icon"
@@ -43,11 +46,11 @@ export default function WebDevelopmentExcellence() {
         </ul>
 
         {/* Case Study Box */}
-        <div className="bg-gray-100 rounded-3xl px-6 py-6 mt-8 text-gray-700 max-w-xl">
+        <div className="bg-gray-100 rounded-3xl px-6 py-6 mt-8 shadow-md hover:shadow-xl transition-shadow max-w-xl">
           <div className="font-semibold text-lg mb-2">
             Case Study: E-commerce Platform
           </div>
-          <p className="text-sm mb-4">
+          <p className="text-sm mb-4 leading-relaxed">
             Developed a comprehensive e-commerce platform that increased client
             sales by 340% within 6 months.
           </p>
@@ -63,7 +66,7 @@ export default function WebDevelopmentExcellence() {
         <img
           src="/Serviceimages/Web Development.png"
           alt="Web Development"
-          className="h-[320px] md:h-[489px] w-full max-w-[584px] object-contain"
+          className="max-h-[480px] w-full max-w-[584px] object-contain"
         />
       </div>
     </section>
