@@ -13,7 +13,7 @@ The Projects page has been integrated with the backend API to fetch real project
 Create a `.env` file in the frontend root directory with the following variables:
 
 ```env
-VITE_API_URL=http://localhost:8000
+VITE_API_URL=https://zoroinnovations.onrender.com
 ```
 
 ### API Endpoints
@@ -29,29 +29,35 @@ The following endpoints are used:
 ## Files Added/Modified
 
 ### New Files
+
 - `src/api/config.js` - API configuration and helper functions
 - `src/api/projects.js` - Project-related API functions
 
 ### Modified Files
+
 - `src/pages/user-section/Projects.jsx` - Integrated with API calls
 
 ## Features
 
 ### 1. Real-time Data Fetching
+
 - Projects are fetched from the API on component mount
 - Categories are dynamically loaded from the API
 - Dashboard statistics are fetched and displayed in hero metrics
 
 ### 2. Fallback Data
+
 - If the API is unavailable, the page falls back to static demo data
 - Users see a warning banner when in demo mode
 - The application remains functional even without API connectivity
 
 ### 3. Loading States
+
 - Loading spinner is displayed while fetching data
 - Smooth transitions between loading and loaded states
 
 ### 4. Error Handling
+
 - Comprehensive error handling for API failures
 - Graceful degradation to fallback data
 - Console logging for debugging
@@ -59,6 +65,7 @@ The following endpoints are used:
 ## Data Structure
 
 ### Project Object
+
 ```javascript
 {
   id: string,
@@ -74,6 +81,7 @@ The following endpoints are used:
 ```
 
 ### Dashboard Stats Object
+
 ```javascript
 {
   totalProjects: number,
@@ -121,6 +129,7 @@ To test the API integration:
 ### Debug Logs
 
 The integration includes console logging for debugging:
+
 - `🔄 Fetching projects from API...`
 - `✅ Loaded X projects from API`
 - `❌ API Error: [error details]`
