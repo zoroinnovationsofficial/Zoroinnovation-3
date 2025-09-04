@@ -53,43 +53,43 @@ const CoreValueSection = () => {
   ];
 
   return (
-    <section className="bg-white" style={{ height: "743.77px" }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div
-          className="h-full flex flex-col justify-center"
-          style={{ paddingTop: "64px", paddingBottom: "64px" }}
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Our Core Values
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              These fundamental principles guide our decisions and define our
-              culture.
-            </p>
-          </div>
+    <section className="bg-white py-16 lg:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+            Our Core Values
+          </h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            These fundamental principles guide our decisions and define our
+            culture.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-            {coreValues.map((value, index) => (
-              <div key={index} className="text-center group">
-                <div className="flex justify-center mb-6">
-                  <img
-                    src={value.svg}
-                    alt={value.title}
-                    className="w-16 h-16"
-                  />
-                </div>
-
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  {value.title}
-                </h3>
-
-                <p className="text-gray-600 text-base leading-relaxed">
-                  {value.description}
-                </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {coreValues.map((value, index) => (
+            <div
+              key={index}
+              className="text-center group hover:shadow-lg transition-shadow duration-300 rounded-xl p-6"
+            >
+              <div
+                className={`w-20 h-20 flex items-center justify-center rounded-full mx-auto mb-6 ${value.iconBg}`}
+              >
+                <img
+                  src={value.svg}
+                  alt={value.title}
+                  className="w-10 h-10 transform group-hover:scale-110 transition-transform duration-300"
+                />
               </div>
-            ))}
-          </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                {value.title}
+              </h3>
+
+              <p className="text-gray-600 text-base leading-relaxed">
+                {value.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
