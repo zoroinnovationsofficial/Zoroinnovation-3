@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import SectionHeader from "../../components/user-section/AboutPage/SectionHeader.jsx";
 import OurStorySection from "../../components/user-section/AboutPage/ourMissionSection";
 import MissionVisionSection from "../../components/user-section/AboutPage/missionVisionSection";
@@ -6,8 +8,9 @@ import CoreValueSection from "../../components/user-section/AboutPage/coreValueS
 import LeadershipCard from "../../components/user-section/AboutPage/LeadershipCard.jsx";
 import AwardCard from "../../components/user-section/AboutPage/AwardCard.jsx";
 import LocationCard from "../../components/user-section/AboutPage/LocationCard.jsx";
-import { getAllTeamMembers } from "../../api/teamMemberApi.js";
 import TimelineItem from "../../components/user-section/AboutPage/TimelineItem.jsx";
+
+import { getAllTeamMembers } from "../../api/teamMemberApi.js";
 
 const awards = [
   { image: "/Overlay-8.svg", title: "Best Financial Advisory Firm", source: "Financial Times Excellence Awards", year: "2023, 2022, 2021" },
@@ -41,6 +44,7 @@ const timelineEvents = [
 const About = () => {
   const [leadershipTeam, setLeadershipTeam] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTeamMembers = async () => {
@@ -64,12 +68,12 @@ const About = () => {
     fetchTeamMembers();
   }, []);
 
-  // 👇 Handle direct navigation to "#leadership-team"
+  // Smooth scroll to #leadership-team when directly navigated
   useEffect(() => {
     if (window.location.hash === "#leadership-team") {
       const el = document.getElementById("leadership-team");
       if (el) {
-        el.scrollIntoView({ behavior: "auto" }); // instant scroll, no delay
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
   }, []);
@@ -92,16 +96,23 @@ const About = () => {
 
         {loading ? (
           <div className="text-center">Loading...</div>
+        ) : leadershipTeam.length === 0 ? (
+          <p className="text-center text-gray-500 mb-12">
+            No team members available at the moment. Please check back later.
+          </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {leadershipTeam.map((member, index) => (
-              <LeadershipCard key={index} image={member.image} name={member.name} title={member.title} bio={member.bio} />
+              <LeadershipCard key={index} {...member} />
             ))}
           </div>
         )}
 
         <div className="text-center">
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+          <button
+            onClick={() => navigate("/team")}
+            className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+          >
             View All Team Members
           </button>
         </div>
@@ -118,7 +129,7 @@ const About = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {awards.map((award, index) => (
-              <AwardCard key={index} image={award.image} title={award.title} source={award.source} year={award.year} />
+              <AwardCard key={index} {...award} />
             ))}
           </div>
         </div>
@@ -139,7 +150,12 @@ const About = () => {
             ))}
           </div>
           <div className="w-full h-96 bg-gray-300 rounded-lg overflow-hidden">
-            <img src="https://images.pexels.com/photos/1329296/pexels-photo-1329296.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Office locations map" className="w-full h-full object-cover" />
+            <img
+              loading="lazy"
+              src="https://images.pexels.com/photos/1329296/pexels-photo-1329296.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              alt="Office locations map"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </section>
@@ -154,7 +170,8 @@ const About = () => {
             </p>
           </div>
           <div className="relative">
-            <div className="absolute left-8 top-0 w-1 bg-orange-500 h-full"></div>
+            {/* Centered timeline line */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 w-1 bg-orange-500 h-full"></div>
             <div className="space-y-12">
               {timelineEvents.map((event, index) => (
                 <TimelineItem key={index} {...event} />
