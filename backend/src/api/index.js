@@ -1,4 +1,18 @@
-import app from "../index.js";
+import app from '../app.js';
+import serverless from 'serverless-http';
+import dotenv from 'dotenv';
+import connectDB from '../db/db.js';
 
-// ✅ Vercel serverless function entry point
-export default app;
+dotenv.config({ path: './.env' });
+
+let isConnected = false;
+
+async function handler(req, res) {
+  if (!isConnected) {
+    await connectDB();
+    isConnected = true;
+  }
+  return serverless(app)(req, res);
+}
+
+export default handler;
