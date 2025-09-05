@@ -13,7 +13,8 @@ The Projects page has been integrated with the backend API to fetch real project
 Create a `.env` file in the frontend root directory with the following variables:
 
 ```env
-VITE_API_URL=https://zoroinnovations.onrender.com
+VITE_API_URL=https://zoroinnovations.onrender.com/api/v1
+
 ```
 
 ### API Endpoints
