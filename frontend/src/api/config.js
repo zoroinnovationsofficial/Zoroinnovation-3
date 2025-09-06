@@ -1,10 +1,9 @@
-// API Configuration for Frontend
+// config.js
+const BASE_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:8000";
+
 export const API_CONFIG = {
-  BASE_URL:
-    import.meta?.env?.VITE_API_URL ||
-    (import.meta.env.PROD
-      ? "https://zoroinnovations-backend.vercel.app" // ✅ Fallback for production
-      : "http://localhost:8000"), // ✅ Fallback for local dev
+  BASE_URL,
   TIMEOUT: 10000, // 10 seconds
   ENDPOINTS: {
     PROJECTS: {
@@ -18,15 +17,13 @@ export const API_CONFIG = {
 };
 
 // Helper function to build full API URL
-export const buildApiUrl = (endpoint) => `${API_CONFIG.BASE_URL}${endpoint}`;
+export const buildApiUrl = (endpoint) => `${BASE_URL}${endpoint}`;
 
 // Helper function to handle API responses
 export const handleApiResponse = async (response) => {
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(
-      errorData.message || `HTTP error! status: ${response.status}`
-    );
+    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
   }
   return response.json();
 };
