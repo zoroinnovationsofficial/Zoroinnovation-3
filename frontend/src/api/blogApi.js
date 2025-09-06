@@ -1,7 +1,7 @@
 // Blog API client for user blog pages
 // Uses the same base URL convention as other frontend APIs
 
-const API_BASE = import.meta?.env?.VITE_API_URL || 'http://localhost:8000';
+const API_BASE = import.meta?.env?.VITE_API_URL || '${API_BASE}';
 
 const handleResponse = async (response) => {
   if (!response.ok) {
