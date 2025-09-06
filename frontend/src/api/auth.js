@@ -1,10 +1,11 @@
 import axios from "axios";
-import { API_CONFIG } from "./config";
+
+const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 const apiClient = axios.create({
-  baseURL: API_CONFIG.BASE_URL,
-  timeout: API_CONFIG.TIMEOUT,
-  withCredentials: true,
+  baseURL: API_BASE,
+  timeout: 10000,
+  withCredentials: true, // important if using cookies for auth
 });
 
 export const login = async (email, password) => {
@@ -16,7 +17,6 @@ export const login = async (email, password) => {
     if (token) {
       localStorage.setItem("accessToken", token);
     }
-
     if (resData?.success) {
       localStorage.setItem("isAuthenticated", "true");
       if (resData?.user) {
@@ -41,8 +41,7 @@ export const register = async (username, email, password, fullName) => {
     });
     return response.data;
   } catch (error) {
-    const message =
-      error?.response?.data?.message || error?.message || "Registration failed";
+    const message = error?.response?.data?.message || error?.message || "Registration failed";
     throw new Error(message);
   }
 };
