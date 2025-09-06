@@ -1,12 +1,11 @@
-
-const API_BASE = import.meta?.env?.VITE_API_URL || "http://localhost:8000";
+import { buildApiUrl } from "./config";
 
 export async function sendContactMessage(formData) {
   if (!formData?.name || !formData?.email || !formData?.message) {
     throw new Error("All required fields must be filled");
   }
 
-  const response = await fetch(`${API_BASE}/api/v1/contacts`, {
+  const response = await fetch(buildApiUrl("/api/v1/contacts"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
