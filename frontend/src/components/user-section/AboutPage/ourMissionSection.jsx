@@ -18,20 +18,15 @@ const OurStorySection = () => {
               </h2>
               <div className="space-y-6 text-gray-600 leading-relaxed">
                 <p>
-                  Founded in 2000 by financial industry veterans Sarah Mitchell
-                  and David Chen, FinSecure began with a simple mission: to
-                  provide personalized financial guidance that puts clients
-                  first. What started as a small advisory firm has grown into a
-                  trusted financial services company serving over 10,000 clients
-                  nationwide.
+                  Founded in 2021 by tech enthusiast Narendra Babu, Zoro Innovations began with a bold mission: to create innovative and accessible technology solutions that drive real impact. What started as a small vision to build meaningful software has grown into a registered MSME company working across web development, AR/VR, research, and emerging technologies.
+
                 </p>
                 <p>
-                  Our journey has been marked by unwavering commitment to
-                  excellence, innovation in financial planning, and deep
-                  relationships built on trust and transparency. We believe that
-                  everyone deserves access to expert financial guidance,
-                  regardless of where they are in their financial journey.
+                  Our journey is fueled by creativity, problem-solving, and a passion for innovation. From developing custom digital solutions to experimenting with next-generation technologies, we have always focused on empowering individuals, students, and businesses to achieve more.
+
                 </p>
+                <p>At Zoro Innovations, we believe technology should not just solve today’s challenges—it should unlock tomorrow’s possibilities. With a culture built on innovation, transparency, and collaboration, we continue to shape the future, one project at a time.
+              </p>
               </div>
             </div>
 
