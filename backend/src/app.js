@@ -23,11 +23,12 @@ const app = express();
 // --- START: Updated CORS Configuration ---
 
 const allowedOrigins = [
-  process.env.CLIENT_URL, // Your main production URL
-  // This new regex matches ANY preview URL for any project in your Vercel account scope
+  process.env.CLIENT_URL,
   /^https:\/\/.*-rajathravikumar2205-gmailcoms-projects\.vercel\.app$/,
-  'http://localhost:5173', // For local development
+  'http://localhost:5173',
+  'http://localhost:3000', // ✅ add this
 ];
+
 
 app.use(
   cors({
@@ -37,6 +38,7 @@ app.use(
 );
 
 // --- END: Updated CORS Configuration ---
+app.use('/api/v1/authors', authorRoutes);
 
 app.use(express.json());
 app.use(urlencoded({ extended: true }));

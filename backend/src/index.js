@@ -31,5 +31,12 @@ console.log(`🗄️  MongoDB URI: ${MONGO_URI}`);
   }
 })();
 
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
+
+
 // Export the app instead of listening on a port
 export default app;

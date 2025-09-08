@@ -11,6 +11,7 @@ import CareersPage from "./pages/user-section/Career.jsx";
 import Navbar from "./components/user-section/Navbar.jsx";
 import Footer from "./components/user-section/Footer.jsx";
 
+
 function App() {
   return (
     <Router>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/careers" element={<CareersPage />} />
+
       </Routes>
       <Footer />
     </Router>
