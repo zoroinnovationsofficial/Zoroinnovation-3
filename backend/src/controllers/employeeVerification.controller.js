@@ -78,11 +78,6 @@ const createEmployee = async (req, res) => {
       message: 'Employee created successfully',
       employee: newEmployee,
     });
-
-    return res.status(201).json({
-      message: 'Employee created successfully',
-      employee: newEmployee,
-    });
   } catch (error) {
     console.error('Error creating employee:', error);
     return res.status(500).json({ message: 'Internal server error' });
@@ -138,8 +133,8 @@ const editEmployeeData = async (req, res) => {
       'certificateIssueDate',
     ];
 
-    for (let field in allowedFields) {
-      if (updates[field] !== undefined) {
+    for (const field of allowedFields) {
+      if (Object.prototype.hasOwnProperty.call(updates, field)) {
         employee[field] = updates[field];
       }
     }

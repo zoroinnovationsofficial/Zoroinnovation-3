@@ -1,5 +1,6 @@
 import { buildApiUrl } from "./config";
 
+
 function normalizeEmployee(employee) {
   if (!employee) return null;
   return {
@@ -18,6 +19,10 @@ export async function verifyEmployee(employeeId) {
   if (!employeeId || typeof employeeId !== "string") {
     throw new Error("Valid Employee ID is required");
   }
+  const normalizedInputId = employeeId.trim();
+  if (!normalizedInputId) {
+    throw new Error("Valid Employee ID is required");
+  }
 
   // First attempt: verify directly with backend
   try {
@@ -25,7 +30,7 @@ export async function verifyEmployee(employeeId) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ employeeId }),
+      body: JSON.stringify({ employeeId: normalizedInputId }),
     });
 
     if (res.ok) {
@@ -34,7 +39,8 @@ export async function verifyEmployee(employeeId) {
       if (!normalized) throw new Error("Invalid response from server");
       return normalized;
     }
-  } catch (_) {
+  } catch (err) {
+    console.error("Verify employee error:", err.message);
     // Silent fail - fallback below
   }
 
@@ -50,7 +56,8 @@ export async function verifyEmployee(employeeId) {
     }
     const data = await res.json();
     const employees = data?.employees || [];
-    const found = employees.find((e) => e.employeeId === employeeId);
+    const inputLower = normalizedInputId.toLowerCase();
+    const found = employees.find((e) => (e?.employeeId || "").toLowerCase() === inputLower);
     if (!found) {
       throw new Error("Employee not found");
     }
@@ -63,3 +70,4 @@ export async function verifyEmployee(employeeId) {
     throw new Error(err?.message || "Verification failed");
   }
 }
+

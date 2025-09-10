@@ -6,6 +6,7 @@ import { verifyEmployee } from "../../api/verifyID.js";
 import Shimmer from "../../components/user-section/verifyID/Shimmer.jsx";
 import ErrorCard from "../../components/user-section/verifyID/ErrorCard.jsx";
 
+
 const VerifyIDPage = () => {
   const [employeeData, setEmployeeData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +33,7 @@ const VerifyIDPage = () => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <>
