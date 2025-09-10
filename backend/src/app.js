@@ -26,7 +26,9 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   /^https:\/\/.*-rajathravikumar2205-gmailcoms-projects\.vercel\.app$/,
   'http://localhost:5173',
-  'http://localhost:3000', // ✅ add this
+  'http://localhost:5174',
+  'http://localhost:8000',
+  'http://localhost:3000',
 ];
 
 
@@ -34,6 +36,8 @@ app.use(
   cors({
     origin: allowedOrigins,
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
 

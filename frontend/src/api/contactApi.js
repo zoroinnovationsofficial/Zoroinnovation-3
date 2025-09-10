@@ -1,21 +1,84 @@
-import { buildApiUrl } from "./config";
+import axios from "axios";
 
-export async function sendContactMessage(formData) {
-  if (!formData?.name || !formData?.email || !formData?.message) {
-    throw new Error("All required fields must be filled");
+const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
+const apiClient = axios.create({
+  baseURL: API_BASE,
+  timeout: 10000,
+  withCredentials: true,
+});
+
+// Add request interceptor to include auth token
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
+);
 
-  const response = await fetch(buildApiUrl("/api/v1/contacts"), {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to submit message");
+// Add response interceptor for error handling
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const message = error?.response?.data?.message || error?.message || "An error occurred";
+    return Promise.reject(new Error(message));
   }
+);
 
-  return await response.json();
-}
+/**
+ * Send a contact message
+ * @param {Object} formData - The contact form data
+ * @param {string} formData.name - User's name
+ * @param {string} formData.email - User's email
+ * @param {string} formData.message - User's message
+ * @param {string} [formData.subject] - Optional subject
+ * @returns {Promise<Object>} API response
+ */
+export const sendContactMessage = async (formData) => {
+  try {
+    if (!formData?.name || !formData?.email || !formData?.message) {
+      throw new Error("Name, email, and message are required fields");
+    }
+
+    const response = await apiClient.post("/api/v1/contacts", formData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Get all messages (admin only)
+ * @returns {Promise<Array>} Array of messages
+ */
+export const getAllMessages = async () => {
+  try {
+    const response = await apiClient.get("/api/v1/admin/messages");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Get a specific message by ID (admin only)
+ * @param {string} id - Message ID
+ * @returns {Promise<Object>} Message data
+ */
+export const getMessageById = async (id) => {
+  try {
+    if (!id) {
+      throw new Error("Message ID is required");
+    }
+    const response = await apiClient.get(`/api/v1/admin/messages/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
