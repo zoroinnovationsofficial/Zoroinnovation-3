@@ -57,12 +57,12 @@ export const sendContactMessage = async (formData) => {
 };
 
 /**
- * Get all messages (admin only)
- * @returns {Promise<Array>} Array of messages
+ * Get all contacts (admin only)
+ * @returns {Promise<Array>} Array of contacts
  */
 export const getAllMessages = async () => {
   try {
-    const response = await apiClient.get("/api/v1/admin/messages");
+    const response = await apiClient.get("/api/v1/contacts");
     return response.data;
   } catch (error) {
     throw error;
