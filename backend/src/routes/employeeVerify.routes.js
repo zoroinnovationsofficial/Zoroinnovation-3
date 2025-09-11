@@ -38,8 +38,6 @@ router
   .post(
     createEmployeeValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     createEmployee,
   );
 
@@ -48,8 +46,6 @@ router
   .put(
     employeeIdParamValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     editEmployeeData,
   );
 
@@ -58,8 +54,6 @@ router
   .get(
     employeeIdParamValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     getEmployeeById,
   );
 
@@ -69,8 +63,6 @@ router
   .delete(
     employeeIdParamValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     deleteEmployee,
   );
 
@@ -79,8 +71,6 @@ router
   .put(
     employeeIdParamValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     changeEmployeeStatus,
   );
 export default router;
