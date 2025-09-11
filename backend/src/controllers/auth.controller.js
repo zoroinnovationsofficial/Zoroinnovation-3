@@ -8,7 +8,7 @@ import {
 
 const registerUser = async (req, res) => {
   try {
-    const { email, username, password, fullname } = req.body;
+    const { email, username, password, fullname, role } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -23,6 +23,7 @@ const registerUser = async (req, res) => {
       username,
       password,
       fullname,
+      role: role || 'user', // Allow setting role during registration
     });
 
     if (!user)

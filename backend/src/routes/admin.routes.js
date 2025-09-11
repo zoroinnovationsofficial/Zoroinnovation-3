@@ -7,8 +7,12 @@ import {
 } from "../controllers/admin.controller.js";
 import { validate } from "../middlewares/validator.middleware.js";
 import { contactStatusValidationRules } from "../validators/contact.validator.js";
+import { authMiddleware, checkAdminRole } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
+
+// Apply authentication and admin role check to all admin routes
+router.use(authMiddleware, checkAdminRole);
 
 // Get all messages
 router.get("/admin/messages", getAllMessages);

@@ -40,7 +40,19 @@ const Contacts = () => {
       try {
         setLoading(true);
         setError(null);
+        
+        // Check if user is authenticated
+        const token = localStorage.getItem("accessToken");
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        
+        if (!token || !isAuthenticated) {
+          setError("Please log in to access admin messages");
+          return;
+        }
+        
+        console.log("🔍 Fetching messages with token:", token ? "✅ Present" : "❌ Missing");
         const data = await getAllMessages();
+        
         // Handle different response structures
         if (Array.isArray(data)) {
           setMessages(data);
@@ -52,8 +64,8 @@ const Contacts = () => {
           setMessages([]);
         }
       } catch (err) {
+        console.error("❌ Error fetching messages:", err);
         setError(err.message || "Failed to fetch messages");
-        console.error("Error fetching messages:", err);
       } finally {
         setLoading(false);
       }
