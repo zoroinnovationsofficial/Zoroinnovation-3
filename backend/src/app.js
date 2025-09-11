@@ -29,20 +29,41 @@ const allowedOrigins = [
   'http://localhost:5174',
   'http://localhost:8000',
   'http://localhost:3000',
+  'http://localhost:3001',
 ];
 
-
+// CORS configuration with more explicit options
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      // Check if origin is in allowed list
+      const isAllowed = allowedOrigins.some(allowedOrigin => {
+        if (typeof allowedOrigin === 'string') {
+          return allowedOrigin === origin;
+        } else if (allowedOrigin instanceof RegExp) {
+          return allowedOrigin.test(origin);
+        }
+        return false;
+      });
+      
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        console.log('CORS blocked origin:', origin);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   }),
 );
 
 // --- END: Updated CORS Configuration ---
-app.use('/api/v1/authors', authorRoutes);
+
 
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
@@ -54,7 +75,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/articles', articleRouter);
 app.use('/api/v1/posts', postRouter);
 app.use('/api/v1/categories', categoryRoutes);
-app.use('/api/vV1/authors', authorRoutes);
+app.use('/api/v1/authors', authorRoutes);
 app.use('/api/v1/newsletter', newsletterRoutes);
 app.use('/api/v1/projects', projectRoutes);
 
@@ -62,5 +83,7 @@ app.use('/api/team-members', teamMemberRoutes);
 app.use('/api/admin/team-members', adminTeamMemberRoutes);
 
 app.use('/api/v1/employee', employeeRoutes);
+ 
+
 
 export default app;

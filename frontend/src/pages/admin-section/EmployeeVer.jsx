@@ -1,10 +1,8 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import employeeData from "../../Data/employeeData";
+import { useEffect, useState } from "react";
+import { buildApiUrl } from "../../api/config";
 
 export default function EmployeeVer() {
-  const navigate = useNavigate();
-  const [employees, setEmployees] = useState(employeeData);
+  const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [searchId, setSearchId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,9 +28,68 @@ export default function EmployeeVer() {
   const currentEmployees = employees.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(employees.length / employeesPerPage);
 
+  // Load employees from backend
+  useEffect(() => {
+    async function fetchEmployees() {
+      try {
+        const params = new URLSearchParams({ page: "1", limit: "1000" });
+        const res = await fetch(
+          buildApiUrl(`/api/v1/employee/getemployees?${params.toString()}`),
+        );
+        if (!res.ok) throw new Error("Failed to fetch employees");
+        const data = await res.json();
+        const list = (data?.employees || []).map((e) => ({
+          id: e.employeeId,
+          name: e.fullName,
+          department: e.department,
+          role: e.role,
+          startDate: e.startDate?.slice(0, 10) || "",
+          status: e.status,
+          certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
+        }));
+        setEmployees(list);
+      } catch (err) {
+        console.error("Admin fetch employees failed:", err.message);
+      }
+    }
+    fetchEmployees();
+  }, []);
+
   // --- Verify ---
-  const handleVerify = () => {
-    const found = employees.find((emp) => emp.id === searchId);
+  const handleVerify = async () => {
+    const trimmed = (searchId || "").trim();
+    if (!trimmed) {
+      alert("Please enter a valid Employee ID");
+      return;
+    }
+    try {
+      const res = await fetch(buildApiUrl("/api/v1/employee/verify-employee-id"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ employeeId: trimmed }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const e = data?.employee;
+        const mapped = e && {
+          id: e.employeeId,
+          name: e.fullName,
+          department: e.department,
+          role: e.role,
+          startDate: e.startDate?.slice(0, 10) || "",
+          status: e.status,
+          certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
+        };
+        setSelectedEmployee(mapped || null);
+        if (!mapped) alert("No employee found with this ID");
+        return;
+      }
+    } catch (err) {
+      console.warn("Primary verify failed, falling back to list search.");
+    }
+
+    // Fallback to local list search
+    const found = employees.find((emp) => (emp.id || "").toLowerCase() === trimmed.toLowerCase());
     setSelectedEmployee(found || null);
     if (!found) alert("No employee found with this ID");
   };
@@ -45,40 +102,139 @@ export default function EmployeeVer() {
   function handleEditChange(e) {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   }
-  function handleEditSubmit() {
-    const updatedEmployees = employees.map((emp) =>
-      emp.id === editData.id ? { ...editData } : emp
-    );
-    setEmployees(updatedEmployees);
-    setEditModalOpen(false);
+  async function handleEditSubmit() {
+    try {
+      const res = await fetch(buildApiUrl(`/api/v1/employee/edit-employee/${editData.id}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: editData.name,
+          department: editData.department,
+          role: editData.role,
+          startDate: editData.startDate,
+          status: editData.status,
+          certificateIssueDate: editData.certificateDate,
+        }),
+      });
+      if (res.ok) {
+        // Refresh the employee list
+        const params = new URLSearchParams({ page: "1", limit: "1000" });
+        const listRes = await fetch(buildApiUrl(`/api/v1/employee/getemployees?${params.toString()}`));
+        if (listRes.ok) {
+          const data = await listRes.json();
+          const list = (data?.employees || []).map((e) => ({
+            id: e.employeeId,
+            name: e.fullName,
+            department: e.department,
+            role: e.role,
+            startDate: e.startDate?.slice(0, 10) || "",
+            status: e.status,
+            certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
+          }));
+          setEmployees(list);
+        }
+        setEditModalOpen(false);
+      } else {
+        alert('Failed to update employee');
+      }
+    } catch (err) {
+      console.error('Edit failed:', err);
+      alert('Failed to update employee');
+    }
   }
 
   // --- Delete ---
-  function handleDelete(id) {
-    const updatedEmployees = employees.filter((emp) => emp.id !== id);
-    setEmployees(updatedEmployees);
+  async function handleDelete(id) {
+    if (!window.confirm('Are you sure you want to delete this employee?')) return;
+    
+    try {
+      const res = await fetch(buildApiUrl(`/api/v1/employee/delete-employee/${id}`), {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        // Refresh the employee list
+        const params = new URLSearchParams({ page: "1", limit: "1000" });
+        const listRes = await fetch(buildApiUrl(`/api/v1/employee/getemployees?${params.toString()}`));
+        if (listRes.ok) {
+          const data = await listRes.json();
+          const list = (data?.employees || []).map((e) => ({
+            id: e.employeeId,
+            name: e.fullName,
+            department: e.department,
+            role: e.role,
+            startDate: e.startDate?.slice(0, 10) || "",
+            status: e.status,
+            certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
+          }));
+          setEmployees(list);
+        }
+      } else {
+        alert('Failed to delete employee');
+      }
+    } catch (err) {
+      console.error('Delete failed:', err);
+      alert('Failed to delete employee');
+    }
   }
 
   // --- Add New Employee ---
   function handleNewChange(e) {
     setNewData({ ...newData, [e.target.name]: e.target.value });
   }
-  function handleNewSubmit() {
+  async function handleNewSubmit() {
     if (!newData.id || !newData.name || !newData.department) {
       alert("Please fill required fields");
       return;
     }
-    setEmployees([...employees, { ...newData }]);
-    setNewData({
-      id: "",
-      name: "",
-      department: "",
-      role: "",
-      startDate: "",
-      status: "",
-      certificateDate: "",
-    });
-    setAddModalOpen(false);
+    
+    try {
+      const res = await fetch(buildApiUrl('/api/v1/employee/create-employee'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          employeeId: newData.id,
+          fullName: newData.name,
+          department: newData.department,
+          role: newData.role,
+          startDate: newData.startDate,
+          status: newData.status || 'Active',
+          certificateIssueDate: newData.certificateDate,
+        }),
+      });
+      if (res.ok) {
+        // Refresh the employee list
+        const params = new URLSearchParams({ page: "1", limit: "1000" });
+        const listRes = await fetch(buildApiUrl(`/api/v1/employee/getemployees?${params.toString()}`));
+        if (listRes.ok) {
+          const data = await listRes.json();
+          const list = (data?.employees || []).map((e) => ({
+            id: e.employeeId,
+            name: e.fullName,
+            department: e.department,
+            role: e.role,
+            startDate: e.startDate?.slice(0, 10) || "",
+            status: e.status,
+            certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
+          }));
+          setEmployees(list);
+        }
+        setNewData({
+          id: "",
+          name: "",
+          department: "",
+          role: "",
+          startDate: "",
+          status: "",
+          certificateDate: "",
+        });
+        setAddModalOpen(false);
+      } else {
+        alert('Failed to create employee');
+      }
+    } catch (err) {
+      console.error('Create failed:', err);
+      alert('Failed to create employee');
+    }
   }
 
   return (

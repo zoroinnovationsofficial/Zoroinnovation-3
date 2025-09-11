@@ -1,8 +1,18 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 
-const employeeIdVerifyValidator = () => {
+const employeeIdBodyValidator = () => {
   return [
     body('employeeId')
+      .notEmpty()
+      .withMessage('Employee ID is required')
+      .isString()
+      .withMessage('Employee ID must be a string'),
+  ];
+};
+
+const employeeIdParamValidator = () => {
+  return [
+    param('employeeId')
       .notEmpty()
       .withMessage('Employee ID is required')
       .isString()
@@ -41,4 +51,4 @@ const createEmployeeValidator = () => {
   ];
 };
 
-export { employeeIdVerifyValidator, createEmployeeValidator };
+export { employeeIdBodyValidator, employeeIdParamValidator, createEmployeeValidator };

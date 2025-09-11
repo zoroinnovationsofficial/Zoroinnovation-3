@@ -2,7 +2,8 @@ import Router from 'express';
 
 import {
   createEmployeeValidator,
-  employeeIdVerifyValidator,
+  employeeIdBodyValidator,
+  employeeIdParamValidator,
 } from '../validators/employeeVerify.validators.js';
 import {
   changeEmployeeStatus,
@@ -24,12 +25,13 @@ const router = Router();
 router
   .route('/verify-employee-id')
   .post(
-    employeeIdVerifyValidator(),
+    employeeIdBodyValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
+    // authMiddleware,
+    // checkAdminRole,
     employeeVerificationController,
   );
+  
 
 router
   .route('/create-employee')
@@ -44,7 +46,7 @@ router
 router
   .route('/edit-employee/:employeeId')
   .put(
-    employeeIdVerifyValidator(),
+    employeeIdParamValidator(),
     validate,
     authMiddleware,
     checkAdminRole,
@@ -54,7 +56,7 @@ router
 router
   .route('/get-employee/:employeeId')
   .get(
-    employeeIdVerifyValidator(),
+    employeeIdParamValidator(),
     validate,
     authMiddleware,
     checkAdminRole,
@@ -65,7 +67,7 @@ router.route('/getemployees').get(getAllEmployees);
 router
   .route('/delete-employee/:employeeId')
   .delete(
-    employeeIdVerifyValidator(),
+    employeeIdParamValidator(),
     validate,
     authMiddleware,
     checkAdminRole,
@@ -75,7 +77,7 @@ router
 router
   .route('/change-employee-status/:employeeId')
   .put(
-    employeeIdVerifyValidator(),
+    employeeIdParamValidator(),
     validate,
     authMiddleware,
     checkAdminRole,
