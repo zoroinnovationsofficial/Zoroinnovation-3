@@ -103,10 +103,16 @@ export default function EmployeeVer() {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   }
   async function handleEditSubmit() {
+    const token = localStorage.getItem('accessToken');
     try {
       const res = await fetch(buildApiUrl(`/api/v1/employee/edit-employee/${editData.id}`), {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        credentials: 'include',
+        mode: 'cors',
         body: JSON.stringify({
           fullName: editData.name,
           department: editData.department,
@@ -146,10 +152,16 @@ export default function EmployeeVer() {
   // --- Delete ---
   async function handleDelete(id) {
     if (!window.confirm('Are you sure you want to delete this employee?')) return;
+    const token = localStorage.getItem('accessToken');
     
     try {
       const res = await fetch(buildApiUrl(`/api/v1/employee/delete-employee/${id}`), {
         method: 'DELETE',
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        credentials: 'include',
+        mode: 'cors',
       });
       if (res.ok) {
         // Refresh the employee list
@@ -182,22 +194,37 @@ export default function EmployeeVer() {
     setNewData({ ...newData, [e.target.name]: e.target.value });
   }
   async function handleNewSubmit() {
-    if (!newData.id || !newData.name || !newData.department) {
-      alert("Please fill required fields");
+    // Frontend validation aligned with backend requirements
+    const missing = [];
+    if (!newData.id) missing.push('Employee ID');
+    if (!newData.name) missing.push('Full Name');
+    if (!newData.department) missing.push('Department');
+    if (!newData.role) missing.push('Role');
+    if (!newData.startDate) missing.push('Start Date');
+    if (!newData.certificateDate) missing.push('Certificate Issue Date');
+    const statusValue = newData.status || 'Active';
+    if (missing.length) {
+      alert(`Please fill required fields: ${missing.join(', ')}`);
       return;
     }
-    
+
     try {
+      const token = localStorage.getItem('accessToken');
       const res = await fetch(buildApiUrl('/api/v1/employee/create-employee'), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        credentials: 'include',
+        mode: 'cors',
         body: JSON.stringify({
           employeeId: newData.id,
           fullName: newData.name,
           department: newData.department,
           role: newData.role,
-          startDate: newData.startDate,
-          status: newData.status || 'Active',
+          startDate: newData.startDate, // YYYY-MM-DD is acceptable
+          status: statusValue,
           certificateIssueDate: newData.certificateDate,
         }),
       });
@@ -229,7 +256,8 @@ export default function EmployeeVer() {
         });
         setAddModalOpen(false);
       } else {
-        alert('Failed to create employee');
+        const errMsg = await res.text().catch(() => '');
+        alert(`Failed to create employee${errMsg ? `: ${errMsg}` : ''}`);
       }
     } catch (err) {
       console.error('Create failed:', err);

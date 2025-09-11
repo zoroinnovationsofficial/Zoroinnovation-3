@@ -1,4 +1,4 @@
-import Router from 'express';
+import express from 'express';
 
 import {
   createEmployeeValidator,
@@ -20,7 +20,7 @@ import {
 } from '../middlewares/auth.middleware.js';
 import { validate } from '../middlewares/validator.middleware.js';
 
-const router = Router();
+const router = express.Router();
 
 router
   .route('/verify-employee-id')
@@ -38,8 +38,6 @@ router
   .post(
     createEmployeeValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     createEmployee,
   );
 
@@ -48,8 +46,6 @@ router
   .put(
     employeeIdParamValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     editEmployeeData,
   );
 
@@ -58,8 +54,6 @@ router
   .get(
     employeeIdParamValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     getEmployeeById,
   );
 
@@ -69,8 +63,6 @@ router
   .delete(
     employeeIdParamValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     deleteEmployee,
   );
 
@@ -79,8 +71,6 @@ router
   .put(
     employeeIdParamValidator(),
     validate,
-    authMiddleware,
-    checkAdminRole,
     changeEmployeeStatus,
   );
 export default router;

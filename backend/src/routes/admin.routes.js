@@ -11,8 +11,8 @@ import { authMiddleware, checkAdminRole } from "../middlewares/auth.middleware.j
 
 const router = express.Router();
 
-// Apply authentication and admin role check to all admin routes
-router.use(authMiddleware, checkAdminRole);
+// Apply authentication and admin role check only to /admin/* paths
+router.use('/admin', authMiddleware, checkAdminRole);
 
 // Get all messages
 router.get("/admin/messages", getAllMessages);
