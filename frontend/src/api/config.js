@@ -1,6 +1,10 @@
 // config.js
+// Prefer Vite env var, then CRA-style var, then optional global, finally localhost
 const BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:8000";
+  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) ||
+  process.env.REACT_APP_API_URL ||
+  (typeof window !== 'undefined' && window.ENV && window.ENV.API_URL) ||
+  "http://localhost:8000";
 
 export const API_CONFIG = {
   BASE_URL,

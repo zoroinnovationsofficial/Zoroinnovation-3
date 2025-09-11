@@ -6,27 +6,56 @@ const employeeVerificationController = async (req, res) => {
     if (!employeeId) {
       return res.status(400).json({ message: 'Employee ID is required' });
     }
-    const employee = await Employee.findOne({ employeeId });
+    // Normalize and support common variants like E1/E01/E001 vs EMP001
+    const normalizedInput = String(employeeId).trim();
+    const upper = normalizedInput.toUpperCase();
+    const candidateIds = new Set([upper]);
+
+    const match = upper.match(/^(?:EMP|E)(\d+)$/i);
+    if (match) {
+      const digits = match[1];
+      const padded = digits.padStart(3, '0');
+      candidateIds.add(`E${padded}`);
+      candidateIds.add(`EMP${padded}`);
+    }
+
+    // 1) Prefer exact, case-insensitive match to admin-stored ID
+    let employee = await Employee.findOne({
+      employeeId: { $regex: new RegExp(`^${upper}$`, 'i') },
+    });
+    // 2) Fallback: exact candidates
+    if (!employee) {
+      employee = await Employee.findOne({ employeeId: { $in: Array.from(candidateIds) } });
+    }
+    if (!employee) {
+      const digits = (upper.match(/^(?:EMP|E)(\d+)$/i) || [null, null])[1];
+      if (digits) {
+        const padded = digits.padStart(3, '0');
+        const regex = new RegExp(`^(?:EMP|E)0*${digits}$`, 'i');
+        employee = await Employee.findOne({
+          $or: [
+            { employeeId: { $regex: new RegExp(`^E0*${digits}$`, 'i') } },
+            { employeeId: { $regex: new RegExp(`^EMP0*${digits}$`, 'i') } },
+            { employeeId: { $regex: regex } },
+            { employeeId: `E${padded}` },
+            { employeeId: `EMP${padded}` },
+          ],
+        });
+      }
+    }
     if (!employee) {
       return res.status(404).json({ message: 'Employee not found' });
     }
 
-    if (employee.status !== 'Active') {
-      return res.status(400).json({ message: 'Employee is not active' });
-    }
-
+    // Return employee details regardless of status; include flags for client UI
+    const isActive = employee.status === 'Active';
+    const employeeObj = employee.toObject ? employee.toObject() : employee;
     return res.status(200).json({
       success: true,
-      message: 'Employee verification successful',
-      employee: {
-        employeeId: employee.employeeId,
-        fullName: employee.fullName,
-        department: employee.department,
-        role: employee.role,
-        startDate: employee.startDate,
-        status: employee.status,
-        certificateIssueDate: employee.certificateIssueDate,
-      },
+      message: isActive
+        ? 'Employee verification successful'
+        : 'Employee found but not active',
+      employee: { ...employeeObj, isActive },
     });
   } catch (error) {
     console.error('Error verifying employee:', error);
@@ -211,7 +240,42 @@ const getEmployeeById = async (req, res) => {
     if (!employeeId) {
       return res.status(400).json({ message: 'Employee ID is required' });
     }
-    const employee = await Employee.findOne({ employeeId });
+    // Normalize and support E1/E01/E001 vs EMP001
+    const normalizedInput = String(employeeId).trim();
+    const upper = normalizedInput.toUpperCase();
+    const candidateIds = new Set([upper]);
+    const match = upper.match(/^(?:EMP|E)(\d+)$/i);
+    if (match) {
+      const digits = match[1];
+      const padded = digits.padStart(3, '0');
+      candidateIds.add(`E${padded}`);
+      candidateIds.add(`EMP${padded}`);
+    }
+
+    // 1) Prefer exact, case-insensitive match to admin-stored ID
+    let employee = await Employee.findOne({
+      employeeId: { $regex: new RegExp(`^${upper}$`, 'i') },
+    });
+    // 2) Fallback: exact candidates
+    if (!employee) {
+      employee = await Employee.findOne({ employeeId: { $in: Array.from(candidateIds) } });
+    }
+    if (!employee) {
+      const digits = (upper.match(/^(?:EMP|E)(\d+)$/i) || [null, null])[1];
+      if (digits) {
+        const padded = digits.padStart(3, '0');
+        const regex = new RegExp(`^(?:EMP|E)0*${digits}$`, 'i');
+        employee = await Employee.findOne({
+          $or: [
+            { employeeId: { $regex: new RegExp(`^E0*${digits}$`, 'i') } },
+            { employeeId: { $regex: new RegExp(`^EMP0*${digits}$`, 'i') } },
+            { employeeId: { $regex: regex } },
+            { employeeId: `E${padded}` },
+            { employeeId: `EMP${padded}` },
+          ],
+        });
+      }
+    }
     if (!employee) {
       return res.status(404).json({ message: 'Employee not found' });
     }

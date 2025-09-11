@@ -1,4 +1,4 @@
-import Router from 'express';
+import express from 'express';
 
 import {
   createEmployeeValidator,
@@ -20,7 +20,7 @@ import {
 } from '../middlewares/auth.middleware.js';
 import { validate } from '../middlewares/validator.middleware.js';
 
-const router = Router();
+const router = express.Router();
 
 router
   .route('/verify-employee-id')
