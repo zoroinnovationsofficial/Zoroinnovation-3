@@ -95,7 +95,7 @@ const About = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {leadershipTeam.map((member, index) => (
-              <LeadershipCard key={index} image={member.image} name={member.name} title={member.title} bio={member.bio} />
+              <LeadershipCard key={index} image={member.imageUrl} name={member.fullName} title={member.position} bio={member.bio} />
             ))}
           </div>
         )}
