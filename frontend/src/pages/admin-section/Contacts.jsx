@@ -247,26 +247,66 @@ const Contacts = () => {
                 <div className="text-gray-600 mb-4">
                   Found {state.messages.length} message(s)
                 </div>
-                <div className="space-y-4">
-                  {state.messages.map((message) => (
-                    <div key={message._id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-gray-900">{message.name}</h3>
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(message.status)}`}>
-                          {message.status || "new"}
-                        </span>
-                      </div>
-                      <p className="text-blue-600 text-sm mb-1">{message.email}</p>
-                      <p className="text-gray-600 text-sm mb-2">{message.subject || "No subject"}</p>
-                      <p className="text-gray-700 text-sm">{message.message}</p>
-                      <div className="mt-2 text-xs text-gray-500">
-                        {message.createdAt ? 
-                          new Date(message.createdAt).toLocaleDateString() : 
-                          message.date || "N/A"
-                        }
-                      </div>
-                    </div>
-                  ))}
+                
+                {/* Table Format */}
+                <div className="overflow-x-auto">
+                  <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          NAME
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          EMAIL
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          SUBJECT
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          MESSAGE
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          DATE
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          STATUS
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {state.messages.map((message, index) => (
+                        <tr key={message._id} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {message.name}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800">
+                            <a href={`mailto:${message.email}`} className="underline">
+                              {message.email}
+                            </a>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800">
+                            <a href="#" className="underline" onClick={(e) => e.preventDefault()}>
+                              {message.subject || "No subject"}
+                            </a>
+                          </td>
+                          <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
+                            {message.message}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {message.createdAt ? 
+                              new Date(message.createdAt).toLocaleDateString() : 
+                              message.date || "N/A"
+                            }
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(message.status)}`}>
+                              {message.status || "new"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             )}
