@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
-import { getAllMessages, sendContactMessage, getMessageById } from "../../api/contactApi";
+import { getAllMessages, getMessageById } from "../../api/contactApi";
 
 // --- Helpers (moved outside component) ---
 const normalizeApiResponse = (response) => {
@@ -30,9 +30,6 @@ const initialState = {
   loading: true,
   error: null,
   messages: [],
-  formSubmitting: false,
-  formError: null,
-  successMessage: null,
   detailLoading: false,
   detailError: null,
   selectedMessage: null,
@@ -47,14 +44,6 @@ function reducer(state, action) {
       return { ...state, loading: false, messages: action.payload };
     case 'FETCH_FAILURE':
       return { ...state, loading: false, error: action.payload };
-    
-    case 'SUBMIT_INIT':
-      return { ...state, formSubmitting: true, formError: null, successMessage: null };
-    case 'SUBMIT_SUCCESS':
-      // Add new message to the list for optimistic UI
-      return { ...state, formSubmitting: false, successMessage: 'Message sent successfully!', messages: [action.payload, ...state.messages] };
-    case 'SUBMIT_FAILURE':
-      return { ...state, formSubmitting: false, formError: action.payload };
 
     case 'DETAIL_INIT':
       return { ...state, showDetail: true, detailLoading: true, detailError: null, selectedMessage: null };
@@ -72,13 +61,11 @@ function reducer(state, action) {
 
 const Contacts = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
-  const [showForm, setShowForm] = useState(false);
 
 
 
   useEffect(() => {
-    const fetchMessages = async () => {
+  const fetchMessages = async () => {
       dispatch({ type: 'FETCH_INIT' });
       
       // Debug localStorage
@@ -97,14 +84,14 @@ const Contacts = () => {
       }
       
       try {
-        console.log("📡 Calling getAllMessages()...");
-        const data = await getAllMessages();
-        console.log("📡 getAllMessages response:", data);
-        
-        const normalizedMessages = normalizeApiResponse(data);
-        console.log("📡 Normalized messages:", normalizedMessages);
-        console.log("📡 Messages count:", normalizedMessages.length);
-        
+      console.log("📡 Calling getAllMessages()...");
+      const data = await getAllMessages();
+      console.log("📡 getAllMessages response:", data);
+      
+      const normalizedMessages = normalizeApiResponse(data);
+      console.log("📡 Normalized messages:", normalizedMessages);
+      console.log("📡 Messages count:", normalizedMessages.length);
+      
         dispatch({ type: 'FETCH_SUCCESS', payload: normalizedMessages });
       } catch (err) {
         console.error("❌ Error fetching messages:", err);
@@ -115,30 +102,6 @@ const Contacts = () => {
     fetchMessages();
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (state.formError) dispatch({ type: 'SUBMIT_INIT' }); // Clear previous error
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      dispatch({ type: 'SUBMIT_FAILURE', payload: "Name, email, and message are required fields" });
-      return;
-    }
-
-    dispatch({ type: 'SUBMIT_INIT' });
-    try {
-      // Assuming sendContactMessage returns the newly created message
-      const newMessage = await sendContactMessage(formData);
-      dispatch({ type: 'SUBMIT_SUCCESS', payload: newMessage });
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch (err) {
-      console.error("Error sending message:", err);
-      dispatch({ type: 'SUBMIT_FAILURE', payload: err.message || "Failed to send message" });
-    }
-  };
 
   const openDetail = async (id) => {
     dispatch({ type: 'DETAIL_INIT' });
@@ -192,12 +155,6 @@ const Contacts = () => {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 mt-4 sm:mt-0">
                   <button
-                    onClick={() => setShowForm(!showForm)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium"
-                  >
-                    {showForm ? "Hide Form" : "Add New Message"}
-                  </button>
-                  <button
                     onClick={() => {
                       dispatch({ type: 'FETCH_INIT' });
                       const token = localStorage.getItem("accessToken");
@@ -223,17 +180,6 @@ const Contacts = () => {
                 </div>
               </div>
 
-              {/* Success/Error Messages */}
-              {state.successMessage && (
-                <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                  {state.successMessage}
-                </div>
-              )}
-              {state.formError && (
-                <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                  Error: {state.formError}
-                </div>
-              )}
             </div>
 
             {/* Messages List */}
@@ -260,9 +206,6 @@ const Contacts = () => {
                           EMAIL
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          SUBJECT
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           MESSAGE
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -284,19 +227,14 @@ const Contacts = () => {
                               {message.email}
                             </a>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800">
-                            <a href="#" className="underline" onClick={(e) => e.preventDefault()}>
-                              {message.subject || "No subject"}
-                            </a>
-                          </td>
                           <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
                             {message.message}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {message.createdAt ? 
-                              new Date(message.createdAt).toLocaleDateString() : 
-                              message.date || "N/A"
-                            }
+                        {message.createdAt ? 
+                          new Date(message.createdAt).toLocaleDateString() : 
+                          message.date || "N/A"
+                        }
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(message.status)}`}>
