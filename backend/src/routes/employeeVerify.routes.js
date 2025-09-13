@@ -1,6 +1,7 @@
 import express from 'express';
 
 import {
+  changeEmployeeStatusValidator,
   createEmployeeValidator,
   employeeIdBodyValidator,
   employeeIdParamValidator,
@@ -70,6 +71,7 @@ router
   .route('/change-employee-status/:employeeId')
   .put(
     employeeIdParamValidator(),
+    changeEmployeeStatusValidator(),
     validate,
     changeEmployeeStatus,
   );

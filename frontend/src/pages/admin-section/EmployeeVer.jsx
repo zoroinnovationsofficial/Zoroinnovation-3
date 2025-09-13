@@ -202,7 +202,14 @@ export default function EmployeeVer() {
     if (!newData.role) missing.push('Role');
     if (!newData.startDate) missing.push('Start Date');
     if (!newData.certificateDate) missing.push('Certificate Issue Date');
-    const statusValue = newData.status || 'Active';
+    if (!newData.status) missing.push('Status');
+    
+    // Validate status value
+    if (newData.status && !['Active', 'Inactive'].includes(newData.status)) {
+      alert('Status must be either Active or Inactive');
+      return;
+    }
+    
     if (missing.length) {
       alert(`Please fill required fields: ${missing.join(', ')}`);
       return;
@@ -224,7 +231,7 @@ export default function EmployeeVer() {
           department: newData.department,
           role: newData.role,
           startDate: newData.startDate, // YYYY-MM-DD is acceptable
-          status: statusValue,
+          status: newData.status,
           certificateIssueDate: newData.certificateDate,
         }),
       });
@@ -389,7 +396,7 @@ export default function EmployeeVer() {
 
             <div className="flex justify-center">
               <img
-                src="https://api.dicebear.com/7.x/adventurer/svg?seed=employee"
+                src="https://www.w3schools.com/howto/img_avatar.png"
                 alt="avatar"
                 className="w-[230px] rounded-xl border border-gray-200"
               />
@@ -431,13 +438,26 @@ export default function EmployeeVer() {
                       <label className="block text-xs font-medium mb-1 capitalize">
                         {key}
                       </label>
-                      <input
-                        type="text"
-                        name={key}
-                        value={editData[key]}
-                        onChange={handleEditChange}
-                        className="w-full border px-3 py-1 rounded"
-                      />
+                      {key === 'status' ? (
+                        <select
+                          name={key}
+                          value={editData[key]}
+                          onChange={handleEditChange}
+                          className="w-full border px-3 py-1 rounded"
+                        >
+                          <option value="">Select Status</option>
+                          <option value="Active">Active</option>
+                          <option value="Inactive">Inactive</option>
+                        </select>
+                      ) : (
+                        <input
+                          type={key === 'startDate' || key === 'certificateDate' ? 'date' : 'text'}
+                          name={key}
+                          value={editData[key]}
+                          onChange={handleEditChange}
+                          className="w-full border px-3 py-1 rounded"
+                        />
+                      )}
                     </div>
                   )
               )}
@@ -469,13 +489,26 @@ export default function EmployeeVer() {
                   <label className="block text-xs font-medium mb-1 capitalize">
                     {key}
                   </label>
-                  <input
-                    type="text"
-                    name={key}
-                    value={newData[key]}
-                    onChange={handleNewChange}
-                    className="w-full border px-3 py-1 rounded"
-                  />
+                  {key === 'status' ? (
+                    <select
+                      name={key}
+                      value={newData[key]}
+                      onChange={handleNewChange}
+                      className="w-full border px-3 py-1 rounded"
+                    >
+                      <option value="">Select Status</option>
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  ) : (
+                    <input
+                      type={key === 'startDate' || key === 'certificateDate' ? 'date' : 'text'}
+                      name={key}
+                      value={newData[key]}
+                      onChange={handleNewChange}
+                      className="w-full border px-3 py-1 rounded"
+                    />
+                  )}
                 </div>
               ))}
               <div className="mt-4 flex justify-between">

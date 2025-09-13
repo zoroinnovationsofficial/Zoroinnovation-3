@@ -95,7 +95,7 @@ const employeeData = [
     department: "emp",
     role: "Officer",
     startDate: "2023-06-21",
-    status: "offline",
+    status: "Inactive",
     certificateDate: "2023-10-01",
   },
 ];

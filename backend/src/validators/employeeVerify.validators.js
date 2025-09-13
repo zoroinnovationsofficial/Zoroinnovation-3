@@ -42,8 +42,8 @@ const createEmployeeValidator = () => {
     body('status')
       .notEmpty()
       .withMessage('Status is required')
-      .isString()
-      .withMessage('Status must be a string'),
+      .isIn(['Active', 'Inactive'])
+      .withMessage('Status must be either Active or Inactive'),
     body('certificateIssueDate')
       .optional()
       .isDate()
@@ -51,4 +51,14 @@ const createEmployeeValidator = () => {
   ];
 };
 
-export { employeeIdBodyValidator, employeeIdParamValidator, createEmployeeValidator };
+const changeEmployeeStatusValidator = () => {
+  return [
+    body('status')
+      .notEmpty()
+      .withMessage('Status is required')
+      .isIn(['Active', 'Inactive'])
+      .withMessage('Status must be either Active or Inactive'),
+  ];
+};
+
+export { employeeIdBodyValidator, employeeIdParamValidator, createEmployeeValidator, changeEmployeeStatusValidator };
