@@ -73,28 +73,13 @@ function reducer(state, action) {
 const Contacts = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [showForm, setShowForm] = useState(false);
 
-  const [formLoading, setFormLoading] = useState(false);
-  const [formError, setFormError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
-  const [showDetail, setShowDetail] = useState(false);
-  const [detailLoading, setDetailLoading] = useState(false);
-  const [detailError, setDetailError] = useState(null);
-  const [selectedMessage, setSelectedMessage] = useState(null);
 
-  const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case "new": return "bg-blue-100 text-blue-800";
-      case "read": return "bg-gray-100 text-gray-800";
-      case "responded": return "bg-green-100 text-green-800";
-      default: return "bg-gray-100 text-gray-800";
-    }
-  };
 
-  const fetchMessages = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  useEffect(() => {
+    const fetchMessages = async () => {
+      dispatch({ type: 'FETCH_INIT' });
       
       // Debug localStorage
       console.log("🔍 Checking localStorage...");
@@ -104,41 +89,23 @@ const Contacts = () => {
       
       const token = localStorage.getItem("accessToken");
       if (!token) {
-        setError("Please log in to access admin messages");
         console.warn("❌ No accessToken in localStorage. User must log in.");
+        dispatch({ type: 'FETCH_FAILURE', payload: 'Please log in to access admin messages' });
         return;
       } else {
         console.log("🔑 accessToken found in localStorage:", token.substring(0, 20) + "...");
       }
       
-      console.log("📡 Calling getAllMessages()...");
-      const data = await getAllMessages();
-      console.log("📡 getAllMessages response:", data);
-      
-      const normalizedMessages = normalizeApiResponse(data);
-      console.log("📡 Normalized messages:", normalizedMessages);
-      console.log("📡 Messages count:", normalizedMessages.length);
-      
-      setMessages(normalizedMessages);
-    } catch (err) {
-      console.error("❌ Error fetching messages:", err);
-      setError(err.message || "Failed to fetch messages");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      dispatch({ type: 'FETCH_INIT' });
-      if (!localStorage.getItem("accessToken")) {
-        dispatch({ type: 'FETCH_FAILURE', payload: 'Please log in to access admin messages' });
-        return;
-      }
       try {
+        console.log("📡 Calling getAllMessages()...");
         const data = await getAllMessages();
-        dispatch({ type: 'FETCH_SUCCESS', payload: normalizeApiResponse(data) });
+        console.log("📡 getAllMessages response:", data);
+        
+        const normalizedMessages = normalizeApiResponse(data);
+        console.log("📡 Normalized messages:", normalizedMessages);
+        console.log("📡 Messages count:", normalizedMessages.length);
+        
+        dispatch({ type: 'FETCH_SUCCESS', payload: normalizedMessages });
       } catch (err) {
         console.error("❌ Error fetching messages:", err);
         dispatch({ type: 'FETCH_FAILURE', payload: err.message || "Failed to fetch messages" });
@@ -191,7 +158,7 @@ const Contacts = () => {
   const closeDetail = () => dispatch({ type: 'DETAIL_CLOSE' });
 
 
-  if (loading) {
+  if (state.loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-600 via-blue-700 to-red-400">
         <p className="text-white text-lg">Loading messages...</p>
@@ -199,10 +166,10 @@ const Contacts = () => {
     );
   }
 
-  if (error) {
+  if (state.error) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-600 via-blue-700 to-red-400">
-        <p className="text-red-500 text-lg">Error: {error}</p>
+        <p className="text-red-500 text-lg">Error: {state.error}</p>
       </div>
     );
   }
@@ -231,30 +198,46 @@ const Contacts = () => {
                     {showForm ? "Hide Form" : "Add New Message"}
                   </button>
                   <button
-                    onClick={fetchMessages}
-                    disabled={loading}
+                    onClick={() => {
+                      dispatch({ type: 'FETCH_INIT' });
+                      const token = localStorage.getItem("accessToken");
+                      if (!token) {
+                        dispatch({ type: 'FETCH_FAILURE', payload: 'Please log in to access admin messages' });
+                        return;
+                      }
+                      getAllMessages()
+                        .then(data => {
+                          const normalizedMessages = normalizeApiResponse(data);
+                          dispatch({ type: 'FETCH_SUCCESS', payload: normalizedMessages });
+                        })
+                        .catch(err => {
+                          console.error("❌ Error fetching messages:", err);
+                          dispatch({ type: 'FETCH_FAILURE', payload: err.message || "Failed to fetch messages" });
+                        });
+                    }}
+                    disabled={state.loading}
                     className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? "Refreshing..." : "Refresh"}
+                    {state.loading ? "Refreshing..." : "Refresh"}
                   </button>
                 </div>
               </div>
 
               {/* Success/Error Messages */}
-              {successMessage && (
+              {state.successMessage && (
                 <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                  {successMessage}
+                  {state.successMessage}
                 </div>
               )}
-              {error && (
+              {state.formError && (
                 <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                  Error: {error}
+                  Error: {state.formError}
                 </div>
               )}
             </div>
 
             {/* Messages List */}
-            {messages.length === 0 ? (
+            {state.messages.length === 0 ? (
               <div className="px-6 py-12 text-center">
                 <div className="text-gray-500 text-lg mb-2">No messages found</div>
                 <p className="text-gray-400">Messages will appear here when users contact you.</p>
@@ -262,10 +245,10 @@ const Contacts = () => {
             ) : (
               <div className="px-6 py-4">
                 <div className="text-gray-600 mb-4">
-                  Found {messages.length} message(s)
+                  Found {state.messages.length} message(s)
                 </div>
                 <div className="space-y-4">
-                  {messages.map((message) => (
+                  {state.messages.map((message) => (
                     <div key={message._id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
                       <div className="flex justify-between items-start mb-2">
                         <h3 className="font-semibold text-gray-900">{message.name}</h3>
