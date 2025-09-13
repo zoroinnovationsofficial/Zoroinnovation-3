@@ -168,8 +168,8 @@ const loginUser = async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.cookie('AccessToken', accessToken, cookieOptions);
-    res.cookie('RefreshToken', refreshToken, cookieOptions);
+    res.cookie('accessToken', accessToken, cookieOptions);
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     const loggedInUser = await User.findById(user._id).select(
       '-password -refreshToken -emailVerificationExpiry -emailVerificationToken',
@@ -185,6 +185,7 @@ const loginUser = async (req, res) => {
       user: loggedInUser,
       success: true,
       message: 'User logged in successfully',
+      accessToken: accessToken, // Include access token in response for frontend
     });
   } catch (error) {
     console.error('Error logging in user:', error);
@@ -213,8 +214,8 @@ const logoutUser = async (req, res) => {
       sameSite: 'strict',
     };
 
-    res.clearCookie('AccessToken', cookieOptions);
-    res.clearCookie('RefreshToken', cookieOptions);
+    res.clearCookie('accessToken', cookieOptions);
+    res.clearCookie('refreshToken', cookieOptions);
 
     user.refreshToken = null;
 
@@ -334,14 +335,14 @@ const refreshAccessToken = async (req, res) => {
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge: 30 * 60 * 1000, // 7 days
   };
 
   const cookieAccessOptions = {
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    maxAge: 60 * 60 * 1000, // 1 day
   };
 
   res.cookie('accessToken', newAccessToken, cookieAccessOptions);
@@ -350,6 +351,7 @@ const refreshAccessToken = async (req, res) => {
   res.status(200).json({
     success: true,
     message: 'Access Token refreshed successfully',
+    accessToken: newAccessToken, // Include new access token in response
   });
 };
 

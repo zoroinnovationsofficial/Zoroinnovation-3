@@ -2,10 +2,11 @@ import axios from 'axios';
 import { API_CONFIG } from './config';
 
 const apiClient = axios.create({
-  baseURL: API_CONFIG.BASE_URL,
-  timeout: API_CONFIG.TIMEOUT,
+  baseURL: "https://zoroinnovations-backend.vercel.app",
+  timeout: 10000,
   withCredentials: true,
 });
+
 
 export const getAllTeamMembers = async () => {
   try {
