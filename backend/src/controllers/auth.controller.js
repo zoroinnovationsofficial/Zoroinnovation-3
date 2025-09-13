@@ -342,7 +342,7 @@ const refreshAccessToken = async (req, res) => {
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    maxAge: 60 * 60 * 1000, // 1 day
   };
 
   res.cookie('accessToken', newAccessToken, cookieAccessOptions);
