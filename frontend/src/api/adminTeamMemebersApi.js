@@ -1,7 +1,7 @@
 // src/api/teamMemberApi.js
 import axios from "axios";
 
-const API_BASE = "https://zoroinnovations-backend.vercel.app";
+const API_BASE = process.env.REACT_APP_API_URL;
 
 const apiClient = axios.create({
   baseURL: API_BASE,
