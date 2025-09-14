@@ -24,7 +24,10 @@ const app = express();
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  // This regex allows all subdomains of Vercel
   /^https:\/\/.*-rajathravikumar2205-gmailcoms-projects\.vercel\.app$/,
+  // This new regex allows all subdomains of Google's usercontent.goog
+  /^https:\/\/.*\.scf\.usercontent\.goog$/,
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:8000',
@@ -84,6 +87,5 @@ app.use('/api/admin/team-members', adminTeamMemberRoutes);
 
 app.use('/api/v1/employee', employeeRoutes);
  
-
 
 export default app;

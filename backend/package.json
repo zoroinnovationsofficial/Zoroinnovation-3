@@ -10,7 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cloudinary": "^1.41.3",
@@ -31,5 +30,6 @@
   },
   "devDependencies": {
     "prettier": "^3.6.2"
-  }
+  },
+  "description": ""
 }
