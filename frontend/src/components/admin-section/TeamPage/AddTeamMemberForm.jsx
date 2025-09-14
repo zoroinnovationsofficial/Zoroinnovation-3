@@ -75,7 +75,7 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
       }
 
       const res = await axios.post(
-        "https://zoroinnovations-backend.vercel.app/api/admin/team-members",
+        process.env.REACT_APP_API_URL,
         payload,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
