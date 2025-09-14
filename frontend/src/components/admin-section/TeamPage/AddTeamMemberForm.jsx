@@ -75,7 +75,7 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
       }
 
       const res = await axios.post(
-        process.env.REACT_APP_API_URL,
+        `${process.env.REACT_APP_API_URL}api/admin/team-members`,
         payload,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
