@@ -5,7 +5,7 @@ const API_BASE = "https://zoroinnovations-backend.vercel.app";
 
 const apiClient = axios.create({
   baseURL: API_BASE,
-  timeout: 30000,
+  timeout: 50000,
   withCredentials: true,
 });
 
