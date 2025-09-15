@@ -4,7 +4,7 @@ import connectDB from './db/db.js';
 import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
+import fileUpload from 'express-fileupload';
 // Get current directory for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +15,12 @@ dotenv.config({
 });
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/zoroinnovations';
+
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: '/tmp/',
+  createParentPath: true,
+}));
 
 console.log('🚀 Starting ZoroInnovations Backend Server...');
 console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
