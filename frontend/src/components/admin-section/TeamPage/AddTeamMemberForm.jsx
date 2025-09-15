@@ -6,11 +6,12 @@ const placeholder = "/img1.png";
 const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(placeholder);
+  const [uploading, setUploading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
     role: "",
-    image: null, // File object
+    imageUrl: "", // ✅ Cloudinary URL
     bio: "",
     email: "",
     linkedinUrl: "",
@@ -23,19 +24,34 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
+    }));
   };
 
   const handleUploadClick = () => fileInputRef.current.click();
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-      setFormData({ ...formData, image: file });
+    if (!file) return;
+
+    setPreview(URL.createObjectURL(file));
+    setUploading(true);
+
+    try {
+      const uploadData = new FormData();
+      uploadData.append("image", file);
+
+      // ✅ Axios will set correct multipart headers automatically
+      const res = await axios.post("http://localhost:5000/api/v1/upload", uploadData);
+
+      setFormData((prev) => ({ ...prev, imageUrl: res.data.imageUrl }));
+    } catch (err) {
+      console.error("Image upload failed:", err);
+      alert("Image upload failed: " + (err.response?.data?.message || err.message));
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -44,47 +60,44 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
       alert("Name, role, and email are required");
       return;
     }
+    if (!formData.imageUrl) {
+      alert("Please upload an image before saving");
+      return;
+    }
 
     try {
-      const payload = new FormData();
-      payload.append("name", formData.name);
-      payload.append("role", formData.role);
-      payload.append("fullName", formData.name);
-      payload.append("position", formData.role);
-      payload.append("bio", formData.bio || "");
-      payload.append("email", formData.email);
-      payload.append("linkedinUrl", formData.linkedinUrl || "");
-      payload.append(
-        "specializations",
-        formData.specializations
-          ? JSON.stringify(formData.specializations.split(",").map((s) => s.trim()))
-          : "[]"
-      );
-      payload.append(
-        "certifications",
-        formData.certifications
-          ? JSON.stringify(formData.certifications.split(",").map((c) => c.trim()))
-          : "[]"
-      );
-      payload.append("yearsExperience", Number(formData.yearsExperience) || 0);
-      payload.append("isActive", formData.isActive);
-      payload.append("displayOrder", Number(formData.displayOrder) || 0);
-
-      if (formData.image) {
-        payload.append("image", formData.image); // File object
-      }
+      const payload = {
+        name: formData.name,
+        role: formData.role,
+        fullName: formData.name,
+        position: formData.role,
+        bio: formData.bio || "",
+        email: formData.email,
+        linkedinUrl: formData.linkedinUrl || "",
+        specializations: formData.specializations
+          ? formData.specializations.split(",").map((s) => s.trim())
+          : [],
+        certifications: formData.certifications
+          ? formData.certifications.split(",").map((c) => c.trim())
+          : [],
+        yearsExperience: Number(formData.yearsExperience) || 0,
+        isActive: formData.isActive,
+        displayOrder: Number(formData.displayOrder) || 0,
+        imageUrl: formData.imageUrl, // ✅ Cloudinary URL
+      };
 
       const res = await axios.post(
         "https://zoroinnovations-backend.vercel.app/api/admin/team-members",
-        payload,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        payload
       );
 
       alert("Team member added successfully!");
+
+      // reset form
       setFormData({
         name: "",
         role: "",
-        image: null,
+        imageUrl: "",
         bio: "",
         email: "",
         linkedinUrl: "",
@@ -98,10 +111,8 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
 
       if (onSuccess) onSuccess(res.data);
     } catch (err) {
-      console.error("Upload failed:", err);
-      alert(
-        "Error adding member: " + (err.response?.data?.message || err.message)
-      );
+      console.error("Save failed:", err);
+      alert("Error adding member: " + (err.response?.data?.message || err.message));
     }
   };
 
@@ -115,18 +126,20 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
       </button>
 
       <div className="space-y-4">
-        {["name", "role", "email", "linkedinUrl", "specializations", "certifications"].map((field) => (
-          <div key={field}>
-            <label className="font-bold text-gray-800 capitalize">{field}</label>
-            <input
-              type="text"
-              name={field}
-              value={formData[field]}
-              onChange={handleChange}
-              className="w-full mt-2 p-3 bg-gray-100 rounded-xl"
-            />
-          </div>
-        ))}
+        {["name", "role", "email", "linkedinUrl", "specializations", "certifications"].map(
+          (field) => (
+            <div key={field}>
+              <label className="font-bold text-gray-800 capitalize">{field}</label>
+              <input
+                type="text"
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+                className="w-full mt-2 p-3 bg-gray-100 rounded-xl"
+              />
+            </div>
+          )
+        )}
 
         <div>
           <label className="font-bold text-gray-800">Bio</label>
@@ -166,8 +179,9 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
           type="button"
           onClick={handleUploadClick}
           className="bg-orange-500 text-white px-4 py-2 rounded-xl font-bold"
+          disabled={uploading}
         >
-          Upload Image
+          {uploading ? "Uploading..." : "Upload Image"}
         </button>
 
         {["yearsExperience", "displayOrder"].map((field) => (
@@ -195,6 +209,7 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
             type="button"
             onClick={handleSave}
             className="px-6 py-3 bg-orange-500 text-white rounded-xl font-bold"
+            disabled={uploading}
           >
             Save
           </button>
