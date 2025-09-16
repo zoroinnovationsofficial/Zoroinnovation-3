@@ -1,7 +1,7 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { getAllMessages, getMessageById } from "../../api/contactApi";
 
-// --- Helpers ---
+// --- Helpers (moved outside component) ---
 const normalizeApiResponse = (response) => {
   if (Array.isArray(response)) return response;
   if (Array.isArray(response?.data)) return response.data;
@@ -25,7 +25,7 @@ const getStatusColor = (status) => {
   }
 };
 
-// --- Reducer ---
+// --- Reducer for State Management ---
 const initialState = {
   loading: true,
   error: null,
@@ -44,6 +44,7 @@ function reducer(state, action) {
       return { ...state, loading: false, messages: action.payload };
     case 'FETCH_FAILURE':
       return { ...state, loading: false, error: action.payload };
+
     case 'DETAIL_INIT':
       return { ...state, showDetail: true, detailLoading: true, detailError: null, selectedMessage: null };
     case 'DETAIL_SUCCESS':
@@ -52,6 +53,7 @@ function reducer(state, action) {
       return { ...state, detailLoading: false, detailError: action.payload };
     case 'DETAIL_CLOSE':
       return { ...state, showDetail: false, selectedMessage: null, detailError: null };
+      
     default:
       return state;
   }
@@ -60,34 +62,46 @@ function reducer(state, action) {
 const Contacts = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+
+
   useEffect(() => {
-    const fetchMessages = async () => {
+  const fetchMessages = async () => {
       dispatch({ type: 'FETCH_INIT' });
-
-      console.log("📡 Fetching messages (cookie-based auth)...");
-
+      
+      // Debug localStorage
+      console.log("🔍 Checking localStorage...");
+      console.log("🔍 accessToken:", localStorage.getItem("accessToken"));
+      console.log("🔍 isAuthenticated:", localStorage.getItem("isAuthenticated"));
+      console.log("🔍 currentUser:", localStorage.getItem("currentUser"));
+      
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        console.warn("❌ No accessToken in localStorage. User must log in.");
+        dispatch({ type: 'FETCH_FAILURE', payload: 'Please log in to access admin messages' });
+        return;
+      } else {
+        console.log("🔑 accessToken found in localStorage:", token.substring(0, 20) + "...");
+      }
+      
       try {
-        const data = await getAllMessages();
-        console.log("📡 getAllMessages response:", data);
-
-        const normalizedMessages = normalizeApiResponse(data);
-        console.log("📡 Normalized messages:", normalizedMessages);
-        console.log("📡 Messages count:", normalizedMessages.length);
-
+      console.log("📡 Calling getAllMessages()...");
+      const data = await getAllMessages();
+      console.log("📡 getAllMessages response:", data);
+      
+      const normalizedMessages = normalizeApiResponse(data);
+      console.log("📡 Normalized messages:", normalizedMessages);
+      console.log("📡 Messages count:", normalizedMessages.length);
+      
         dispatch({ type: 'FETCH_SUCCESS', payload: normalizedMessages });
       } catch (err) {
         console.error("❌ Error fetching messages:", err);
-        // If backend sends 401, show a friendly message
-        if (err.message?.toLowerCase().includes("unauthorized") || err.message?.includes("401")) {
-          dispatch({ type: 'FETCH_FAILURE', payload: "You are not authorized. Please log in as an admin." });
-        } else {
-          dispatch({ type: 'FETCH_FAILURE', payload: err.message || "Failed to fetch messages" });
-        }
+        dispatch({ type: 'FETCH_FAILURE', payload: err.message || "Failed to fetch messages" });
       }
     };
 
     fetchMessages();
   }, []);
+
 
   const openDetail = async (id) => {
     dispatch({ type: 'DETAIL_INIT' });
@@ -106,6 +120,7 @@ const Contacts = () => {
 
   const closeDetail = () => dispatch({ type: 'DETAIL_CLOSE' });
 
+
   if (state.loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-600 via-blue-700 to-red-400">
@@ -116,14 +131,8 @@ const Contacts = () => {
 
   if (state.error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-600 via-blue-700 to-red-400">
-        <p className="text-red-500 text-lg mb-4">Error: {state.error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-white text-blue-700 rounded-lg shadow hover:bg-gray-100"
-        >
-          Retry
-        </button>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-600 via-blue-700 to-red-400">
+        <p className="text-red-500 text-lg">Error: {state.error}</p>
       </div>
     );
   }
@@ -148,6 +157,11 @@ const Contacts = () => {
                   <button
                     onClick={() => {
                       dispatch({ type: 'FETCH_INIT' });
+                      const token = localStorage.getItem("accessToken");
+                      if (!token) {
+                        dispatch({ type: 'FETCH_FAILURE', payload: 'Please log in to access admin messages' });
+                        return;
+                      }
                       getAllMessages()
                         .then(data => {
                           const normalizedMessages = normalizeApiResponse(data);
@@ -165,6 +179,7 @@ const Contacts = () => {
                   </button>
                 </div>
               </div>
+
             </div>
 
             {/* Messages List */}
@@ -178,28 +193,48 @@ const Contacts = () => {
                 <div className="text-gray-600 mb-4">
                   Found {state.messages.length} message(s)
                 </div>
-
+                
+                {/* Table Format */}
                 <div className="overflow-x-auto">
                   <table className="min-w-full bg-white border border-gray-200 rounded-lg">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NAME</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">EMAIL</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">MESSAGE</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DATE</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STATUS</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          NAME
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          EMAIL
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          MESSAGE
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          DATE
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          STATUS
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {state.messages.map((message, index) => (
                         <tr key={message._id} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{message.name}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800">
-                            <a href={`mailto:${message.email}`} className="underline">{message.email}</a>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {message.name}
                           </td>
-                          <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">{message.message}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800">
+                            <a href={`mailto:${message.email}`} className="underline">
+                              {message.email}
+                            </a>
+                          </td>
+                          <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
+                            {message.message}
+                          </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {message.createdAt ? new Date(message.createdAt).toLocaleDateString() : message.date || "N/A"}
+                        {message.createdAt ? 
+                          new Date(message.createdAt).toLocaleDateString() : 
+                          message.date || "N/A"
+                        }
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(message.status)}`}>
@@ -216,6 +251,7 @@ const Contacts = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };
