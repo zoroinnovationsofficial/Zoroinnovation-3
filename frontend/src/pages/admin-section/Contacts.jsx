@@ -66,41 +66,35 @@ const Contacts = () => {
 
   useEffect(() => {
   const fetchMessages = async () => {
-      dispatch({ type: 'FETCH_INIT' });
-      
-      // Debug localStorage
-      console.log("🔍 Checking localStorage...");
-      console.log("🔍 accessToken:", localStorage.getItem("accessToken"));
-      console.log("🔍 isAuthenticated:", localStorage.getItem("isAuthenticated"));
-      console.log("🔍 currentUser:", localStorage.getItem("currentUser"));
-      
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        console.warn("❌ No accessToken in localStorage. User must log in.");
-        dispatch({ type: 'FETCH_FAILURE', payload: 'Please log in to access admin messages' });
-        return;
-      } else {
-        console.log("🔑 accessToken found in localStorage:", token.substring(0, 20) + "...");
-      }
-      
-      try {
+    dispatch({ type: 'FETCH_INIT' });
+
+    console.log("🔍 Checking login state...");
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+    const user = JSON.parse(localStorage.getItem("currentUser") || "null");
+
+    if (!isAuthenticated || !user) {
+      console.warn("❌ User not authenticated in localStorage.");
+      dispatch({ type: 'FETCH_FAILURE', payload: 'Please log in to access admin messages' });
+      return;
+    }
+
+    try {
       console.log("📡 Calling getAllMessages()...");
-      const data = await getAllMessages();
+      const data = await getAllMessages(); // axios already sends cookie because withCredentials: true
       console.log("📡 getAllMessages response:", data);
-      
+
       const normalizedMessages = normalizeApiResponse(data);
       console.log("📡 Normalized messages:", normalizedMessages);
-      console.log("📡 Messages count:", normalizedMessages.length);
-      
-        dispatch({ type: 'FETCH_SUCCESS', payload: normalizedMessages });
-      } catch (err) {
-        console.error("❌ Error fetching messages:", err);
-        dispatch({ type: 'FETCH_FAILURE', payload: err.message || "Failed to fetch messages" });
-      }
-    };
 
-    fetchMessages();
-  }, []);
+      dispatch({ type: 'FETCH_SUCCESS', payload: normalizedMessages });
+    } catch (err) {
+      console.error("❌ Error fetching messages:", err);
+      dispatch({ type: 'FETCH_FAILURE', payload: err.message || "Failed to fetch messages" });
+    }
+  };
+
+  fetchMessages();
+}, []);
 
 
   const openDetail = async (id) => {
