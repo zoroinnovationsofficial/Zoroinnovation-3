@@ -16,23 +16,6 @@ const publicApiClient = axios.create({
   withCredentials: true,
 });
 
-// Add request interceptor to include auth token (only for authenticated requests)
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-      console.log("🔑 Adding Bearer token to request:", config.url);
-    } else {
-      console.warn("⚠️ No access token found in localStorage for request:", config.url);
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
 // Add response interceptor for error handling (both clients)
 const responseInterceptor = (response) => response;
 const errorInterceptor = (error) => {
