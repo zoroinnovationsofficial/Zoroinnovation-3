@@ -75,7 +75,7 @@ export const sendContactMessage = async (formData) => {
  */
 export const getAllMessages = async () => {
   try {
-    const response = await apiClient.get("/api/v1/contacts");
+    const response = await apiClient.get("/api/v1/admin/messages");
     return response.data;
   } catch (error) {
     throw error;
