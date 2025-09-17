@@ -109,7 +109,6 @@ export default function EmployeeVer() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         credentials: 'include',
         mode: 'cors',
@@ -159,7 +158,6 @@ export default function EmployeeVer() {
       const res = await fetch(buildApiUrl(`/api/v1/employee/delete-employee/${id}`), {
         method: 'DELETE',
         headers: {
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         credentials: 'include',
         mode: 'cors',
@@ -222,7 +220,6 @@ export default function EmployeeVer() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         credentials: 'include',
         mode: 'cors',
