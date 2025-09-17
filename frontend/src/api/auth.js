@@ -4,7 +4,7 @@ const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 const apiClient = axios.create({
   baseURL: API_BASE,
-  timeout: 10000,
+  timeout: 15000,
   withCredentials: true, // ✅ allow sending/receiving cookies
 });
 
