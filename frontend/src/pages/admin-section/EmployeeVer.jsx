@@ -114,6 +114,7 @@ export default function EmployeeVer() {
         credentials: 'include',
         mode: 'cors',
         body: JSON.stringify({
+          employeeId: editData.id,
           fullName: editData.name,
           department: editData.department,
           role: editData.role,
