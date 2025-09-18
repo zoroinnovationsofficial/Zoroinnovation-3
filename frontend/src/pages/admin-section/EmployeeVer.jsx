@@ -28,32 +28,35 @@ export default function EmployeeVer() {
   const currentEmployees = employees.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(employees.length / employeesPerPage);
 
-  // ✅ Reusable fetch function (with cookies)
-  async function fetchEmployees() {
-    try {
-      const params = new URLSearchParams({ page: "1", limit: "1000" });
-      const res = await fetch(buildApiUrl(`/api/v1/employee/getemployees?${params}`), {
-        credentials: "include",
-        mode: "cors",
-      });
-      if (!res.ok) throw new Error("Failed to fetch employees");
-      const data = await res.json();
-      const list = (data?.employees || []).map((e) => ({
-        id: e.employeeId,
-        name: e.fullName,
-        department: e.department,
-        role: e.role,
-        startDate: e.startDate?.slice(0, 10) || "",
-        status: e.status,
-        certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
-      }));
-      setEmployees(list);
-    } catch (err) {
-      console.error("Admin fetch employees failed:", err.message);
-    }
-  }
-
+  // Load employees from backend
   useEffect(() => {
+    async function fetchEmployees() {
+      try {
+        const params = new URLSearchParams({ page: "1", limit: "1000" });
+        const res = await fetch(
+          buildApiUrl(`/api/v1/employee/getemployees?${params.toString()}`),
+          {
+            method: "GET",
+            credentials: "include",
+            mode: "cors",
+          }
+        );
+        if (!res.ok) throw new Error("Failed to fetch employees");
+        const data = await res.json();
+        const list = (data?.employees || []).map((e) => ({
+          id: e.employeeId,
+          name: e.fullName,
+          department: e.department,
+          role: e.role,
+          startDate: e.startDate?.slice(0, 10) || "",
+          status: e.status,
+          certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
+        }));
+        setEmployees(list);
+      } catch (err) {
+        console.error("Admin fetch employees failed:", err.message);
+      }
+    }
     fetchEmployees();
   }, []);
 
@@ -75,31 +78,39 @@ export default function EmployeeVer() {
       if (res.ok) {
         const data = await res.json();
         const e = data?.employee;
-        setSelectedEmployee(
-          e && {
-            id: e.employeeId,
-            name: e.fullName,
-            department: e.department,
-            role: e.role,
-            startDate: e.startDate?.slice(0, 10) || "",
-            status: e.status,
-            certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
-          }
-        );
-        if (!e) alert("No employee found with this ID");
+        const mapped = e && {
+          id: e.employeeId,
+          name: e.fullName,
+          department: e.department,
+          role: e.role,
+          startDate: e.startDate?.slice(0, 10) || "",
+          status: e.status,
+          certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
+        };
+        setSelectedEmployee(mapped || null);
+        if (!mapped) alert("No employee found with this ID");
         return;
       }
     } catch (err) {
       console.warn("Primary verify failed, falling back to list search.");
     }
 
-    // Fallback search
-    const found = employees.find((emp) => (emp.id || "").toLowerCase() === trimmed.toLowerCase());
+    // Fallback to local list search
+    const found = employees.find(
+      (emp) => (emp.id || "").toLowerCase() === trimmed.toLowerCase()
+    );
     setSelectedEmployee(found || null);
     if (!found) alert("No employee found with this ID");
   };
 
   // --- Edit ---
+  function handleEdit(emp) {
+    setEditData(emp);
+    setEditModalOpen(true);
+  }
+  function handleEditChange(e) {
+    setEditData({ ...editData, [e.target.name]: e.target.value });
+  }
   async function handleEditSubmit() {
     try {
       const res = await fetch(buildApiUrl(`/api/v1/employee/edit-employee/${editData.id}`), {
@@ -118,7 +129,7 @@ export default function EmployeeVer() {
         }),
       });
       if (res.ok) {
-        await fetchEmployees(); // ✅ refresh list
+        await refreshEmployeeList();
         setEditModalOpen(false);
       } else {
         alert("Failed to update employee");
@@ -139,7 +150,7 @@ export default function EmployeeVer() {
         mode: "cors",
       });
       if (res.ok) {
-        await fetchEmployees();
+        await refreshEmployeeList();
       } else {
         alert("Failed to delete employee");
       }
@@ -149,7 +160,10 @@ export default function EmployeeVer() {
     }
   }
 
-  // --- Add ---
+  // --- Add New Employee ---
+  function handleNewChange(e) {
+    setNewData({ ...newData, [e.target.name]: e.target.value });
+  }
   async function handleNewSubmit() {
     const missing = [];
     if (!newData.id) missing.push("Employee ID");
@@ -187,11 +201,20 @@ export default function EmployeeVer() {
         }),
       });
       if (res.ok) {
-        await fetchEmployees();
-        setNewData({ id: "", name: "", department: "", role: "", startDate: "", status: "", certificateDate: "" });
+        await refreshEmployeeList();
+        setNewData({
+          id: "",
+          name: "",
+          department: "",
+          role: "",
+          startDate: "",
+          status: "",
+          certificateDate: "",
+        });
         setAddModalOpen(false);
       } else {
-        alert("Failed to create employee");
+        const errMsg = await res.text().catch(() => "");
+        alert(`Failed to create employee${errMsg ? `: ${errMsg}` : ""}`);
       }
     } catch (err) {
       console.error("Create failed:", err);
@@ -199,11 +222,37 @@ export default function EmployeeVer() {
     }
   }
 
+  async function refreshEmployeeList() {
+    try {
+      const params = new URLSearchParams({ page: "1", limit: "1000" });
+      const listRes = await fetch(
+        buildApiUrl(`/api/v1/employee/getemployees?${params.toString()}`),
+        { method: "GET", credentials: "include", mode: "cors" }
+      );
+      if (listRes.ok) {
+        const data = await listRes.json();
+        const list = (data?.employees || []).map((e) => ({
+          id: e.employeeId,
+          name: e.fullName,
+          department: e.department,
+          role: e.role,
+          startDate: e.startDate?.slice(0, 10) || "",
+          status: e.status,
+          certificateDate: e.certificateIssueDate?.slice(0, 10) || "",
+        }));
+        setEmployees(list);
+      }
+    } catch (err) {
+      console.error("Refresh employee list failed:", err);
+    }
+  }
+
   return (
-    // ✅ rest of your JSX stays unchanged
-    // (I just removed localStorage usage & ensured cookie-based requests)
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0047ab] via-[#5d6bd9] to-[#ff7e5f]">
-      {/* ... your JSX remains unchanged ... */}
+      <div className="flex-1 p-6">
+        {/* Table & Controls */}
+        {/* ... (KEEP THE SAME TABLE, MODALS, AND UI FROM YOUR ORIGINAL CODE) */}
+      </div>
     </div>
   );
 }
