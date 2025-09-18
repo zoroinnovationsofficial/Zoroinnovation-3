@@ -103,7 +103,6 @@ export default function EmployeeVer() {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   }
   async function handleEditSubmit() {
-    const token = localStorage.getItem('accessToken');
     try {
       const res = await fetch(buildApiUrl(`/api/v1/employee/edit-employee/${editData.id}`), {
         method: 'PUT',
