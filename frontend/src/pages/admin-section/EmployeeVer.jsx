@@ -156,8 +156,7 @@ export default function EmployeeVer() {
     try {
       const res = await fetch(buildApiUrl(`/api/v1/employee/delete-employee/${id}`), {
         method: 'DELETE',
-        headers: {
-        },
+        headers: {},
         credentials: 'include',
         mode: 'cors',
       });
@@ -214,7 +213,6 @@ export default function EmployeeVer() {
     }
 
     try {
-      const token = localStorage.getItem('accessToken');
       const res = await fetch(buildApiUrl('/api/v1/employee/create-employee'), {
         method: 'POST',
         headers: {
