@@ -10,13 +10,7 @@ const apiClient = axios.create({
 });
 
 // 🔹 Attach token automatically (if available)
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+
 
 // Helper to map frontend fields to backend fields
 const buildFormData = (data) => {
