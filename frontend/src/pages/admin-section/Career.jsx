@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import search from "../../assets/Searchicon.svg";
 
 // ✅ Use API base URL from .env
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
+
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000/api/v1";
 
 const Careers = () => {
   const [jobs, setJobs] = useState([]);
@@ -29,7 +30,7 @@ const Careers = () => {
     try {
       const token = localStorage.getItem("token"); // Adjust if using context/auth library
       const res = await fetch(`${API_BASE_URL}/admin/jobs`, {
-        headers: { "Authorization": `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch jobs");
       const data = await res.json();
@@ -59,7 +60,7 @@ const Careers = () => {
       const token = localStorage.getItem("token");
       const res = await fetch(`${API_BASE_URL}/admin/jobs/${id}`, {
         method: "DELETE",
-        headers: { "Authorization": `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to delete job");
       setJobs((prev) => prev.filter((job) => job._id !== id));
@@ -78,7 +79,7 @@ const Careers = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ status: updatedStatus }),
       });
@@ -102,7 +103,7 @@ const Careers = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updatedJob),
       });
@@ -119,7 +120,12 @@ const Careers = () => {
 
   // ➕ Add new job
   const handleAddJob = async () => {
-    if (!newJob.title || !newJob.department || !newJob.location || !newJob.date) {
+    if (
+      !newJob.title ||
+      !newJob.department ||
+      !newJob.location ||
+      !newJob.date
+    ) {
       setError("Please fill all fields!");
       return;
     }
@@ -129,17 +135,25 @@ const Careers = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(newJob),
       });
       if (!res.ok) {
         const errorText = await res.text();
-        throw new Error(`HTTP ${res.status}: ${errorText || "Job failed to add"}`);
+        throw new Error(
+          `HTTP ${res.status}: ${errorText || "Job failed to add"}`
+        );
       }
       const savedJob = await res.json();
       setJobs((prev) => [...prev, savedJob]);
-      setNewJob({ title: "", department: "", location: "", status: "Open", date: "" });
+      setNewJob({
+        title: "",
+        department: "",
+        location: "",
+        status: "Open",
+        date: "",
+      });
       setNewJobModal(false);
       setError("");
     } catch (err) {
@@ -151,7 +165,9 @@ const Careers = () => {
   return (
     <div className="min-h-screen mt-10 w-full bg-gradient-to-br from-blue-900 via-blue-500 to-orange-500 py-12 px-4 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold text-white">Job Postings</h1>
-      <p className="text-md text-white my-2">Manage current job openings and create new ones.</p>
+      <p className="text-md text-white my-2">
+        Manage current job openings and create new ones.
+      </p>
 
       {/* 🔍 Search */}
       <div className="flex items-center gap-3 my-6 w-full">
@@ -173,7 +189,9 @@ const Careers = () => {
       </div>
 
       {/* Error Message */}
-      {error && <div className="text-red-100 bg-red-600 p-2 mb-4 rounded">{error}</div>}
+      {error && (
+        <div className="text-red-100 bg-red-600 p-2 mb-4 rounded">{error}</div>
+      )}
 
       {/* Jobs Table */}
       <div className="hidden md:block w-full mx-auto bg-white rounded-3xl shadow-lg text-black p-4">
@@ -191,10 +209,17 @@ const Careers = () => {
             </thead>
             <tbody>
               {currentJobs.map((job) => (
-                <tr key={job._id} className="border-b-2 border-gray-200 hover:bg-gray-100 transition-all">
+                <tr
+                  key={job._id}
+                  className="border-b-2 border-gray-200 hover:bg-gray-100 transition-all"
+                >
                   <td className="py-4 px-4 font-medium">{job.title}</td>
-                  <td className="py-4 px-4 text-blue-500 underline">{job.department}</td>
-                  <td className="py-4 px-4 text-blue-500 underline">{job.location}</td>
+                  <td className="py-4 px-4 text-blue-500 underline">
+                    {job.department}
+                  </td>
+                  <td className="py-4 px-4 text-blue-500 underline">
+                    {job.location}
+                  </td>
                   <td className="py-2 px-4">
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-semibold ${
@@ -208,11 +233,17 @@ const Careers = () => {
                   </td>
                   <td className="py-4 px-4">{job.date}</td>
                   <td className="py-4 px-4 text-sm text-blue-600 space-x-2">
-                    <button className="hover:underline" onClick={() => setEditingJob(job)}>
+                    <button
+                      className="hover:underline"
+                      onClick={() => setEditingJob(job)}
+                    >
                       Edit
                     </button>
                     <span>|</span>
-                    <button className="hover:underline text-red-600" onClick={() => handleDelete(job._id)}>
+                    <button
+                      className="hover:underline text-red-600"
+                      onClick={() => handleDelete(job._id)}
+                    >
                       Delete
                     </button>
                     <span>|</span>
@@ -271,14 +302,18 @@ const Careers = () => {
               type="text"
               placeholder="Department"
               value={newJob.department}
-              onChange={(e) => setNewJob({ ...newJob, department: e.target.value })}
+              onChange={(e) =>
+                setNewJob({ ...newJob, department: e.target.value })
+              }
               className="w-full p-2 mb-2 border"
             />
             <input
               type="text"
               placeholder="Location"
               value={newJob.location}
-              onChange={(e) => setNewJob({ ...newJob, location: e.target.value })}
+              onChange={(e) =>
+                setNewJob({ ...newJob, location: e.target.value })
+              }
               className="w-full p-2 mb-2 border"
             />
             <input
