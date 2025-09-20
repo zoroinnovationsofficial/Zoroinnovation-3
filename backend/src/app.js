@@ -40,7 +40,7 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
-      
+
       // Check if origin is in allowed list
       const isAllowed = allowedOrigins.some(allowedOrigin => {
         if (typeof allowedOrigin === 'string') {
@@ -50,7 +50,7 @@ app.use(
         }
         return false;
       });
-      
+
       if (isAllowed) {
         callback(null, true);
       } else {
@@ -85,7 +85,7 @@ app.use('/api/team-members', teamMemberRoutes);
 app.use('/api/admin/team-members', adminTeamMemberRoutes);
 
 app.use('/api/v1/employee', employeeRoutes);
- 
+
 
 
 export default app;
