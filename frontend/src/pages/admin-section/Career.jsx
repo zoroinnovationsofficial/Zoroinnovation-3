@@ -3,7 +3,7 @@ import search from "../../assets/Searchicon.svg";
 
 // ✅ Use API base URL from .env
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000/api/v1";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 const Careers = () => {
   const [jobs, setJobs] = useState([]);
@@ -29,7 +29,7 @@ const Careers = () => {
   const fetchJobs = async () => {
     try {
       const token = localStorage.getItem("token"); // Adjust if using context/auth library
-      const res = await fetch(`${API_URL}/admin/jobs`, {
+      const res = await fetch(`${API_URL}/api/v1/admin/jobs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch jobs");
@@ -58,7 +58,7 @@ const Careers = () => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/admin/jobs/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/admin/jobs/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -75,7 +75,7 @@ const Careers = () => {
     try {
       const token = localStorage.getItem("token");
       const updatedStatus = currentStatus === "Open" ? "Closed" : "Open";
-      const res = await fetch(`${API_URL}/admin/jobs/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/admin/jobs/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -99,14 +99,17 @@ const Careers = () => {
   const handleSaveEdit = async (updatedJob) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/admin/jobs/${updatedJob._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedJob),
-      });
+      const res = await fetch(
+        `${API_URL}/api/v1/admin/jobs/${updatedJob._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedJob),
+        }
+      );
       if (!res.ok) throw new Error("Failed to save edit");
       setJobs((prev) =>
         prev.map((job) => (job._id === updatedJob._id ? updatedJob : job))
@@ -131,7 +134,7 @@ const Careers = () => {
     }
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/admin/jobs`, {
+      const res = await fetch(`${API_URL}/api/v1/admin/jobs`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
