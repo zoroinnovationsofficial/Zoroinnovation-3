@@ -25,6 +25,7 @@ const app = express();
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  'https://zoroinnovations-virid.vercel.app',
   /^https:\/\/.*-rajathravikumar2205-gmailcoms-projects\.vercel\.app$/,
   'http://localhost:5173',
   'http://localhost:5174',
