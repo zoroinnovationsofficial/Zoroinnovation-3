@@ -29,7 +29,7 @@ const Careers = () => {
   const fetchJobs = async () => {
     try {
       const token = localStorage.getItem("token"); // Adjust if using context/auth library
-      const res = await fetch(`${API_BASE_URL}/admin/jobs`, {
+      const res = await fetch(`${API_URL}/admin/jobs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch jobs");
@@ -58,7 +58,7 @@ const Careers = () => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE_URL}/admin/jobs/${id}`, {
+      const res = await fetch(`${API_URL}/admin/jobs/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -75,7 +75,7 @@ const Careers = () => {
     try {
       const token = localStorage.getItem("token");
       const updatedStatus = currentStatus === "Open" ? "Closed" : "Open";
-      const res = await fetch(`${API_BASE_URL}/admin/jobs/${id}`, {
+      const res = await fetch(`${API_URL}/admin/jobs/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +99,7 @@ const Careers = () => {
   const handleSaveEdit = async (updatedJob) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE_URL}/admin/jobs/${updatedJob._id}`, {
+      const res = await fetch(`${API_URL}/admin/jobs/${updatedJob._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -131,7 +131,7 @@ const Careers = () => {
     }
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE_URL}/admin/jobs`, {
+      const res = await fetch(`${API_URL}/admin/jobs`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
