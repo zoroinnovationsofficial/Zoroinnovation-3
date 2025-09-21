@@ -1,10 +1,9 @@
 // src/api/teamMemberApi.js
 import axios from "axios";
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { API_CONFIG } from "./config";
 
 const apiClient = axios.create({
-  baseURL: API_BASE,
+  baseURL: API_CONFIG.BASE_URL,
   timeout: 50000,
   withCredentials: true,
 });
