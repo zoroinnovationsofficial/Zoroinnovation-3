@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function PricingPackages() {
   const packages = [
     {
@@ -86,15 +88,17 @@ export default function PricingPackages() {
               ))}
             </ul>
 
-            <button
-              className={`px-6 py-2 w-full rounded-md font-semibold transition-colors duration-300 ${
+            {/* React Router Link */}
+            <Link
+              to="/contact"
+              className={`px-6 py-2 w-full rounded-md font-semibold transition-colors duration-300 text-center block ${
                 pkg.highlight
                   ? "bg-orange-300 hover:bg-orange-600 text-black"
                   : "bg-gray-300 hover:bg-orange-600 text-black"
               }`}
             >
               {pkg.cta}
-            </button>
+            </Link>
           </div>
         ))}
       </div>
