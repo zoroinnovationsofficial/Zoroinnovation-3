@@ -47,12 +47,13 @@ const DigitalResources = () => {
   return (
     <section className="digital-resources">
       <div className="container">
-        <div className="header">
-          <h2>Digital Resources</h2>
-          <p>
+       <div className="header" style={{ color: "white" }}> 
+           <h2 style={{ color: "white" }}>Digital Resources</h2> 
+            {/* Applied style directly to <p> */}
+            <p style={{ color: "white" }}>
             Explore our latest insights, guides, and tools to help you make
             smarter technology decisions and drive innovation.
-          </p>
+            </p>
         </div>
 
         <div className="resources-grid">
