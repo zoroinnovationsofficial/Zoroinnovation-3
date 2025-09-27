@@ -35,30 +35,96 @@ const ContactForm = () => {
           </div>
         </div>
 
-        {/* Contact Form */}
-        <div className="flex-1 bg-white p-8 rounded-xl shadow-md">
-          <form className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-              <input type="text" id="name" className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400" />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" id="email" className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400" />
-            </div>
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone</label>
-              <input type="tel" id="phone" className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400" />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
-              <textarea id="message" rows="4" className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"></textarea>
-            </div>
-            <button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg transition">
-              Send Message
-            </button>
-          </form>
-        </div>
+        {/* Right Section - Form */}
+          <div className="contact-right">
+            <form onSubmit={handleSubmit} className="contact-form">
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name">Your Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="John Smith"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="city">Your City</label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    placeholder="New York"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="john@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="message">How can we help?</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Tell us about your goals or concerns..."
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+
+              <button type="submit" className="submit-btn" disabled={loading}>
+                {loading ? "Sending..." : (
+                  <>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M22 2L11 13" stroke="white" strokeWidth="2" />
+                      <path
+                        d="M22 2L15 22L11 13L2 9L22 2Z"
+                        stroke="white"
+                        strokeWidth="2"
+                        fill="none"
+                      />
+                    </svg>
+                    Send Message
+                  </>
+                )}
+              </button>
+
+              {status.message && (
+                <p
+                  style={{
+                    color: status.type === "success" ? "green" : "red",
+                    marginTop: "10px",
+                  }}
+                >
+                  {status.message}
+                </p>
+              )}
+
+              <p className="privacy-text">
+                By submitting this form, you agree to our{" "}
+                <a href="#">Privacy Policy</a>
+              </p>
+            </form>
+          </div>
       </div>
     </section>
   );
