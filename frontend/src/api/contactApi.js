@@ -85,6 +85,50 @@ export const getAllMessages = async () => {
 
 
 /**
+ * Send a service quote request (public - no authentication required)
+ * @param {Object} formData - The service quote form data
+ * @param {string} formData.fullName - User's full name
+ * @param {string} formData.email - User's email
+ * @param {string} formData.companyName - Company name
+ * @param {string} formData.phoneNumber - Phone number
+ * @param {Array} formData.services - Selected services
+ * @param {string} formData.budget - Budget range
+ * @param {string} formData.timeline - Project timeline
+ * @param {string} formData.projectDescription - Project description
+ * @returns {Promise<Object>} API response
+ */
+export const sendServiceQuote = async (formData) => {
+  try {
+    if (!formData?.fullName || !formData?.email || !formData?.projectDescription) {
+      throw new Error("Full name, email, and project description are required fields");
+    }
+
+    console.log("📤 Sending service quote via public API...");
+    const response = await publicApiClient.post("/api/v1/contacts", {
+      name: formData.fullName,
+      email: formData.email,
+      city: formData.companyName || "Not specified",
+      message: `Service Quote Request:
+      
+Company: ${formData.companyName || "Not specified"}
+Phone: ${formData.phoneNumber || "Not provided"}
+Services: ${formData.services.join(", ") || "None selected"}
+Budget: ${formData.budget || "Not specified"}
+Timeline: ${formData.timeline || "Not specified"}
+
+Project Description:
+${formData.projectDescription}`,
+      subject: "Service Quote Request"
+    });
+    console.log("✅ Service quote sent successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Error sending service quote:", error);
+    throw error;
+  }
+};
+
+/**
  * Get a specific message by ID (admin only)
  * @param {string} id - Message ID
  * @returns {Promise<Object>} Message data
