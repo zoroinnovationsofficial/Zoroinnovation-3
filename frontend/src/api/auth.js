@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
+import { API_CONFIG } from "./config";
 
 const apiClient = axios.create({
-  baseURL: API_BASE,
+  baseURL: API_CONFIG.BASE_URL,
   timeout: 10000,
   withCredentials: true, // ✅ allow sending/receiving cookies
 });

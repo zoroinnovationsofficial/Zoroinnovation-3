@@ -12,12 +12,13 @@ import categoryRoutes from './routes/category.routes.js';
 import newsletterRoutes from './routes/newsletter.routes.js';
 import postRouter from './routes/post.routes.js';
 import projectRoutes from './routes/project.routes.js';
-
+import uploadRoutes from './routes/uploadRoutes.js';
 import adminTeamMemberRoutes from './routes/adminTeamMemberRoutes.js';
 import teamMemberRoutes from './routes/teamMemberRoutes.js';
 
 import employeeRoutes from './routes/employeeVerify.routes.js';
 import jobRoutes from './routes/job.routes.js';
+
 
 const app = express();
 
@@ -25,6 +26,7 @@ const app = express();
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  'https://zoroinnovations-virid.vercel.app',
   /^https:\/\/.*-rajathravikumar2205-gmailcoms-projects\.vercel\.app$/,
   'http://localhost:5173',
   'http://localhost:5174',
@@ -39,7 +41,7 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
-      
+
       // Check if origin is in allowed list
       const isAllowed = allowedOrigins.some(allowedOrigin => {
         if (typeof allowedOrigin === 'string') {
@@ -49,7 +51,7 @@ app.use(
         }
         return false;
       });
-      
+
       if (isAllowed) {
         callback(null, true);
       } else {
@@ -80,12 +82,12 @@ app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/authors', authorRoutes);
 app.use('/api/v1/newsletter', newsletterRoutes);
 app.use('/api/v1/projects', projectRoutes);
-
+app.use("/api/v1/upload", uploadRoutes);
 app.use('/api/team-members', teamMemberRoutes);
 app.use('/api/admin/team-members', adminTeamMemberRoutes);
 
 app.use('/api/v1/employee', employeeRoutes);
- 
+
 
 
 export default app;

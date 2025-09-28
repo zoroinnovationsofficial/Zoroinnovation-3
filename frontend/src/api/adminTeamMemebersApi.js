@@ -1,11 +1,10 @@
 // src/api/teamMemberApi.js
 import axios from "axios";
-
-const API_BASE = "https://zoroinnovations-backend.vercel.app";
+import { API_CONFIG } from "./config";
 
 const apiClient = axios.create({
-  baseURL: API_BASE,
-  timeout: 30000,
+  baseURL: API_CONFIG.BASE_URL,
+  timeout: 50000,
   withCredentials: true,
 });
 
@@ -93,40 +92,40 @@ export const createTeamMember = async (data) => {
 
 // UPDATE a team member by ID
 export const updateTeamMember = async (id, data) => {
-    try {
-      // Send JSON exactly as backend expects
-      const payload = {
-        fullName: data.fullName,
-        position: data.position,
-        bio: data.bio,
-        email: data.email,
-        linkedinUrl: data.linkedinUrl,
-        phone: data.phone,
-        specializations: data.specializations || [],
-        certifications: data.certifications || [],
-        yearsExperience: data.yearsExperience,
-        isActive: data.isActive,
-        displayOrder: data.displayOrder,
-      };
-  
-      const response = await apiClient.put(
-        `/api/admin/team-members/${id}`,
-        payload,
-        { headers: { "Content-Type": "application/json" } }
-      );
-  
-      return response.data;
-    } catch (error) {
-      console.error("Error updating member:", error.response || error);
-      const message =
-        error?.response?.data?.message ||
-        error?.message ||
-        "Failed to update team member";
-      throw new Error(message);
-    }
-  };
-  
-  
+  try {
+    // Send JSON exactly as backend expects
+    const payload = {
+      fullName: data.fullName,
+      position: data.position,
+      bio: data.bio,
+      email: data.email,
+      linkedinUrl: data.linkedinUrl,
+      phone: data.phone,
+      specializations: data.specializations || [],
+      certifications: data.certifications || [],
+      yearsExperience: data.yearsExperience,
+      isActive: data.isActive,
+      displayOrder: data.displayOrder,
+    };
+
+    const response = await apiClient.put(
+      `/api/admin/team-members/${id}`,
+      payload,
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error updating member:", error.response || error);
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to update team member";
+    throw new Error(message);
+  }
+};
+
+
 
 // DELETE a team member by ID
 export const deleteTeamMember = async (id) => {
