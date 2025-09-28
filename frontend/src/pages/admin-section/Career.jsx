@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import search from "../../assets/Searchicon.svg";
 import { 
@@ -8,14 +7,6 @@ import {
   deleteJob as deleteJobApi,
   toggleJobStatus as toggleJobStatusApi,
 } from "../../api/jobApi";
-=======
-import React, { useState, useEffect } from "react";
-import search from "../../assets/Searchicon.svg";
-
-// ✅ Use API base URL from .env
-
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
->>>>>>> 474cf140ca7a97aa648dca2402af712558b984b1
 
 const Careers = () => {
   const [jobs, setJobs] = useState([]);
@@ -33,46 +24,25 @@ const Careers = () => {
     type: "Full-time",
     salary: "",
   });
-<<<<<<< HEAD
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const load = async () => {
       try {
         const res = await fetchAllJobs();
         setJobs(res?.data || []);
+        setError("");
       } catch (e) {
         console.error('Failed to load jobs:', e);
+        setError(e?.message ? `Failed to load jobs: ${e.message}` : "Failed to load jobs");
       }
     };
     load();
   }, []);
 
-  // Pagination state
-=======
-  const [error, setError] = useState("");
->>>>>>> 474cf140ca7a97aa648dca2402af712558b984b1
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 4;
 
-  // 🔹 Fetch jobs from backend
-  useEffect(() => {
-    fetchJobs();
-  }, []);
-
-  const fetchJobs = async () => {
-    try {
-      const token = localStorage.getItem("token"); // Adjust if using context/auth library
-      const res = await fetch(`${API_URL}/api/v1/admin/jobs`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error("Failed to fetch jobs");
-      const data = await res.json();
-      setJobs(data);
-    } catch (err) {
-      setError("Failed to load jobs: " + err.message);
-      console.error("Error fetching jobs:", err);
-    }
-  };
 
   // 🔍 Filter jobs
   const filteredJobs = jobs.filter(
@@ -87,15 +57,15 @@ const Careers = () => {
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
 
-<<<<<<< HEAD
   // 🗑 Delete job (persist to server)
   const handleDelete = async (id) => {
     try {
       await deleteJobApi(id);
       setJobs((prev) => prev.filter((job) => job._id !== id && job.id !== id));
+      setError("");
     } catch (e) {
       console.error('Delete failed:', e);
-      alert(e.message || 'Delete failed');
+      setError(e?.message ? `Failed to delete job: ${e.message}` : "Failed to delete job");
     }
   };
 
@@ -105,9 +75,10 @@ const Careers = () => {
       const res = await toggleJobStatusApi(id);
       const updated = res?.data;
       setJobs((prev) => prev.map((job) => (job._id === id || job.id === id ? updated : job)));
+      setError("");
     } catch (e) {
       console.error('Toggle status failed:', e);
-      alert(e.message || 'Toggle status failed');
+      setError(e?.message ? `Failed to update status: ${e.message}` : "Failed to update status");
     }
   };
 
@@ -119,16 +90,17 @@ const Careers = () => {
       const saved = res?.data;
       setJobs((prev) => prev.map((job) => (job._id === id || job.id === id ? saved : job)));
       setEditingJob(null);
+      setError("");
     } catch (e) {
       console.error('Update failed:', e);
-      alert(e.message || 'Update failed');
+      setError(e?.message ? `Failed to save edit: ${e.message}` : "Failed to save edit");
     }
   };
 
   // ➕ Add new job (persist to server)
   const handleAddJob = async () => {
     if (!newJob.title || !newJob.department || !newJob.location || !newJob.date || !newJob.applicationUrl) {
-      alert("Please fill all fields!");
+      setError("Please fill all fields!");
       return;
     }
     try {
@@ -137,119 +109,10 @@ const Careers = () => {
       setJobs((prev) => [...prev, saved]);
       setNewJob({ title: "", department: "", location: "", status: "Open", date: "", applicationUrl: "", description: "", type: "Full-time", salary: "" });
       setNewJobModal(false);
+      setError("");
     } catch (e) {
       console.error('Create failed:', e);
-      alert(e.message || 'Create failed');
-=======
-  // 🗑 Delete job
-  const handleDelete = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/v1/admin/jobs/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error("Failed to delete job");
-      setJobs((prev) => prev.filter((job) => job._id !== id));
-    } catch (err) {
-      setError("Failed to delete job: " + err.message);
-      console.error("Error deleting job:", err);
-    }
-  };
-
-  // 🔄 Toggle status
-  const handleToggleStatus = async (id, currentStatus) => {
-    try {
-      const token = localStorage.getItem("token");
-      const updatedStatus = currentStatus === "Open" ? "Closed" : "Open";
-      const res = await fetch(`${API_URL}/api/v1/admin/jobs/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ status: updatedStatus }),
-      });
-      if (!res.ok) throw new Error("Failed to update status");
-      setJobs((prev) =>
-        prev.map((job) =>
-          job._id === id ? { ...job, status: updatedStatus } : job
-        )
-      );
-    } catch (err) {
-      setError("Failed to update status: " + err.message);
-      console.error("Error updating status:", err);
-    }
-  };
-
-  // ✏️ Save edit
-  const handleSaveEdit = async (updatedJob) => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(
-        `${API_URL}/api/v1/admin/jobs/${updatedJob._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(updatedJob),
-        }
-      );
-      if (!res.ok) throw new Error("Failed to save edit");
-      setJobs((prev) =>
-        prev.map((job) => (job._id === updatedJob._id ? updatedJob : job))
-      );
-      setEditingJob(null);
-    } catch (err) {
-      setError("Failed to save edit: " + err.message);
-      console.error("Error saving edit:", err);
-    }
-  };
-
-  // ➕ Add new job
-  const handleAddJob = async () => {
-    if (
-      !newJob.title ||
-      !newJob.department ||
-      !newJob.location ||
-      !newJob.date
-    ) {
-      setError("Please fill all fields!");
-      return;
-    }
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/v1/admin/jobs`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newJob),
-      });
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(
-          `HTTP ${res.status}: ${errorText || "Job failed to add"}`
-        );
-      }
-      const savedJob = await res.json();
-      setJobs((prev) => [...prev, savedJob]);
-      setNewJob({
-        title: "",
-        department: "",
-        location: "",
-        status: "Open",
-        date: "",
-      });
-      setNewJobModal(false);
-      setError("");
-    } catch (err) {
-      setError("Job failed to add: " + err.message);
-      console.error("Error adding job:", err);
->>>>>>> 474cf140ca7a97aa648dca2402af712558b984b1
+      setError(e?.message ? `Job failed to add: ${e.message}` : "Job failed to add");
     }
   };
 
@@ -389,7 +252,6 @@ const Careers = () => {
         </button>
       </div>
 
-<<<<<<< HEAD
       {/* Edit Modal */}
       {editingJob && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
@@ -450,9 +312,6 @@ const Careers = () => {
       )}
 
       {/* Create Job Modal */}
-=======
-      {/* Modal for New Job (Assumed Structure - Add Your Modal JSX Here) */}
->>>>>>> 474cf140ca7a97aa648dca2402af712558b984b1
       {newJobModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg">
