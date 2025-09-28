@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+// Assuming 'sendContactMessage' is available at this path relative to the component
+// NOTE: Adjust the path below if 'sendContactMessage' is located elsewhere for this version
+import { sendContactMessage } from "../../../api/contactApi.js"; 
 
 const ContactForm = () => {
   // 1. Define initial state for form data, loading, and status
@@ -21,19 +24,18 @@ const ContactForm = () => {
     }));
   };
 
-  // 3. Define handleSubmit function
+  // 3. Define handleSubmit function - CONNECTING TO THE API
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setStatus({ message: '', type: '' });
 
-    // In a real application, you would send the formData to your backend API here.
-    // For this example, we'll use a simulated API call with a delay.
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // 🚀 Replacing the simulated call with the actual API call 🚀
+      const result = await sendContactMessage(formData); 
+      console.log("Message submitted successfully:", result);
 
-      // Simulate a successful submission
+      // Handle successful submission
       setStatus({
         message: 'Message sent successfully! We will be in touch soon.',
         type: 'success',
@@ -42,9 +44,11 @@ const ContactForm = () => {
 
     } catch (error) {
       // Handle potential submission error
+      console.error("Error submitting message:", error);
       setStatus({
-        message: 'An error occurred. Please try again later.',
         type: 'error',
+        // Use the error message from the API if available, otherwise use a generic one
+        message: error.message || 'Something went wrong. Please try again.',
       });
     } finally {
       setLoading(false);
