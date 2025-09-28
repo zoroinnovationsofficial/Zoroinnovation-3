@@ -1,4 +1,5 @@
 import Contact from '../models/contacts.model.js';
+import Settings from '../models/settings.model.js';
 
 // All messages
 export const getAllMessages = async (req, res) => {
@@ -139,6 +140,47 @@ export const viewSingleMessage = async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching message by ID:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// Get settings (including Google form link)
+export const getSettings = async (req, res) => {
+  try {
+    console.log('Fetching settings...');
+    const settings = await Settings.getSettings();
+    console.log('Settings retrieved:', settings);
+    res.status(200).json({
+      message: 'Settings retrieved successfully',
+      data: settings,
+    });
+  } catch (error) {
+    console.error('Error fetching settings:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// Update settings (including Google form link)
+export const updateSettings = async (req, res) => {
+  try {
+    const { googleFormLink } = req.body;
+    console.log('Updating settings with Google form link:', googleFormLink);
+    
+    const settings = await Settings.getSettings();
+    console.log('Current settings before update:', settings);
+    
+    settings.googleFormLink = googleFormLink || '';
+    settings.updatedAt = new Date();
+    
+    const savedSettings = await settings.save();
+    console.log('Settings saved successfully:', savedSettings);
+    
+    res.status(200).json({
+      message: 'Settings updated successfully',
+      data: savedSettings,
+    });
+  } catch (error) {
+    console.error('Error updating settings:', error);
     res.status(500).json({ error: 'Server error' });
   }
 };

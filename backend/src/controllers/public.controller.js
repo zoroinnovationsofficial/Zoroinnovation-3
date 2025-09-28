@@ -1,4 +1,5 @@
 import Contact from '../models/contacts.model.js';
+import Settings from '../models/settings.model.js';
 
 // Save message to db
 export const submitMessage = async (req, res) => {
@@ -81,5 +82,21 @@ export const getAllContacts = async (req, res) => {
   } catch (error) {
     console.error('Error fetching contacts:', error);
     res.status(500).json({ error: 'Something went wrong.' });
+  }
+};
+
+// Get Google form link (public)
+export const getGoogleFormLink = async (req, res) => {
+  try {
+    console.log('Fetching Google form link for public access...');
+    const settings = await Settings.getSettings();
+    console.log('Public Google form link retrieved:', settings.googleFormLink);
+    res.status(200).json({
+      message: 'Google form link retrieved successfully',
+      data: { googleFormLink: settings.googleFormLink },
+    });
+  } catch (error) {
+    console.error('Error fetching Google form link:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 };

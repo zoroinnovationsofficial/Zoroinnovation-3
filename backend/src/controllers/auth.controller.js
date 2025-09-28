@@ -303,9 +303,9 @@ const refreshAccessToken = async (req, res) => {
       message: 'User Data not found',
     });
   }
-  const { RefreshToken } = req.cookies;
+  const { refreshToken } = req.cookies;
 
-  if (RefreshToken !== user.refreshToken) {
+  if (refreshToken !== user.refreshToken) {
     return res.status(400).json({
       success: false,
       message: 'Refresh Token does not match',

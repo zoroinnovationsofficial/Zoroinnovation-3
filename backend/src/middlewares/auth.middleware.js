@@ -3,6 +3,11 @@ import { User } from '../models/user.model.js';
 
 const authMiddleware = async (req, res, next) => {
   try {
+    // Allow CORS preflight to pass through without auth
+    if (req.method === 'OPTIONS') {
+      return next();
+    }
+
     // Priority 1: Check Authorization header for Bearer token
     let accessToken = req.headers.authorization?.replace('Bearer ', '');
     console.log('🔍 Auth middleware - Authorization header:', req.headers.authorization ? 'Present' : 'Missing');
@@ -50,6 +55,11 @@ const authMiddleware = async (req, res, next) => {
 
 const refreshAccessTokenMiddleware = async (req, res, next) => {
   try {
+    // Allow CORS preflight to pass through without auth
+    if (req.method === 'OPTIONS') {
+      return next();
+    }
+
     const { refreshToken } = req.cookies;
     console.log(refreshToken);
     if (!refreshToken) {

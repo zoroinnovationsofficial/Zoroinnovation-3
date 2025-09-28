@@ -1,51 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import search from "../../assets/Searchicon.svg";
-
-const initialJobs = [
-  {
-    id: 1,
-    title: "AI Research Scientist",
-    department: "Research and Development",
-    location: "Remote",
-    status: "Open",
-    date: "2023-11-15",
-  },
-  {
-    id: 2,
-    title: "Software Engineer",
-    department: "Engineering",
-    location: "San Francisco, CA",
-    status: "Open",
-    date: "2023-11-10",
-  },
-  {
-    id: 3,
-    title: "Product Manager",
-    department: "Product",
-    location: "New York, NY",
-    status: "Closed",
-    date: "2023-10-20",
-  },
-  {
-    id: 4,
-    title: "UX Designer",
-    department: "Design",
-    location: "Remote",
-    status: "Open",
-    date: "2023-10-15",
-  },
-  {
-    id: 5,
-    title: "Data Analyst",
-    department: "Analytics",
-    location: "Chicago, IL",
-    status: "Closed",
-    date: "2023-09-30",
-  },
-];
+import { 
+  getAllJobs as fetchAllJobs,
+  createJob,
+  updateJob as updateJobApi,
+  deleteJob as deleteJobApi,
+  toggleJobStatus as toggleJobStatusApi,
+} from "../../api/jobApi";
 
 const Careers = () => {
-  const [jobs, setJobs] = useState(initialJobs);
+  const [jobs, setJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingJob, setEditingJob] = useState(null);
   const [newJobModal, setNewJobModal] = useState(false);
@@ -55,7 +19,23 @@ const Careers = () => {
     location: "",
     status: "Open",
     date: "",
+    applicationUrl: "",
+    description: "",
+    type: "Full-time",
+    salary: "",
   });
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetchAllJobs();
+        setJobs(res?.data || []);
+      } catch (e) {
+        console.error('Failed to load jobs:', e);
+      }
+    };
+    load();
+  }, []);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,43 +54,59 @@ const Careers = () => {
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
 
-  // 🗑 Delete job
-  const handleDelete = (id) => {
-    setJobs((prev) => prev.filter((job) => job.id !== id));
+  // 🗑 Delete job (persist to server)
+  const handleDelete = async (id) => {
+    try {
+      await deleteJobApi(id);
+      setJobs((prev) => prev.filter((job) => job._id !== id && job.id !== id));
+    } catch (e) {
+      console.error('Delete failed:', e);
+      alert(e.message || 'Delete failed');
+    }
   };
 
-  // 🔄 Toggle status
-  const handleToggleStatus = (id) => {
-    setJobs((prev) =>
-      prev.map((job) =>
-        job.id === id
-          ? { ...job, status: job.status === "Open" ? "Closed" : "Open" }
-          : job
-      )
-    );
+  // 🔄 Toggle status (persist to server)
+  const handleToggleStatus = async (id) => {
+    try {
+      const res = await toggleJobStatusApi(id);
+      const updated = res?.data;
+      setJobs((prev) => prev.map((job) => (job._id === id || job.id === id ? updated : job)));
+    } catch (e) {
+      console.error('Toggle status failed:', e);
+      alert(e.message || 'Toggle status failed');
+    }
   };
 
-  // ✏️ Save edit
-  const handleSaveEdit = (updatedJob) => {
-    setJobs((prev) =>
-      prev.map((job) => (job.id === updatedJob.id ? updatedJob : job))
-    );
-    setEditingJob(null);
+  // ✏️ Save edit (persist to server)
+  const handleSaveEdit = async (updatedJob) => {
+    try {
+      const id = updatedJob._id || updatedJob.id;
+      const res = await updateJobApi(id, updatedJob);
+      const saved = res?.data;
+      setJobs((prev) => prev.map((job) => (job._id === id || job.id === id ? saved : job)));
+      setEditingJob(null);
+    } catch (e) {
+      console.error('Update failed:', e);
+      alert(e.message || 'Update failed');
+    }
   };
 
-  // ➕ Add new job
-  const handleAddJob = () => {
-    if (!newJob.title || !newJob.department || !newJob.location || !newJob.date) {
+  // ➕ Add new job (persist to server)
+  const handleAddJob = async () => {
+    if (!newJob.title || !newJob.department || !newJob.location || !newJob.date || !newJob.applicationUrl) {
       alert("Please fill all fields!");
       return;
     }
-    const newEntry = {
-      ...newJob,
-      id: jobs.length + 1,
-    };
-    setJobs((prev) => [...prev, newEntry]);
-    setNewJob({ title: "", department: "", location: "", status: "Open", date: "" });
-    setNewJobModal(false);
+    try {
+      const res = await createJob(newJob);
+      const saved = res?.data;
+      setJobs((prev) => [...prev, saved]);
+      setNewJob({ title: "", department: "", location: "", status: "Open", date: "", applicationUrl: "", description: "", type: "Full-time", salary: "" });
+      setNewJobModal(false);
+    } catch (e) {
+      console.error('Create failed:', e);
+      alert(e.message || 'Create failed');
+    }
   };
 
   return (
@@ -156,6 +152,7 @@ const Careers = () => {
                 <th className="py-3 px-4">Location</th>
                 <th className="py-3 px-4">Status</th>
                 <th className="py-3 px-4">Posted Date</th>
+                <th className="py-3 px-4">Application URL</th>
                 <th className="py-3 px-4">Actions</th>
               </tr>
             </thead>
@@ -166,10 +163,10 @@ const Careers = () => {
                   className="border-b-2 border-gray-200 hover:bg-gray-100 transition-all"
                 >
                   <td className="py-4 px-4 font-medium">{job.title}</td>
-                  <td className="py-4 px-4 text-blue-500 underline">
+                  <td className="py-4 px-4 text-gray-700">
                     {job.department}
                   </td>
-                  <td className="py-4 px-4 text-blue-500 underline">
+                  <td className="py-4 px-4 text-gray-700">
                     {job.location}
                   </td>
                   <td className="py-2 px-4">
@@ -184,6 +181,17 @@ const Careers = () => {
                     </span>
                   </td>
                   <td className="py-4 px-4">{job.date}</td>
+                  <td className="py-4 px-4">
+                    <a 
+                      href={job.applicationUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline hover:text-blue-700 truncate block max-w-xs"
+                      title={job.applicationUrl}
+                    >
+                      {job.applicationUrl.length > 30 ? `${job.applicationUrl.substring(0, 30)}...` : job.applicationUrl}
+                    </a>
+                  </td>
                   <td className="py-4 px-4 text-sm text-blue-600 space-x-2">
                     <button
                       className="hover:underline"
@@ -270,6 +278,15 @@ const Careers = () => {
               className="w-full mb-3 px-3 py-2 border rounded"
               placeholder="Location"
             />
+            <input
+              type="url"
+              value={editingJob.applicationUrl}
+              onChange={(e) =>
+                setEditingJob({ ...editingJob, applicationUrl: e.target.value })
+              }
+              className="w-full mb-3 px-3 py-2 border rounded"
+              placeholder="Application URL (Google Form, etc.)"
+            />
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setEditingJob(null)}
@@ -317,6 +334,15 @@ const Careers = () => {
               }
               className="w-full mb-3 px-3 py-2 border rounded"
               placeholder="Location"
+            />
+            <input
+              type="url"
+              value={newJob.applicationUrl}
+              onChange={(e) =>
+                setNewJob({ ...newJob, applicationUrl: e.target.value })
+              }
+              className="w-full mb-3 px-3 py-2 border rounded"
+              placeholder="Application URL (Google Form, etc.)"
             />
             <input
               type="date"

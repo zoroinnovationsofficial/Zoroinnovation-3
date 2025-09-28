@@ -30,7 +30,20 @@ const router = Router();
 router.route('/register').post(userRegisterValidator(), validate, registerUser);
 
 router.route('/verify/:token').post(verifyEmail);
-router.route('/login').post(userLoginValidator(), validate, loginUser);
+router
+  .route('/login')
+  .post(
+    userLoginValidator(),
+    validate,
+    (req, res, next) => {
+      console.log('🔔 /api/v1/auth/login route hit with body:', {
+        hasEmail: Boolean(req.body?.email),
+        hasUsername: Boolean(req.body?.username),
+      });
+      next();
+    },
+    loginUser,
+  );
 router.route('/logout').post(authMiddleware, logoutUser);
 router.route('/profile').get(authMiddleware, getCurrentUser);
 router

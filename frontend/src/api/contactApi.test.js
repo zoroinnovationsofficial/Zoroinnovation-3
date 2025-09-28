@@ -8,10 +8,20 @@ import axios from 'axios';
 const mockedAxios = axios;
 
 describe('Contact API Functions', () => {
+  // beforeEach(() => {
+  //   jest.clearAllMocks();
+  // });
+
   beforeEach(() => {
     jest.clearAllMocks();
+    // Mock localStorage for tests
+    global.localStorage = {
+      getItem: jest.fn(() => 'test-token'),
+      setItem: jest.fn(),
+      removeItem: jest.fn(),
+      clear: jest.fn(),
+    };
   });
-
   describe('sendContactMessage', () => {
     it('should send contact message successfully', async () => {
       const mockResponse = {

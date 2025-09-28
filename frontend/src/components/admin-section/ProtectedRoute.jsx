@@ -2,10 +2,10 @@ import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
   const token = localStorage.getItem("accessToken");
 
-  if (!isAuthenticated && !token) {
+  // Require a valid token to access admin routes
+  if (!token) {
     return <Navigate to="/admin/login" replace />;
   }
 

@@ -17,6 +17,7 @@ import adminTeamMemberRoutes from './routes/adminTeamMemberRoutes.js';
 import teamMemberRoutes from './routes/teamMemberRoutes.js';
 
 import employeeRoutes from './routes/employeeVerify.routes.js';
+import jobRoutes from './routes/job.routes.js';
 
 const app = express();
 
@@ -70,6 +71,7 @@ app.use(urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api/v1', publicRoutes);
+app.use('/api/v1', jobRoutes);
 app.use('/api/v1', adminRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/articles', articleRouter);
