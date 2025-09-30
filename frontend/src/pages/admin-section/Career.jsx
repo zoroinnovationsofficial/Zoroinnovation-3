@@ -26,6 +26,7 @@ const Careers = () => {
     type: "Full-time",
     salary: "",
   });
+<<<<<<< HEAD
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,6 +46,27 @@ const Careers = () => {
     };
     load();
   }, []);
+=======
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetchAllJobs();
+        setJobs(res?.data || []);
+        setError("");
+      } catch (e) {
+        console.error('Failed to load jobs:', e);
+        setError(e?.message ? `Failed to load jobs: ${e.message}` : "Failed to load jobs");
+      }
+    };
+    load();
+  }, []);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 4;
+
+>>>>>>> f35b1ca64349968370f35bef7f717dc717ffc86c
 
   // 🔍 Filter jobs
   const filteredJobs = jobs.filter(
@@ -59,23 +81,37 @@ const Careers = () => {
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
 
+<<<<<<< HEAD
   // 🗑 Delete job
+=======
+  // 🗑 Delete job (persist to server)
+>>>>>>> f35b1ca64349968370f35bef7f717dc717ffc86c
   const handleDelete = async (id) => {
     try {
       await deleteJobApi(id);
       setJobs((prev) => prev.filter((job) => job._id !== id && job.id !== id));
       setError("");
     } catch (e) {
+<<<<<<< HEAD
       console.error("Delete failed:", e);
       setError(e.message || "Delete failed");
     }
   };
 
   // 🔄 Toggle status
+=======
+      console.error('Delete failed:', e);
+      setError(e?.message ? `Failed to delete job: ${e.message}` : "Failed to delete job");
+    }
+  };
+
+  // 🔄 Toggle status (persist to server)
+>>>>>>> f35b1ca64349968370f35bef7f717dc717ffc86c
   const handleToggleStatus = async (id) => {
     try {
       const res = await toggleJobStatusApi(id);
       const updated = res?.data;
+<<<<<<< HEAD
       setJobs((prev) =>
         prev.map((job) =>
           job._id === id || job.id === id ? updated : job
@@ -89,11 +125,23 @@ const Careers = () => {
   };
 
   // ✏️ Save edit
+=======
+      setJobs((prev) => prev.map((job) => (job._id === id || job.id === id ? updated : job)));
+      setError("");
+    } catch (e) {
+      console.error('Toggle status failed:', e);
+      setError(e?.message ? `Failed to update status: ${e.message}` : "Failed to update status");
+    }
+  };
+
+  // ✏️ Save edit (persist to server)
+>>>>>>> f35b1ca64349968370f35bef7f717dc717ffc86c
   const handleSaveEdit = async (updatedJob) => {
     try {
       const id = updatedJob._id || updatedJob.id;
       const res = await updateJobApi(id, updatedJob);
       const saved = res?.data;
+<<<<<<< HEAD
       setJobs((prev) =>
         prev.map((job) => (job._id === id || job.id === id ? saved : job))
       );
@@ -115,12 +163,28 @@ const Careers = () => {
       !newJob.applicationUrl
     ) {
       setError("Please fill all required fields!");
+=======
+      setJobs((prev) => prev.map((job) => (job._id === id || job.id === id ? saved : job)));
+      setEditingJob(null);
+      setError("");
+    } catch (e) {
+      console.error('Update failed:', e);
+      setError(e?.message ? `Failed to save edit: ${e.message}` : "Failed to save edit");
+    }
+  };
+
+  // ➕ Add new job (persist to server)
+  const handleAddJob = async () => {
+    if (!newJob.title || !newJob.department || !newJob.location || !newJob.date || !newJob.applicationUrl) {
+      setError("Please fill all fields!");
+>>>>>>> f35b1ca64349968370f35bef7f717dc717ffc86c
       return;
     }
     try {
       const res = await createJob(newJob);
       const saved = res?.data;
       setJobs((prev) => [...prev, saved]);
+<<<<<<< HEAD
       setNewJob({
         title: "",
         department: "",
@@ -137,6 +201,14 @@ const Careers = () => {
     } catch (e) {
       console.error("Create failed:", e);
       setError(e.message || "Create failed");
+=======
+      setNewJob({ title: "", department: "", location: "", status: "Open", date: "", applicationUrl: "", description: "", type: "Full-time", salary: "" });
+      setNewJobModal(false);
+      setError("");
+    } catch (e) {
+      console.error('Create failed:', e);
+      setError(e?.message ? `Job failed to add: ${e.message}` : "Job failed to add");
+>>>>>>> f35b1ca64349968370f35bef7f717dc717ffc86c
     }
   };
 

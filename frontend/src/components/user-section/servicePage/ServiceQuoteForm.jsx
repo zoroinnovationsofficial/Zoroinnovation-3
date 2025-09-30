@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { sendServiceQuote } from "../../../api/contactApi.js";
 
 export default function ServiceQuoteForm() {
   const [formData, setFormData] = useState({
@@ -79,27 +80,16 @@ export default function ServiceQuoteForm() {
     });
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        const errorMessage = data.errors
-          ? data.errors.map((err) => err.msg).join(", ")
-          : "An unexpected error occurred.";
-        throw new Error(errorMessage);
-      }
+      console.log("📤 Submitting service quote...");
+      const result = await sendServiceQuote(formData);
+      console.log("✅ Service quote submitted successfully:", result);
 
       setStatus({
         submitted: true,
         submitting: false,
         info: {
           error: false,
-          msg: "✅ Your quote request has been sent successfully!",
+          msg: "✅ Your quote request has been sent successfully! We will be in touch soon.",
         },
       });
 
@@ -114,10 +104,11 @@ export default function ServiceQuoteForm() {
         projectDescription: "",
       });
     } catch (error) {
+      console.error("❌ Error submitting service quote:", error);
       setStatus({
         submitted: false,
         submitting: false,
-        info: { error: true, msg: error.message },
+        info: { error: true, msg: error.message || "Something went wrong. Please try again." },
       });
     }
   };
