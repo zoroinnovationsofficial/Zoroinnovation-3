@@ -12,7 +12,7 @@ const getAccessToken = () => localStorage.getItem('accessToken');
 export const getAllJobs = async () => {
   try {
     const token = getAccessToken();
-    const response = await fetch(`${API_BASE_URL}/admin/jobs`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/admin/jobs`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export const getAllJobs = async () => {
 // Get open jobs (public)
 export const getOpenJobs = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/jobs/open`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/jobs/open`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const getOpenJobs = async () => {
 export const createJob = async (jobData) => {
   try {
     const token = getAccessToken();
-    const response = await fetch(`${API_BASE_URL}/admin/jobs`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/admin/jobs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export const createJob = async (jobData) => {
 export const updateJob = async (jobId, jobData) => {
   try {
     const token = getAccessToken();
-    const response = await fetch(`${API_BASE_URL}/admin/jobs/${jobId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/admin/jobs/${jobId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ export const updateJob = async (jobId, jobData) => {
 export const deleteJob = async (jobId) => {
   try {
     const token = getAccessToken();
-    const response = await fetch(`${API_BASE_URL}/admin/jobs/${jobId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/admin/jobs/${jobId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export const deleteJob = async (jobId) => {
 export const toggleJobStatus = async (jobId) => {
   try {
     const token = getAccessToken();
-    const response = await fetch(`${API_BASE_URL}/admin/jobs/${jobId}/toggle-status`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/admin/jobs/${jobId}/toggle-status`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
