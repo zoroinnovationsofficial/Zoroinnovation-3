@@ -44,7 +44,7 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
       uploadData.append("image", file);
 
       // ✅ Axios will set correct multipart headers automatically
-      const res = await axios.post("http://localhost:5000/api/v1/upload", uploadData);
+      const res = await axios.post("https://zoroinnovation-3-tuqe.vercel.app/api/v1/upload", uploadData);
 
       setFormData((prev) => ({ ...prev, imageUrl: res.data.imageUrl }));
     } catch (err) {
@@ -87,7 +87,7 @@ const AddTeamMemberForm = ({ onSuccess, onCancel }) => {
       };
 
       const res = await axios.post(
-        "https://zoroinnovations-backend.vercel.app/api/admin/team-members",
+        "https://zoroinnovation-3-tuqe.vercel.app/api/admin/team-members",
         payload
       );
 
