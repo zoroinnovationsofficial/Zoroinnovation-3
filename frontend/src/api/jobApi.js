@@ -1,7 +1,7 @@
 // Use the same pattern as config.js for environment variable handling
 const API_BASE_URL = 
-  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL) ||
-  process.env.REACT_APP_API_BASE_URL ||
+  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.REACT_APP_API_URL) ||
+  process.env.REACT_APP_API_URL ||
   (typeof window !== 'undefined' && window.ENV && window.ENV.API_BASE_URL) ||
   'http://localhost:8000/api/v1';
 
