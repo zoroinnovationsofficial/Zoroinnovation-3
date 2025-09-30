@@ -1,27 +1,20 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import search from "../../assets/Searchicon.svg";
-import { 
+import {
   getAllJobs as fetchAllJobs,
   createJob,
   updateJob as updateJobApi,
   deleteJob as deleteJobApi,
   toggleJobStatus as toggleJobStatusApi,
 } from "../../api/jobApi";
-=======
-import React, { useState, useEffect } from "react";
-import search from "../../assets/Searchicon.svg";
-
-// ✅ Use API base URL from .env
-
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
->>>>>>> 474cf140ca7a97aa648dca2402af712558b984b1
 
 const Careers = () => {
   const [jobs, setJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingJob, setEditingJob] = useState(null);
   const [newJobModal, setNewJobModal] = useState(false);
+  const [error, setError] = useState("");
+
   const [newJob, setNewJob] = useState({
     title: "",
     department: "",
@@ -33,46 +26,25 @@ const Careers = () => {
     type: "Full-time",
     salary: "",
   });
-<<<<<<< HEAD
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetchAllJobs();
-        setJobs(res?.data || []);
-      } catch (e) {
-        console.error('Failed to load jobs:', e);
-      }
-    };
-    load();
-  }, []);
 
   // Pagination state
-=======
-  const [error, setError] = useState("");
->>>>>>> 474cf140ca7a97aa648dca2402af712558b984b1
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 4;
 
   // 🔹 Fetch jobs from backend
   useEffect(() => {
-    fetchJobs();
+    const load = async () => {
+      try {
+        const res = await fetchAllJobs();
+        setJobs(res?.data || []);
+        setError("");
+      } catch (e) {
+        console.error("Failed to load jobs:", e);
+        setError("Failed to load jobs: " + (e.message || "Unknown error"));
+      }
+    };
+    load();
   }, []);
-
-  const fetchJobs = async () => {
-    try {
-      const token = localStorage.getItem("token"); // Adjust if using context/auth library
-      const res = await fetch(`${API_URL}/api/v1/admin/jobs`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error("Failed to fetch jobs");
-      const data = await res.json();
-      setJobs(data);
-    } catch (err) {
-      setError("Failed to load jobs: " + err.message);
-      console.error("Error fetching jobs:", err);
-    }
-  };
 
   // 🔍 Filter jobs
   const filteredJobs = jobs.filter(
@@ -87,124 +59,49 @@ const Careers = () => {
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
 
-<<<<<<< HEAD
-  // 🗑 Delete job (persist to server)
+  // 🗑 Delete job
   const handleDelete = async (id) => {
     try {
       await deleteJobApi(id);
       setJobs((prev) => prev.filter((job) => job._id !== id && job.id !== id));
+      setError("");
     } catch (e) {
-      console.error('Delete failed:', e);
-      alert(e.message || 'Delete failed');
-    }
-  };
-
-  // 🔄 Toggle status (persist to server)
-  const handleToggleStatus = async (id) => {
-    try {
-      const res = await toggleJobStatusApi(id);
-      const updated = res?.data;
-      setJobs((prev) => prev.map((job) => (job._id === id || job.id === id ? updated : job)));
-    } catch (e) {
-      console.error('Toggle status failed:', e);
-      alert(e.message || 'Toggle status failed');
-    }
-  };
-
-  // ✏️ Save edit (persist to server)
-  const handleSaveEdit = async (updatedJob) => {
-    try {
-      const id = updatedJob._id || updatedJob.id;
-      const res = await updateJobApi(id, updatedJob);
-      const saved = res?.data;
-      setJobs((prev) => prev.map((job) => (job._id === id || job.id === id ? saved : job)));
-      setEditingJob(null);
-    } catch (e) {
-      console.error('Update failed:', e);
-      alert(e.message || 'Update failed');
-    }
-  };
-
-  // ➕ Add new job (persist to server)
-  const handleAddJob = async () => {
-    if (!newJob.title || !newJob.department || !newJob.location || !newJob.date || !newJob.applicationUrl) {
-      alert("Please fill all fields!");
-      return;
-    }
-    try {
-      const res = await createJob(newJob);
-      const saved = res?.data;
-      setJobs((prev) => [...prev, saved]);
-      setNewJob({ title: "", department: "", location: "", status: "Open", date: "", applicationUrl: "", description: "", type: "Full-time", salary: "" });
-      setNewJobModal(false);
-    } catch (e) {
-      console.error('Create failed:', e);
-      alert(e.message || 'Create failed');
-=======
-  // 🗑 Delete job
-  const handleDelete = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/v1/admin/jobs/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error("Failed to delete job");
-      setJobs((prev) => prev.filter((job) => job._id !== id));
-    } catch (err) {
-      setError("Failed to delete job: " + err.message);
-      console.error("Error deleting job:", err);
+      console.error("Delete failed:", e);
+      setError(e.message || "Delete failed");
     }
   };
 
   // 🔄 Toggle status
-  const handleToggleStatus = async (id, currentStatus) => {
+  const handleToggleStatus = async (id) => {
     try {
-      const token = localStorage.getItem("token");
-      const updatedStatus = currentStatus === "Open" ? "Closed" : "Open";
-      const res = await fetch(`${API_URL}/api/v1/admin/jobs/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ status: updatedStatus }),
-      });
-      if (!res.ok) throw new Error("Failed to update status");
+      const res = await toggleJobStatusApi(id);
+      const updated = res?.data;
       setJobs((prev) =>
         prev.map((job) =>
-          job._id === id ? { ...job, status: updatedStatus } : job
+          job._id === id || job.id === id ? updated : job
         )
       );
-    } catch (err) {
-      setError("Failed to update status: " + err.message);
-      console.error("Error updating status:", err);
+      setError("");
+    } catch (e) {
+      console.error("Toggle status failed:", e);
+      setError(e.message || "Toggle status failed");
     }
   };
 
   // ✏️ Save edit
   const handleSaveEdit = async (updatedJob) => {
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(
-        `${API_URL}/api/v1/admin/jobs/${updatedJob._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(updatedJob),
-        }
-      );
-      if (!res.ok) throw new Error("Failed to save edit");
+      const id = updatedJob._id || updatedJob.id;
+      const res = await updateJobApi(id, updatedJob);
+      const saved = res?.data;
       setJobs((prev) =>
-        prev.map((job) => (job._id === updatedJob._id ? updatedJob : job))
+        prev.map((job) => (job._id === id || job.id === id ? saved : job))
       );
       setEditingJob(null);
-    } catch (err) {
-      setError("Failed to save edit: " + err.message);
-      console.error("Error saving edit:", err);
+      setError("");
+    } catch (e) {
+      console.error("Update failed:", e);
+      setError(e.message || "Update failed");
     }
   };
 
@@ -214,42 +111,32 @@ const Careers = () => {
       !newJob.title ||
       !newJob.department ||
       !newJob.location ||
-      !newJob.date
+      !newJob.date ||
+      !newJob.applicationUrl
     ) {
-      setError("Please fill all fields!");
+      setError("Please fill all required fields!");
       return;
     }
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/v1/admin/jobs`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newJob),
-      });
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(
-          `HTTP ${res.status}: ${errorText || "Job failed to add"}`
-        );
-      }
-      const savedJob = await res.json();
-      setJobs((prev) => [...prev, savedJob]);
+      const res = await createJob(newJob);
+      const saved = res?.data;
+      setJobs((prev) => [...prev, saved]);
       setNewJob({
         title: "",
         department: "",
         location: "",
         status: "Open",
         date: "",
+        applicationUrl: "",
+        description: "",
+        type: "Full-time",
+        salary: "",
       });
       setNewJobModal(false);
       setError("");
-    } catch (err) {
-      setError("Job failed to add: " + err.message);
-      console.error("Error adding job:", err);
->>>>>>> 474cf140ca7a97aa648dca2402af712558b984b1
+    } catch (e) {
+      console.error("Create failed:", e);
+      setError(e.message || "Create failed");
     }
   };
 
@@ -325,14 +212,16 @@ const Careers = () => {
                   </td>
                   <td className="py-4 px-4">{job.date}</td>
                   <td className="py-4 px-4">
-                    <a 
-                      href={job.applicationUrl} 
-                      target="_blank" 
+                    <a
+                      href={job.applicationUrl}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 underline hover:text-blue-700 truncate block max-w-xs"
                       title={job.applicationUrl}
                     >
-                      {job.applicationUrl.length > 30 ? `${job.applicationUrl.substring(0, 30)}...` : job.applicationUrl}
+                      {job.applicationUrl.length > 30
+                        ? `${job.applicationUrl.substring(0, 30)}...`
+                        : job.applicationUrl}
                     </a>
                   </td>
                   <td className="py-4 px-4 text-sm text-blue-600 space-x-2">
@@ -352,7 +241,7 @@ const Careers = () => {
                     <span>|</span>
                     <button
                       className="hover:underline text-indigo-600"
-                      onClick={() => handleToggleStatus(job._id, job.status)}
+                      onClick={() => handleToggleStatus(job._id)}
                     >
                       Toggle Status
                     </button>
@@ -389,7 +278,6 @@ const Careers = () => {
         </button>
       </div>
 
-<<<<<<< HEAD
       {/* Edit Modal */}
       {editingJob && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
@@ -429,7 +317,7 @@ const Careers = () => {
                 setEditingJob({ ...editingJob, applicationUrl: e.target.value })
               }
               className="w-full mb-3 px-3 py-2 border rounded"
-              placeholder="Application URL (Google Form, etc.)"
+              placeholder="Application URL"
             />
             <div className="flex justify-end gap-3">
               <button
@@ -450,9 +338,6 @@ const Careers = () => {
       )}
 
       {/* Create Job Modal */}
-=======
-      {/* Modal for New Job (Assumed Structure - Add Your Modal JSX Here) */}
->>>>>>> 474cf140ca7a97aa648dca2402af712558b984b1
       {newJobModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg">

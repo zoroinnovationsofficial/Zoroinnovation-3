@@ -127,7 +127,6 @@ export const deleteJob = async (jobId) => {
     throw error;
   }
 };
-
 // Toggle job status (admin only)
 export const toggleJobStatus = async (jobId) => {
   try {
