@@ -5,14 +5,14 @@ import { API_CONFIG } from "./config";
 // Authenticated API client for admin operations
 const apiClient = axios.create({
   baseURL: API_CONFIG.BASE_URL,
-  timeout: 10000,
+  timeout: 100000,
   withCredentials: true,
 });
 
 // Public API client for contact form submissions (no auth required)
 const publicApiClient = axios.create({
   baseURL: API_CONFIG.BASE_URL,
-  timeout: 10000,
+  timeout: 100000,
   withCredentials: true,
 });
 
